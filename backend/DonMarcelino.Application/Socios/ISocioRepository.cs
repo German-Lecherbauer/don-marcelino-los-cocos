@@ -18,4 +18,7 @@ public interface ISocioRepository
 
     Task<List<Socio>> ObtenerTodosAsync(
     CancellationToken cancellationToken = default);
+    Task<Socio?> ObtenerPorIdAsync(
+    Guid id,
+    CancellationToken cancellationToken = default);
 }

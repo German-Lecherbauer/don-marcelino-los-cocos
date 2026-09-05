@@ -47,4 +47,13 @@ public class SocioRepository : ISocioRepository
             .ThenBy(x => x.Nombre)
             .ToListAsync(cancellationToken);
     }
+
+    public Task<Socio?> ObtenerPorIdAsync(
+    Guid id,
+    CancellationToken cancellationToken = default)
+    {
+        return _context.Socios
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
 }

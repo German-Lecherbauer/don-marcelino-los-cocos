@@ -18,6 +18,8 @@ builder.Services.AddScoped<CrearSocioService>();
 
 builder.Services.AddScoped<ObtenerSociosService>();
 
+builder.Services.AddScoped<ObtenerSocioPorIdService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -64,6 +66,24 @@ app.MapGet("/api/socios", async (
     var socios = await service.ObtenerAsync(cancellationToken);
 
     return Results.Ok(socios);
+});
+
+app.MapGet("/api/socios/{id:guid}", async (
+    Guid id,
+    ObtenerSocioPorIdService service,
+    CancellationToken cancellationToken) =>
+{
+    var socio = await service.ObtenerAsync(id, cancellationToken);
+
+    if (socio is null)
+    {
+        return Results.NotFound(new
+        {
+            error = "Socio no encontrado."
+        });
+    }
+
+    return Results.Ok(socio);
 });
 
 app.Run();

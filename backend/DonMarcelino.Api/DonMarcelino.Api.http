@@ -13,3 +13,6 @@ Content-Type: application/json
 ###
 
 GET {{DonMarcelino.Api_HostAddress}}/api/socios
+
+###
+GET {{DonMarcelino.Api_HostAddress}}/api/socios/773d785f-57cf-40a1-a911-f581c0e8e8ac
