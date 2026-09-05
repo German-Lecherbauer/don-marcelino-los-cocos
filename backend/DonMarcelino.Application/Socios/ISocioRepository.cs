@@ -25,4 +25,8 @@ public interface ISocioRepository
     Task ActualizarAsync(
     Socio socio,
     CancellationToken cancellationToken = default);
+
+    Task DesactivarAsync(
+    Socio socio,
+    CancellationToken cancellationToken = default);
 }

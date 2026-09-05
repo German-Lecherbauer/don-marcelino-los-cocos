@@ -22,6 +22,8 @@ builder.Services.AddScoped<ObtenerSocioPorIdService>();
 
 builder.Services.AddScoped<ActualizarSocioService>();
 
+builder.Services.AddScoped<DesactivarSocioService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -115,6 +117,24 @@ app.MapPut("/api/socios/{id:guid}", async (
             error = ex.Message
         });
     }
+});
+
+app.MapDelete("/api/socios/{id:guid}", async (
+    Guid id,
+    DesactivarSocioService service,
+    CancellationToken cancellationToken) =>
+{
+    var desactivado = await service.DesactivarAsync(id, cancellationToken);
+
+    if (!desactivado)
+    {
+        return Results.NotFound(new
+        {
+            error = "Socio no encontrado."
+        });
+    }
+
+    return Results.NoContent();
 });
 
 app.Run();

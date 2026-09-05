@@ -19,7 +19,7 @@ GET {{DonMarcelino.Api_HostAddress}}/api/socios/7734785f-57cf-40a1-a911-f581c0e8
 
 ###
 
-PUT {{DonMarcelino.Api_HostAddress}}/api/socios/773d4785f-57cf-40a1-a911-f581c0e8e8ac
+PUT {{DonMarcelino.Api_HostAddress}}/api/socios/7734785f-57cf-40a1-a911-f581c0e8e8ac
 Content-Type: application/json
 
 {
@@ -28,3 +28,7 @@ Content-Type: application/json
   "email": "german.prueba@donmarcelino.com",
   "documento": "12345678"
 }
+
+###
+
+DELETE {{DonMarcelino.Api_HostAddress}}/api/socios/7734785f-57cf-40a1-a911-f581c0e8e8ac

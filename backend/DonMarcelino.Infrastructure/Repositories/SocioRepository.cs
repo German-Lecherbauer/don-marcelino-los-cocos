@@ -63,4 +63,13 @@ public class SocioRepository : ISocioRepository
         _context.Socios.Update(socio);
         await _context.SaveChangesAsync(cancellationToken);
     }
+    public async Task DesactivarAsync(
+    Socio socio,
+    CancellationToken cancellationToken = default)
+    {
+        socio.Activo = false;
+
+        _context.Socios.Update(socio);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }
