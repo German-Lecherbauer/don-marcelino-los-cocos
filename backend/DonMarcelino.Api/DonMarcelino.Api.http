@@ -32,3 +32,14 @@ Content-Type: application/json
 ###
 
 DELETE {{DonMarcelino.Api_HostAddress}}/api/socios/7734785f-57cf-40a1-a911-f581c0e8e8ac
+
+###
+
+POST {{DonMarcelino.Api_HostAddress}}/api/socios/7734785f-57cf-40a1-a911-f581c0e8e8ac
+Content-Type: application/json
+
+{
+  "fechaInicio": "2026-09-05T00:00:00Z",
+  "fechaVencimiento": "2027-09-05T00:00:00Z",
+  "estado": 1
+}

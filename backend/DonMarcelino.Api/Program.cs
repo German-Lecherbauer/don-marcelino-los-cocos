@@ -2,6 +2,7 @@ using DonMarcelino.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using DonMarcelino.Application.Socios;
 using DonMarcelino.Infrastructure.Repositories;
+using DonMarcelino.Application.Membresias;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,9 @@ builder.Services.AddScoped<ObtenerSocioPorIdService>();
 builder.Services.AddScoped<ActualizarSocioService>();
 
 builder.Services.AddScoped<DesactivarSocioService>();
+
+builder.Services.AddScoped<IMembresiaRepository, MembresiaRepository>();
+builder.Services.AddScoped<CrearMembresiaService>();
 
 var app = builder.Build();
 
@@ -135,6 +139,39 @@ app.MapDelete("/api/socios/{id:guid}", async (
     }
 
     return Results.NoContent();
+});
+
+app.MapPost("/api/socios/{socioId:guid}/membresias", async (
+    Guid socioId,
+    CrearMembresiaRequest request,
+    CrearMembresiaService service,
+    CancellationToken cancellationToken) =>
+{
+    try
+    {
+        var membresia = await service.CrearAsync(
+            socioId,
+            request,
+            cancellationToken);
+
+        return Results.Created(
+            $"/api/socios/{socioId}/membresias/{membresia.Id}",
+            membresia);
+    }
+    catch (KeyNotFoundException ex)
+    {
+        return Results.NotFound(new
+        {
+            error = ex.Message
+        });
+    }
+    catch (InvalidOperationException ex)
+    {
+        return Results.BadRequest(new
+        {
+            error = ex.Message
+        });
+    }
 });
 
 app.Run();
