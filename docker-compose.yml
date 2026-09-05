@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: donmarcelino-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: donmarcelino
+      POSTGRES_USER: donmarcelino
+      POSTGRES_PASSWORD: donmarcelino_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - donmarcelino_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  donmarcelino_postgres_data:
