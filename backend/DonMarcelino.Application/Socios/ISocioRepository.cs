@@ -15,4 +15,7 @@ public interface ISocioRepository
     Task AgregarAsync(
         Socio socio,
         CancellationToken cancellationToken = default);
+
+    Task<List<Socio>> ObtenerTodosAsync(
+    CancellationToken cancellationToken = default);
 }

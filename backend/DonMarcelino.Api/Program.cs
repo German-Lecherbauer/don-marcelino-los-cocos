@@ -16,6 +16,8 @@ builder.Services.AddDbContext<DonMarcelinoDbContext>(options =>
 builder.Services.AddScoped<ISocioRepository, SocioRepository>();
 builder.Services.AddScoped<CrearSocioService>();
 
+builder.Services.AddScoped<ObtenerSociosService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -53,6 +55,15 @@ app.MapPost("/api/socios", async (
             error = ex.Message
         });
     }
+});
+
+app.MapGet("/api/socios", async (
+    ObtenerSociosService service,
+    CancellationToken cancellationToken) =>
+{
+    var socios = await service.ObtenerAsync(cancellationToken);
+
+    return Results.Ok(socios);
 });
 
 app.Run();

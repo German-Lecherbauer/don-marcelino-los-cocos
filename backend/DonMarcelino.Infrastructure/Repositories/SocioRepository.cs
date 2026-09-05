@@ -37,4 +37,14 @@ public class SocioRepository : ISocioRepository
         _context.Socios.Add(socio);
         await _context.SaveChangesAsync(cancellationToken);
     }
+
+    public Task<List<Socio>> ObtenerTodosAsync(
+    CancellationToken cancellationToken = default)
+    {
+        return _context.Socios
+            .AsNoTracking()
+            .OrderBy(x => x.Apellido)
+            .ThenBy(x => x.Nombre)
+            .ToListAsync(cancellationToken);
+    }
 }
