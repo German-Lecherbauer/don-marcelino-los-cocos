@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Persistence\Configuration\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DonMarcelino.Domain\DonMarcelino.Domain.csproj" />
     <ProjectReference Include="..\DonMarcelino.Application\DonMarcelino.Application.csproj" />
   </ItemGroup>

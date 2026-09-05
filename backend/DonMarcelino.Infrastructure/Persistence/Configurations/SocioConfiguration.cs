@@ -1,10 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DonMarcelino.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DonMarcelino.Infrastructure.Persistence.Configurations
+namespace DonMarcelino.Infrastructure.Persistence.Configurations;
+
+public class SocioConfiguration : IEntityTypeConfiguration<Socio>
 {
-    internal class SocioConfiguration
+    public void Configure(EntityTypeBuilder<Socio> builder)
     {
+        builder.HasKey(x => x.Id);
+
+        builder.Property(x => x.Nombre)
+            .HasMaxLength(100)
+            .IsRequired();
+
+        builder.Property(x => x.Apellido)
+            .HasMaxLength(100)
+            .IsRequired();
+
+        builder.Property(x => x.Email)
+            .HasMaxLength(200)
+            .IsRequired();
+
+        builder.Property(x => x.Documento)
+            .HasMaxLength(30)
+            .IsRequired();
+
+        builder.HasIndex(x => x.Email)
+            .IsUnique();
+
+        builder.HasIndex(x => x.Documento)
+            .IsUnique();
+
+        builder.HasMany(x => x.Membresias)
+            .WithOne(x => x.Socio)
+            .HasForeignKey(x => x.SocioId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
