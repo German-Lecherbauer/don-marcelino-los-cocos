@@ -11,4 +11,9 @@
     <PackageReference Include="Microsoft.OpenApi" Version="2.9.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DonMarcelino.Application\DonMarcelino.Application.csproj" />
+    <ProjectReference Include="..\DonMarcelino.Infrastructure\DonMarcelino.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

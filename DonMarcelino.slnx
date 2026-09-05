@@ -1,5 +1,8 @@
 <Solution>
   <Folder Name="/backend/">
     <Project Path="backend/DonMarcelino.Api/DonMarcelino.Api.csproj" />
+    <Project Path="backend/DonMarcelino.Application/DonMarcelino.Application.csproj" />
+    <Project Path="backend/DonMarcelino.Domain/DonMarcelino.Domain.csproj" />
+    <Project Path="backend/DonMarcelino.Infrastructure/DonMarcelino.Infrastructure.csproj" />
   </Folder>
 </Solution>
