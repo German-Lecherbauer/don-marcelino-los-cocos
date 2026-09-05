@@ -21,4 +21,8 @@ public interface ISocioRepository
     Task<Socio?> ObtenerPorIdAsync(
     Guid id,
     CancellationToken cancellationToken = default);
+
+    Task ActualizarAsync(
+    Socio socio,
+    CancellationToken cancellationToken = default);
 }

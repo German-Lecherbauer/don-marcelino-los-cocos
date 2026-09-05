@@ -56,4 +56,11 @@ public class SocioRepository : ISocioRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
+    public async Task ActualizarAsync(
+    Socio socio,
+    CancellationToken cancellationToken = default)
+    {
+        _context.Socios.Update(socio);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }
