@@ -17,6 +17,8 @@ public class DonMarcelinoDbContext : DbContext
 
     public DbSet<Usuario> Usuarios => Set<Usuario>();
 
+    public DbSet<Auditoria> Auditorias => Set<Auditoria>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

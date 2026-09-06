@@ -236,3 +236,42 @@ Authorization: Bearer {{token}}
 ### Obtener usuario por ID
 GET {{DonMarcelino.Api_HostAddress}}/api/usuarios/3b151245-3d4b-44cc-adca-5b803cd5669a
 Authorization: Bearer {{token}}
+
+### Obtener usuario por ID
+GET {{DonMarcelino.Api_HostAddress}}/api/usuarios/3b151245-3d4b-44cc-adca-5b803cd5669a
+Authorization: Bearer {{token}}
+
+### Cambiar rol de usuario
+PATCH {{DonMarcelino.Api_HostAddress}}/api/usuarios/ID_DEL_USUARIO_CONSULTA/rol
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "rol": 2
+}
+
+### Cambiar Consulta a Operador
+PATCH {{DonMarcelino.Api_HostAddress}}/api/usuarios/52eb1d4f-f829-4675-9cc4-ce6d195573f7/rol
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "rol": 2
+}
+
+### Desactivar usuario
+PATCH {{DonMarcelino.Api_HostAddress}}/api/usuarios/e4c16ae9-d47b-4ca3-994d-31ea4b40e322/estado?activo=false
+Authorization: Bearer {{token}}
+
+### Login usuario desactivado
+POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "consulta@donmarcelino.com",
+  "password": "Consulta123!"
+}
+
+### Desactivar Consulta
+PATCH {{DonMarcelino.Api_HostAddress}}/api/usuarios/52eb1d4f-f829-4675-9cc4-ce6d195573f7/estado?activo=false
+Authorization: Bearer {{token}}

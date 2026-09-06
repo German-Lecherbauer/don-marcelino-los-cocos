@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using System.Text;
 using DonMarcelino.Api.Auth;
 using DonMarcelino.Api.Middleware;
+using DonMarcelino.Application.Auditoria;
 using DonMarcelino.Application.Auth;
 using DonMarcelino.Application.Membresias;
 using DonMarcelino.Application.Socios;
@@ -47,6 +49,10 @@ builder.Services.AddScoped<ObtenerUsuarioPorIdService>();
 builder.Services.AddScoped<ActualizarRolUsuarioService>();
 builder.Services.AddScoped<CambiarEstadoUsuarioService>();
 builder.Services.AddScoped<PasswordHasher<Usuario>>();
+
+// Auditoría
+builder.Services.AddScoped<IAuditoriaRepository, AuditoriaRepository>();
+builder.Services.AddScoped<AuditoriaService>();
 
 // Auth
 builder.Services.AddScoped<LoginService>();
@@ -109,6 +115,26 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+static (Guid UsuarioId, string UsuarioNombre) ObtenerUsuarioAuditoria(
+    HttpContext context)
+{
+    var idClaim =
+        context.User.FindFirstValue(ClaimTypes.NameIdentifier)
+        ?? context.User.FindFirstValue("sub");
+
+    if (!Guid.TryParse(idClaim, out var usuarioId))
+    {
+        throw new InvalidOperationException(
+            "No se pudo identificar al usuario autenticado.");
+    }
+
+    var usuarioNombre =
+        context.User.FindFirstValue(ClaimTypes.Name)
+        ?? "Usuario desconocido";
+
+    return (usuarioId, usuarioNombre);
+}
+
 // Health
 app.MapGet("/api/health", () =>
 {
@@ -124,10 +150,24 @@ app.MapGet("/api/health", () =>
 app.MapPost("/api/socios", async (
     CrearSocioRequest request,
     CrearSocioService service,
+    AuditoriaService auditoriaService,
+    HttpContext httpContext,
     CancellationToken cancellationToken) =>
 {
     var socio = await service.CrearAsync(
         request,
+        cancellationToken);
+
+    var (usuarioId, usuarioNombre) =
+        ObtenerUsuarioAuditoria(httpContext);
+
+    await auditoriaService.RegistrarAsync(
+        usuarioId,
+        usuarioNombre,
+        "Crear",
+        "Socio",
+        socio.Id.ToString(),
+        $"Se creó el socio {socio.Nombre} {socio.Apellido}.",
         cancellationToken);
 
     return Results.Created(
@@ -175,6 +215,8 @@ app.MapPut("/api/socios/{id:guid}", async (
     Guid id,
     ActualizarSocioRequest request,
     ActualizarSocioService service,
+    AuditoriaService auditoriaService,
+    HttpContext httpContext,
     CancellationToken cancellationToken) =>
 {
     var socio = await service.ActualizarAsync(
@@ -190,6 +232,18 @@ app.MapPut("/api/socios/{id:guid}", async (
         });
     }
 
+    var (usuarioId, usuarioNombre) =
+        ObtenerUsuarioAuditoria(httpContext);
+
+    await auditoriaService.RegistrarAsync(
+        usuarioId,
+        usuarioNombre,
+        "Actualizar",
+        "Socio",
+        socio.Id.ToString(),
+        $"Se actualizó el socio {socio.Nombre} {socio.Apellido}.",
+        cancellationToken);
+
     return Results.Ok(socio);
 })
 .RequireAuthorization("AdminOrOperador");
@@ -198,6 +252,8 @@ app.MapPut("/api/socios/{id:guid}", async (
 app.MapDelete("/api/socios/{id:guid}", async (
     Guid id,
     DesactivarSocioService service,
+    AuditoriaService auditoriaService,
+    HttpContext httpContext,
     CancellationToken cancellationToken) =>
 {
     var desactivado = await service.DesactivarAsync(
@@ -212,6 +268,18 @@ app.MapDelete("/api/socios/{id:guid}", async (
         });
     }
 
+    var (usuarioId, usuarioNombre) =
+        ObtenerUsuarioAuditoria(httpContext);
+
+    await auditoriaService.RegistrarAsync(
+        usuarioId,
+        usuarioNombre,
+        "Desactivar",
+        "Socio",
+        id.ToString(),
+        "Se desactivó un socio.",
+        cancellationToken);
+
     return Results.NoContent();
 })
 .RequireAuthorization("AdminOrOperador");
@@ -221,11 +289,25 @@ app.MapPost("/api/socios/{socioId:guid}/membresias", async (
     Guid socioId,
     CrearMembresiaRequest request,
     CrearMembresiaService service,
+    AuditoriaService auditoriaService,
+    HttpContext httpContext,
     CancellationToken cancellationToken) =>
 {
     var membresia = await service.CrearAsync(
         socioId,
         request,
+        cancellationToken);
+
+    var (usuarioId, usuarioNombre) =
+        ObtenerUsuarioAuditoria(httpContext);
+
+    await auditoriaService.RegistrarAsync(
+        usuarioId,
+        usuarioNombre,
+        "Crear",
+        "Membresia",
+        membresia.Id.ToString(),
+        $"Se creó una membresía para el socio {socioId}.",
         cancellationToken);
 
     return Results.Created(
@@ -275,6 +357,8 @@ app.MapPut("/api/membresias/{id:guid}", async (
     Guid id,
     ActualizarMembresiaRequest request,
     ActualizarMembresiaService service,
+    AuditoriaService auditoriaService,
+    HttpContext httpContext,
     CancellationToken cancellationToken) =>
 {
     var membresia = await service.ActualizarAsync(
@@ -289,6 +373,18 @@ app.MapPut("/api/membresias/{id:guid}", async (
             error = "Membresía no encontrada."
         });
     }
+
+    var (usuarioId, usuarioNombre) =
+        ObtenerUsuarioAuditoria(httpContext);
+
+    await auditoriaService.RegistrarAsync(
+        usuarioId,
+        usuarioNombre,
+        "Actualizar",
+        "Membresia",
+        membresia.Id.ToString(),
+        "Se actualizaron las fechas de una membresía.",
+        cancellationToken);
 
     return Results.Ok(membresia);
 })
@@ -299,6 +395,8 @@ app.MapPatch("/api/membresias/{id:guid}/estado", async (
     Guid id,
     ActualizarEstadoMembresiaRequest request,
     ActualizarEstadoMembresiaService service,
+    AuditoriaService auditoriaService,
+    HttpContext httpContext,
     CancellationToken cancellationToken) =>
 {
     var membresia = await service.ActualizarAsync(
@@ -314,6 +412,18 @@ app.MapPatch("/api/membresias/{id:guid}/estado", async (
         });
     }
 
+    var (usuarioId, usuarioNombre) =
+        ObtenerUsuarioAuditoria(httpContext);
+
+    await auditoriaService.RegistrarAsync(
+        usuarioId,
+        usuarioNombre,
+        "CambiarEstado",
+        "Membresia",
+        membresia.Id.ToString(),
+        $"Se cambió el estado de la membresía a {membresia.Estado}.",
+        cancellationToken);
+
     return Results.Ok(membresia);
 })
 .RequireAuthorization("AdminOrOperador");
@@ -322,10 +432,24 @@ app.MapPatch("/api/membresias/{id:guid}/estado", async (
 app.MapPost("/api/usuarios", async (
     CrearUsuarioRequest request,
     CrearUsuarioService service,
+    AuditoriaService auditoriaService,
+    HttpContext httpContext,
     CancellationToken cancellationToken) =>
 {
     var usuario = await service.CrearAsync(
         request,
+        cancellationToken);
+
+    var (usuarioId, usuarioNombre) =
+        ObtenerUsuarioAuditoria(httpContext);
+
+    await auditoriaService.RegistrarAsync(
+        usuarioId,
+        usuarioNombre,
+        "Crear",
+        "Usuario",
+        usuario.Id.ToString(),
+        $"Se creó el usuario {usuario.Email} con rol {usuario.Rol}.",
         cancellationToken);
 
     return Results.Created(
@@ -399,6 +523,8 @@ app.MapPatch("/api/usuarios/{id:guid}/rol", async (
     Guid id,
     ActualizarRolUsuarioRequest request,
     ActualizarRolUsuarioService service,
+    AuditoriaService auditoriaService,
+    HttpContext httpContext,
     CancellationToken cancellationToken) =>
 {
     var usuario = await service.ActualizarAsync(
@@ -413,6 +539,18 @@ app.MapPatch("/api/usuarios/{id:guid}/rol", async (
             error = "Usuario no encontrado."
         });
     }
+
+    var (usuarioId, usuarioNombre) =
+        ObtenerUsuarioAuditoria(httpContext);
+
+    await auditoriaService.RegistrarAsync(
+        usuarioId,
+        usuarioNombre,
+        "CambiarRol",
+        "Usuario",
+        usuario.Id.ToString(),
+        $"Se cambió el rol de {usuario.Email} a {usuario.Rol}.",
+        cancellationToken);
 
     return Results.Ok(new
     {
@@ -430,6 +568,8 @@ app.MapPatch("/api/usuarios/{id:guid}/estado", async (
     Guid id,
     bool activo,
     CambiarEstadoUsuarioService service,
+    AuditoriaService auditoriaService,
+    HttpContext httpContext,
     CancellationToken cancellationToken) =>
 {
     var usuario = await service.CambiarAsync(
@@ -445,6 +585,20 @@ app.MapPatch("/api/usuarios/{id:guid}/estado", async (
         });
     }
 
+    var (usuarioId, usuarioNombre) =
+        ObtenerUsuarioAuditoria(httpContext);
+
+    await auditoriaService.RegistrarAsync(
+        usuarioId,
+        usuarioNombre,
+        activo ? "Activar" : "Desactivar",
+        "Usuario",
+        usuario.Id.ToString(),
+        activo
+            ? $"Se activó el usuario {usuario.Email}."
+            : $"Se desactivó el usuario {usuario.Email}.",
+        cancellationToken);
+
     return Results.Ok(new
     {
         usuario.Id,
@@ -453,6 +607,18 @@ app.MapPatch("/api/usuarios/{id:guid}/estado", async (
         usuario.Rol,
         usuario.Activo
     });
+})
+.RequireAuthorization("AdminOnly");
+
+// Listar auditorías
+app.MapGet("/api/auditorias", async (
+    AuditoriaService service,
+    CancellationToken cancellationToken) =>
+{
+    var auditorias = await service.ObtenerTodasAsync(
+        cancellationToken);
+
+    return Results.Ok(auditorias);
 })
 .RequireAuthorization("AdminOnly");
 
