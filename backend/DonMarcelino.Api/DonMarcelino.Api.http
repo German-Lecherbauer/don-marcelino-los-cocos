@@ -275,3 +275,11 @@ Content-Type: application/json
 ### Desactivar Consulta
 PATCH {{DonMarcelino.Api_HostAddress}}/api/usuarios/52eb1d4f-f829-4675-9cc4-ce6d195573f7/estado?activo=false
 Authorization: Bearer {{token}}
+
+### Reactivar usuario Consulta
+PATCH {{DonMarcelino.Api_HostAddress}}/api/usuarios/52eb1d4f-f829-4675-9cc4-ce6d195573f7/estado?activo=true
+Authorization: Bearer {{token}}
+
+### Listar auditorías
+GET {{DonMarcelino.Api_HostAddress}}/api/auditorias
+Authorization: Bearer {{token}}

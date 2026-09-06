@@ -4,6 +4,7 @@ using DonMarcelino.Api.Auth;
 using DonMarcelino.Api.Middleware;
 using DonMarcelino.Application.Auditoria;
 using DonMarcelino.Application.Auth;
+using DonMarcelino.Application.Dashboard;
 using DonMarcelino.Application.Membresias;
 using DonMarcelino.Application.Socios;
 using DonMarcelino.Application.Usuarios;
@@ -53,6 +54,10 @@ builder.Services.AddScoped<PasswordHasher<Usuario>>();
 // Auditoría
 builder.Services.AddScoped<IAuditoriaRepository, AuditoriaRepository>();
 builder.Services.AddScoped<AuditoriaService>();
+
+// Dashboard
+builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
+builder.Services.AddScoped<ObtenerDashboardService>();
 
 // Auth
 builder.Services.AddScoped<LoginService>();
@@ -621,6 +626,18 @@ app.MapGet("/api/auditorias", async (
     return Results.Ok(auditorias);
 })
 .RequireAuthorization("AdminOnly");
+
+// Dashboard
+app.MapGet("/api/dashboard/resumen", async (
+    ObtenerDashboardService service,
+    CancellationToken cancellationToken) =>
+{
+    var resumen = await service.ObtenerAsync(
+        cancellationToken);
+
+    return Results.Ok(resumen);
+})
+.RequireAuthorization();
 
 // Login
 app.MapPost("/api/auth/login", async (
