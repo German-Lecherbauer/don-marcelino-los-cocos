@@ -22,7 +22,9 @@ public class LoginService
         LoginRequest request,
         CancellationToken cancellationToken = default)
     {
-        var email = request.Email.Trim().ToLowerInvariant();
+        var email = request.Email
+            .Trim()
+            .ToLowerInvariant();
 
         var usuario = await _usuarioRepository.ObtenerPorEmailAsync(
             email,
@@ -30,13 +32,13 @@ public class LoginService
 
         if (usuario is null)
         {
-            throw new BusinessRuleException(
+            throw new AuthenticationException(
                 "Email o contraseña incorrectos.");
         }
 
         if (!usuario.Activo)
         {
-            throw new BusinessRuleException(
+            throw new AuthenticationException(
                 "El usuario está inactivo.");
         }
 
@@ -47,7 +49,7 @@ public class LoginService
 
         if (resultado == PasswordVerificationResult.Failed)
         {
-            throw new BusinessRuleException(
+            throw new AuthenticationException(
                 "Email o contraseña incorrectos.");
         }
 

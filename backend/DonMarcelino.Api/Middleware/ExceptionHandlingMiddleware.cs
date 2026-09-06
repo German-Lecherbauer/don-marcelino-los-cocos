@@ -30,6 +30,13 @@ public class ExceptionHandlingMiddleware
                 HttpStatusCode.NotFound,
                 ex.Message);
         }
+        catch (AuthenticationException ex)
+        {
+            await WriteErrorResponseAsync(
+                context,
+                HttpStatusCode.Unauthorized,
+                ex.Message);
+        }
         catch (BusinessRuleException ex)
         {
             await WriteErrorResponseAsync(

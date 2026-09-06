@@ -283,3 +283,7 @@ Authorization: Bearer {{token}}
 ### Listar auditorías
 GET {{DonMarcelino.Api_HostAddress}}/api/auditorias
 Authorization: Bearer {{token}}
+
+### Dashboard resumen
+GET {{DonMarcelino.Api_HostAddress}}/api/dashboard/resumen
+Authorization: Bearer {{token}}
