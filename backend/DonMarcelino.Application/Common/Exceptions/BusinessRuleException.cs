@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace DonMarcelino.Application.Common.Exceptions;
 
-namespace DonMarcelino.Application.Common.Exceptions
+public class BusinessRuleException : Exception
 {
-    internal class BusinessRuleException
+    public BusinessRuleException(string message)
+        : base(message)
     {
     }
 }

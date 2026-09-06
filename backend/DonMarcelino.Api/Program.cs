@@ -1,9 +1,17 @@
+using System.Text;
+using DonMarcelino.Api.Auth;
 using DonMarcelino.Api.Middleware;
+using DonMarcelino.Application.Auth;
 using DonMarcelino.Application.Membresias;
 using DonMarcelino.Application.Socios;
+using DonMarcelino.Application.Usuarios;
+using DonMarcelino.Domain.Entities;
 using DonMarcelino.Infrastructure.Persistence;
 using DonMarcelino.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +39,58 @@ builder.Services.AddScoped<ObtenerMembresiaPorIdService>();
 builder.Services.AddScoped<ActualizarMembresiaService>();
 builder.Services.AddScoped<ActualizarEstadoMembresiaService>();
 
+// Usuarios
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<CrearUsuarioService>();
+builder.Services.AddScoped<PasswordHasher<Usuario>>();
+
+// Auth
+builder.Services.AddScoped<LoginService>();
+builder.Services.AddScoped<JwtTokenGenerator>();
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var key = builder.Configuration["Jwt:Key"]
+            ?? throw new InvalidOperationException(
+                "JWT Key no configurada.");
+
+        options.TokenValidationParameters =
+            new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+
+                ValidIssuer =
+                    builder.Configuration["Jwt:Issuer"],
+
+                ValidAudience =
+                    builder.Configuration["Jwt:Audience"],
+
+                IssuerSigningKey =
+                    new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(key)
+                    ),
+
+                ClockSkew = TimeSpan.Zero
+            };
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireRole("Admin"));
+
+    options.AddPolicy("AdminOrOperador", policy =>
+        policy.RequireRole("Admin", "Operador"));
+
+    options.AddPolicy("Authenticated", policy =>
+        policy.RequireAuthenticatedUser());
+});
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -41,6 +101,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Health
 app.MapGet("/api/health", () =>
@@ -66,7 +129,8 @@ app.MapPost("/api/socios", async (
     return Results.Created(
         $"/api/socios/{socio.Id}",
         socio);
-});
+})
+.RequireAuthorization("AdminOrOperador");
 
 // Listar socios
 app.MapGet("/api/socios", async (
@@ -77,7 +141,8 @@ app.MapGet("/api/socios", async (
         cancellationToken);
 
     return Results.Ok(socios);
-});
+})
+.RequireAuthorization();
 
 // Obtener socio por ID
 app.MapGet("/api/socios/{id:guid}", async (
@@ -98,7 +163,8 @@ app.MapGet("/api/socios/{id:guid}", async (
     }
 
     return Results.Ok(socio);
-});
+})
+.RequireAuthorization();
 
 // Actualizar socio
 app.MapPut("/api/socios/{id:guid}", async (
@@ -121,7 +187,8 @@ app.MapPut("/api/socios/{id:guid}", async (
     }
 
     return Results.Ok(socio);
-});
+})
+.RequireAuthorization("AdminOrOperador");
 
 // Baja lógica de socio
 app.MapDelete("/api/socios/{id:guid}", async (
@@ -142,7 +209,8 @@ app.MapDelete("/api/socios/{id:guid}", async (
     }
 
     return Results.NoContent();
-});
+})
+.RequireAuthorization("AdminOrOperador");
 
 // Crear membresía
 app.MapPost("/api/socios/{socioId:guid}/membresias", async (
@@ -159,7 +227,8 @@ app.MapPost("/api/socios/{socioId:guid}/membresias", async (
     return Results.Created(
         $"/api/socios/{socioId}/membresias/{membresia.Id}",
         membresia);
-});
+})
+.RequireAuthorization("AdminOrOperador");
 
 // Listar membresías de un socio
 app.MapGet("/api/socios/{socioId:guid}/membresias", async (
@@ -172,7 +241,8 @@ app.MapGet("/api/socios/{socioId:guid}/membresias", async (
         cancellationToken);
 
     return Results.Ok(membresias);
-});
+})
+.RequireAuthorization();
 
 // Obtener membresía por ID
 app.MapGet("/api/membresias/{id:guid}", async (
@@ -193,7 +263,8 @@ app.MapGet("/api/membresias/{id:guid}", async (
     }
 
     return Results.Ok(membresia);
-});
+})
+.RequireAuthorization();
 
 // Actualizar fechas de membresía
 app.MapPut("/api/membresias/{id:guid}", async (
@@ -216,7 +287,8 @@ app.MapPut("/api/membresias/{id:guid}", async (
     }
 
     return Results.Ok(membresia);
-});
+})
+.RequireAuthorization("AdminOrOperador");
 
 // Actualizar estado de membresía
 app.MapPatch("/api/membresias/{id:guid}/estado", async (
@@ -239,6 +311,57 @@ app.MapPatch("/api/membresias/{id:guid}/estado", async (
     }
 
     return Results.Ok(membresia);
+})
+.RequireAuthorization("AdminOrOperador");
+
+// Crear usuario
+app.MapPost("/api/usuarios", async (
+    CrearUsuarioRequest request,
+    CrearUsuarioService service,
+    CancellationToken cancellationToken) =>
+{
+    var usuario = await service.CrearAsync(
+        request,
+        cancellationToken);
+
+    return Results.Created(
+        $"/api/usuarios/{usuario.Id}",
+        new
+        {
+            usuario.Id,
+            usuario.Nombre,
+            usuario.Email,
+            usuario.Rol,
+            usuario.Activo,
+            usuario.FechaAlta
+        });
+})
+.RequireAuthorization("AdminOnly");
+
+// Login
+app.MapPost("/api/auth/login", async (
+    LoginRequest request,
+    LoginService loginService,
+    JwtTokenGenerator tokenGenerator,
+    CancellationToken cancellationToken) =>
+{
+    var usuario = await loginService.LoginAsync(
+        request,
+        cancellationToken);
+
+    var token = tokenGenerator.Generate(usuario);
+
+    return Results.Ok(new
+    {
+        token,
+        usuario = new
+        {
+            usuario.Id,
+            usuario.Nombre,
+            usuario.Email,
+            usuario.Rol
+        }
+    });
 });
 
 app.Run();
