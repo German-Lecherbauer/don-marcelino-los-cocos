@@ -16,12 +16,12 @@ public class MembresiaRepository : IMembresiaRepository
     }
 
     public Task<bool> ExisteMembresiaActivaAsync(
-        Guid socioId,
+        Guid pacienteId,
         CancellationToken cancellationToken = default)
     {
         return _context.Membresias
             .AnyAsync(
-                x => x.SocioId == socioId &&
+                x => x.PacienteId == pacienteId &&
                      x.Estado == EstadoMembresia.Activa,
                 cancellationToken);
     }
@@ -34,31 +34,35 @@ public class MembresiaRepository : IMembresiaRepository
 
         await _context.SaveChangesAsync(cancellationToken);
     }
-    public Task<List<Membresia>> ObtenerPorSocioIdAsync(
-    Guid socioId,
-    CancellationToken cancellationToken = default)
+
+    public Task<List<Membresia>> ObtenerPorPacienteIdAsync(
+        Guid pacienteId,
+        CancellationToken cancellationToken = default)
     {
         return _context.Membresias
             .AsNoTracking()
-            .Where(x => x.SocioId == socioId)
+            .Where(x => x.PacienteId == pacienteId)
             .OrderByDescending(x => x.FechaInicio)
             .ToListAsync(cancellationToken);
     }
 
     public Task<Membresia?> ObtenerPorIdAsync(
-    Guid id,
-    CancellationToken cancellationToken = default)
+        Guid id,
+        CancellationToken cancellationToken = default)
     {
         return _context.Membresias
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(
+                x => x.Id == id,
+                cancellationToken);
     }
 
     public async Task ActualizarAsync(
-    Membresia membresia,
-    CancellationToken cancellationToken = default)
+        Membresia membresia,
+        CancellationToken cancellationToken = default)
     {
         _context.Membresias.Update(membresia);
+
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

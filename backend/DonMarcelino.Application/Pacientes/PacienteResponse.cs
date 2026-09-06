@@ -1,9 +1,18 @@
-﻿namespace DonMarcelino.Application.Socios;
+﻿namespace DonMarcelino.Application.Pacientes;
 
-public class CrearSocioRequest
+public class PacienteResponse
 {
+    public Guid Id { get; set; }
+
     public string Nombre { get; set; } = string.Empty;
+
     public string Apellido { get; set; } = string.Empty;
+
     public string Email { get; set; } = string.Empty;
+
     public string Documento { get; set; } = string.Empty;
+
+    public DateTime FechaAlta { get; set; }
+
+    public bool Activo { get; set; }
 }

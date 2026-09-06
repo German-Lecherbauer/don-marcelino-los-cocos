@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DonMarcelino.Infrastructure.Persistence.Configurations;
 
-public class SocioConfiguration : IEntityTypeConfiguration<Socio>
+public class PacienteConfiguration : IEntityTypeConfiguration<Paciente>
 {
-    public void Configure(EntityTypeBuilder<Socio> builder)
+    public void Configure(EntityTypeBuilder<Paciente> builder)
     {
         builder.HasKey(x => x.Id);
 
@@ -33,8 +33,8 @@ public class SocioConfiguration : IEntityTypeConfiguration<Socio>
             .IsUnique();
 
         builder.HasMany(x => x.Membresias)
-            .WithOne(x => x.Socio)
-            .HasForeignKey(x => x.SocioId)
+            .WithOne(x => x.Paciente)
+            .HasForeignKey(x => x.PacienteId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

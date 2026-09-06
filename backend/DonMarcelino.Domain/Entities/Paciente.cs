@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace DonMarcelino.Domain.Entities;
 
-namespace DonMarcelino.Domain.Entities;
-
-public class Socio
+public class Paciente
 {
     public Guid Id { get; set; }
 
@@ -19,5 +16,6 @@ public class Socio
 
     public bool Activo { get; set; }
 
-    public ICollection<Membresia> Membresias { get; set; } = new List<Membresia>();
+    public ICollection<Membresia> Membresias { get; set; } =
+        new List<Membresia>();
 }

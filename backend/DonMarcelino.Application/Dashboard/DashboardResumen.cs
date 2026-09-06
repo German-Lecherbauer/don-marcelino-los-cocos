@@ -2,9 +2,9 @@
 
 public class DashboardResumen
 {
-    public int TotalSocios { get; set; }
+    public int TotalPacientes { get; set; }
 
-    public int SociosActivos { get; set; }
+    public int PacientesActivos { get; set; }
 
     public int MembresiasActivas { get; set; }
 

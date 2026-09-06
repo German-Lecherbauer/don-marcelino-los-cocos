@@ -12,11 +12,11 @@ public class ObtenerDashboardService
     public async Task<DashboardResumen> ObtenerAsync(
         CancellationToken cancellationToken = default)
     {
-        var totalSocios =
-            await _repository.ObtenerTotalSociosAsync(cancellationToken);
+        var totalPacientes =
+            await _repository.ObtenerTotalPacientesAsync(cancellationToken);
 
-        var sociosActivos =
-            await _repository.ObtenerSociosActivosAsync(cancellationToken);
+        var pacientesActivos =
+            await _repository.ObtenerPacientesActivosAsync(cancellationToken);
 
         var membresiasActivas =
             await _repository.ObtenerMembresiasActivasAsync(cancellationToken);
@@ -34,8 +34,8 @@ public class ObtenerDashboardService
 
         return new DashboardResumen
         {
-            TotalSocios = totalSocios,
-            SociosActivos = sociosActivos,
+            TotalPacientes = totalPacientes,
+            PacientesActivos = pacientesActivos,
             MembresiasActivas = membresiasActivas,
             MembresiasVencidas = membresiasVencidas,
             UsuariosActivos = usuariosActivos,

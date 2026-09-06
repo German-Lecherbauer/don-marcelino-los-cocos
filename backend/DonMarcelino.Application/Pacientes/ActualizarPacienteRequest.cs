@@ -1,6 +1,6 @@
-﻿namespace DonMarcelino.Application.Socios;
+﻿namespace DonMarcelino.Application.Pacientes;
 
-public class ActualizarSocioRequest
+public class ActualizarPacienteRequest
 {
     public string Nombre { get; set; } = string.Empty;
     public string Apellido { get; set; } = string.Empty;

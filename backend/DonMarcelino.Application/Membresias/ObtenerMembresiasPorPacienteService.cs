@@ -2,22 +2,22 @@
 
 namespace DonMarcelino.Application.Membresias;
 
-public class ObtenerMembresiasPorSocioService
+public class ObtenerMembresiasPorPacienteService
 {
     private readonly IMembresiaRepository _membresiaRepository;
 
-    public ObtenerMembresiasPorSocioService(
+    public ObtenerMembresiasPorPacienteService(
         IMembresiaRepository membresiaRepository)
     {
         _membresiaRepository = membresiaRepository;
     }
 
     public Task<List<Membresia>> ObtenerAsync(
-        Guid socioId,
+        Guid pacienteId,
         CancellationToken cancellationToken = default)
     {
-        return _membresiaRepository.ObtenerPorSocioIdAsync(
-            socioId,
+        return _membresiaRepository.ObtenerPorPacienteIdAsync(
+            pacienteId,
             cancellationToken);
     }
 }

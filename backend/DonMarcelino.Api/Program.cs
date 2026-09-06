@@ -6,7 +6,7 @@ using DonMarcelino.Application.Auditoria;
 using DonMarcelino.Application.Auth;
 using DonMarcelino.Application.Dashboard;
 using DonMarcelino.Application.Membresias;
-using DonMarcelino.Application.Socios;
+using DonMarcelino.Application.Pacientes;
 using DonMarcelino.Application.Usuarios;
 using DonMarcelino.Domain.Entities;
 using DonMarcelino.Infrastructure.Persistence;
@@ -26,18 +26,18 @@ builder.Services.AddDbContext<DonMarcelinoDbContext>(options =>
     )
 );
 
-// Socios
-builder.Services.AddScoped<ISocioRepository, SocioRepository>();
-builder.Services.AddScoped<CrearSocioService>();
-builder.Services.AddScoped<ObtenerSociosService>();
-builder.Services.AddScoped<ObtenerSocioPorIdService>();
-builder.Services.AddScoped<ActualizarSocioService>();
-builder.Services.AddScoped<DesactivarSocioService>();
+// Pacientes
+builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
+builder.Services.AddScoped<CrearPacienteService>();
+builder.Services.AddScoped<ObtenerPacientesService>();
+builder.Services.AddScoped<ObtenerPacientePorIdService>();
+builder.Services.AddScoped<ActualizarPacienteService>();
+builder.Services.AddScoped<DesactivarPacienteService>();
 
 // Membresías
 builder.Services.AddScoped<IMembresiaRepository, MembresiaRepository>();
 builder.Services.AddScoped<CrearMembresiaService>();
-builder.Services.AddScoped<ObtenerMembresiasPorSocioService>();
+builder.Services.AddScoped<ObtenerMembresiasPorPacienteService>();
 builder.Services.AddScoped<ObtenerMembresiaPorIdService>();
 builder.Services.AddScoped<ActualizarMembresiaService>();
 builder.Services.AddScoped<ActualizarEstadoMembresiaService>();
@@ -151,15 +151,15 @@ app.MapGet("/api/health", () =>
     });
 });
 
-// Crear socio
-app.MapPost("/api/socios", async (
-    CrearSocioRequest request,
-    CrearSocioService service,
+// Crear paciente
+app.MapPost("/api/pacientes", async (
+    CrearPacienteRequest request,
+    CrearPacienteService service,
     AuditoriaService auditoriaService,
     HttpContext httpContext,
     CancellationToken cancellationToken) =>
 {
-    var socio = await service.CrearAsync(
+    var paciente = await service.CrearAsync(
         request,
         cancellationToken);
 
@@ -170,70 +170,75 @@ app.MapPost("/api/socios", async (
         usuarioId,
         usuarioNombre,
         "Crear",
-        "Socio",
-        socio.Id.ToString(),
-        $"Se creó el socio {socio.Nombre} {socio.Apellido}.",
+        "Paciente",
+        paciente.Id.ToString(),
+        $"Se creó el paciente {paciente.Nombre} {paciente.Apellido}.",
         cancellationToken);
 
     return Results.Created(
-        $"/api/socios/{socio.Id}",
-        socio);
+        $"/api/pacientes/{paciente.Id}",
+        PacienteMapper.ToResponse(paciente));
 })
 .RequireAuthorization("AdminOrOperador");
 
-// Listar socios
-app.MapGet("/api/socios", async (
-    ObtenerSociosService service,
+// Listar pacientes
+app.MapGet("/api/pacientes", async (
+    ObtenerPacientesService service,
     CancellationToken cancellationToken) =>
 {
-    var socios = await service.ObtenerAsync(
+    var pacientes = await service.ObtenerAsync(
         cancellationToken);
 
-    return Results.Ok(socios);
+    var response = pacientes
+        .Select(PacienteMapper.ToResponse)
+        .ToList();
+
+    return Results.Ok(response);
 })
 .RequireAuthorization();
 
-// Obtener socio por ID
-app.MapGet("/api/socios/{id:guid}", async (
+// Obtener paciente por ID
+app.MapGet("/api/pacientes/{id:guid}", async (
     Guid id,
-    ObtenerSocioPorIdService service,
+    ObtenerPacientePorIdService service,
     CancellationToken cancellationToken) =>
 {
-    var socio = await service.ObtenerAsync(
+    var paciente = await service.ObtenerAsync(
         id,
         cancellationToken);
 
-    if (socio is null)
+    if (paciente is null)
     {
         return Results.NotFound(new
         {
-            error = "Socio no encontrado."
+            error = "Paciente no encontrado."
         });
     }
 
-    return Results.Ok(socio);
+    return Results.Ok(
+        PacienteMapper.ToResponse(paciente));
 })
 .RequireAuthorization();
 
-// Actualizar socio
-app.MapPut("/api/socios/{id:guid}", async (
+// Actualizar paciente
+app.MapPut("/api/pacientes/{id:guid}", async (
     Guid id,
-    ActualizarSocioRequest request,
-    ActualizarSocioService service,
+    ActualizarPacienteRequest request,
+    ActualizarPacienteService service,
     AuditoriaService auditoriaService,
     HttpContext httpContext,
     CancellationToken cancellationToken) =>
 {
-    var socio = await service.ActualizarAsync(
+    var paciente = await service.ActualizarAsync(
         id,
         request,
         cancellationToken);
 
-    if (socio is null)
+    if (paciente is null)
     {
         return Results.NotFound(new
         {
-            error = "Socio no encontrado."
+            error = "Paciente no encontrado."
         });
     }
 
@@ -244,19 +249,20 @@ app.MapPut("/api/socios/{id:guid}", async (
         usuarioId,
         usuarioNombre,
         "Actualizar",
-        "Socio",
-        socio.Id.ToString(),
-        $"Se actualizó el socio {socio.Nombre} {socio.Apellido}.",
+        "Paciente",
+        paciente.Id.ToString(),
+        $"Se actualizó el paciente {paciente.Nombre} {paciente.Apellido}.",
         cancellationToken);
 
-    return Results.Ok(socio);
+    return Results.Ok(
+        PacienteMapper.ToResponse(paciente));
 })
 .RequireAuthorization("AdminOrOperador");
 
-// Baja lógica de socio
-app.MapDelete("/api/socios/{id:guid}", async (
+// Baja lógica de paciente
+app.MapDelete("/api/pacientes/{id:guid}", async (
     Guid id,
-    DesactivarSocioService service,
+    DesactivarPacienteService service,
     AuditoriaService auditoriaService,
     HttpContext httpContext,
     CancellationToken cancellationToken) =>
@@ -269,7 +275,7 @@ app.MapDelete("/api/socios/{id:guid}", async (
     {
         return Results.NotFound(new
         {
-            error = "Socio no encontrado."
+            error = "Paciente no encontrado."
         });
     }
 
@@ -280,9 +286,9 @@ app.MapDelete("/api/socios/{id:guid}", async (
         usuarioId,
         usuarioNombre,
         "Desactivar",
-        "Socio",
+        "Paciente",
         id.ToString(),
-        "Se desactivó un socio.",
+        "Se desactivó un paciente.",
         cancellationToken);
 
     return Results.NoContent();
@@ -290,8 +296,8 @@ app.MapDelete("/api/socios/{id:guid}", async (
 .RequireAuthorization("AdminOrOperador");
 
 // Crear membresía
-app.MapPost("/api/socios/{socioId:guid}/membresias", async (
-    Guid socioId,
+app.MapPost("/api/pacientes/{pacienteId:guid}/membresias", async (
+    Guid pacienteId,
     CrearMembresiaRequest request,
     CrearMembresiaService service,
     AuditoriaService auditoriaService,
@@ -299,7 +305,7 @@ app.MapPost("/api/socios/{socioId:guid}/membresias", async (
     CancellationToken cancellationToken) =>
 {
     var membresia = await service.CrearAsync(
-        socioId,
+        pacienteId,
         request,
         cancellationToken);
 
@@ -312,23 +318,23 @@ app.MapPost("/api/socios/{socioId:guid}/membresias", async (
         "Crear",
         "Membresia",
         membresia.Id.ToString(),
-        $"Se creó una membresía para el socio {socioId}.",
+        $"Se creó una membresía para el paciente {pacienteId}.",
         cancellationToken);
 
     return Results.Created(
-        $"/api/socios/{socioId}/membresias/{membresia.Id}",
+        $"/api/pacientes/{pacienteId}/membresias/{membresia.Id}",
         membresia);
 })
 .RequireAuthorization("AdminOrOperador");
 
-// Listar membresías de un socio
-app.MapGet("/api/socios/{socioId:guid}/membresias", async (
-    Guid socioId,
-    ObtenerMembresiasPorSocioService service,
+// Listar membresías de un paciente
+app.MapGet("/api/pacientes/{pacienteId:guid}/membresias", async (
+    Guid pacienteId,
+    ObtenerMembresiasPorPacienteService service,
     CancellationToken cancellationToken) =>
 {
     var membresias = await service.ObtenerAsync(
-        socioId,
+        pacienteId,
         cancellationToken);
 
     return Results.Ok(membresias);

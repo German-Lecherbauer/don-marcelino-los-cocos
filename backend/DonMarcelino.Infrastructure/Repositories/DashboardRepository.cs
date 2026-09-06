@@ -15,17 +15,17 @@ public class DashboardRepository : IDashboardRepository
         _context = context;
     }
 
-    public Task<int> ObtenerTotalSociosAsync(
+    public Task<int> ObtenerTotalPacientesAsync(
         CancellationToken cancellationToken = default)
     {
-        return _context.Socios
+        return _context.Pacientes
             .CountAsync(cancellationToken);
     }
 
-    public Task<int> ObtenerSociosActivosAsync(
+    public Task<int> ObtenerPacientesActivosAsync(
         CancellationToken cancellationToken = default)
     {
-        return _context.Socios
+        return _context.Pacientes
             .CountAsync(
                 x => x.Activo,
                 cancellationToken);

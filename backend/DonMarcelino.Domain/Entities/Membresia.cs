@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DonMarcelino.Domain.Enums;
+﻿using DonMarcelino.Domain.Enums;
 
 namespace DonMarcelino.Domain.Entities;
 
@@ -9,7 +6,7 @@ public class Membresia
 {
     public Guid Id { get; set; }
 
-    public Guid SocioId { get; set; }
+    public Guid PacienteId { get; set; }
 
     public DateTime FechaInicio { get; set; }
 
@@ -17,5 +14,5 @@ public class Membresia
 
     public EstadoMembresia Estado { get; set; }
 
-    public Socio Socio { get; set; } = null!;
+    public Paciente Paciente { get; set; } = null!;
 }

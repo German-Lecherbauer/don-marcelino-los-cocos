@@ -287,3 +287,34 @@ Authorization: Bearer {{token}}
 ### Dashboard resumen
 GET {{DonMarcelino.Api_HostAddress}}/api/dashboard/resumen
 Authorization: Bearer {{token}}
+
+### Login contraseña incorrecta
+POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@donmarcelino.com",
+  "password": "Mala123!"
+}
+
+### Desactivar usuario Consulta
+PATCH {{DonMarcelino.Api_HostAddress}}/api/usuarios/52eb1d4f-f829-4675-9cc4-ce6d195573f7/estado?activo=false
+Authorization: Bearer {{token}}
+
+### Login usuario inactivo
+POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "consulta@donmarcelino.com",
+  "password": "Consulta123!"
+}
+
+### Login admin después de mover JWT key a User Secrets
+POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@donmarcelino.com",
+  "password": "Admin123!"
+}

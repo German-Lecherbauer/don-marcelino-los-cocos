@@ -1,5 +1,5 @@
 ﻿using DonMarcelino.Application.Common.Exceptions;
-using DonMarcelino.Application.Socios;
+using DonMarcelino.Application.Pacientes;
 using DonMarcelino.Domain.Entities;
 using DonMarcelino.Domain.Enums;
 
@@ -8,35 +8,35 @@ namespace DonMarcelino.Application.Membresias;
 public class CrearMembresiaService
 {
     private readonly IMembresiaRepository _membresiaRepository;
-    private readonly ISocioRepository _socioRepository;
+    private readonly IPacienteRepository _pacienteRepository;
 
     public CrearMembresiaService(
         IMembresiaRepository membresiaRepository,
-        ISocioRepository socioRepository)
+        IPacienteRepository pacienteRepository)
     {
         _membresiaRepository = membresiaRepository;
-        _socioRepository = socioRepository;
+        _pacienteRepository = pacienteRepository;
     }
 
     public async Task<Membresia> CrearAsync(
-        Guid socioId,
+        Guid pacienteId,
         CrearMembresiaRequest request,
         CancellationToken cancellationToken = default)
     {
-        var socio = await _socioRepository.ObtenerPorIdAsync(
-            socioId,
+        var paciente = await _pacienteRepository.ObtenerPorIdAsync(
+            pacienteId,
             cancellationToken);
 
-        if (socio is null)
+        if (paciente is null)
         {
             throw new KeyNotFoundException(
-                "Socio no encontrado.");
+                "Paciente no encontrado.");
         }
 
-        if (!socio.Activo)
+        if (!paciente.Activo)
         {
             throw new BusinessRuleException(
-                "No se puede crear una membresía para un socio inactivo.");
+                "No se puede crear una membresía para un paciente inactivo.");
         }
 
         if (request.FechaVencimiento <= request.FechaInicio)
@@ -47,19 +47,19 @@ public class CrearMembresiaService
 
         var tieneMembresiaActiva =
             await _membresiaRepository.ExisteMembresiaActivaAsync(
-                socioId,
+                pacienteId,
                 cancellationToken);
 
         if (tieneMembresiaActiva)
         {
             throw new BusinessRuleException(
-                "El socio ya posee una membresía activa.");
+                "El paciente ya posee una membresía activa.");
         }
 
         var membresia = new Membresia
         {
             Id = Guid.NewGuid(),
-            SocioId = socioId,
+            PacienteId = pacienteId,
             FechaInicio = request.FechaInicio,
             FechaVencimiento = request.FechaVencimiento,
             Estado = EstadoMembresia.Activa

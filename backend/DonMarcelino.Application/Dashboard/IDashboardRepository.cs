@@ -4,10 +4,10 @@ namespace DonMarcelino.Application.Dashboard;
 
 public interface IDashboardRepository
 {
-    Task<int> ObtenerTotalSociosAsync(
+    Task<int> ObtenerTotalPacientesAsync(
         CancellationToken cancellationToken = default);
 
-    Task<int> ObtenerSociosActivosAsync(
+    Task<int> ObtenerPacientesActivosAsync(
         CancellationToken cancellationToken = default);
 
     Task<int> ObtenerMembresiasActivasAsync(

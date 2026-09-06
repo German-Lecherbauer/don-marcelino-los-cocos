@@ -11,7 +11,7 @@ public class DonMarcelinoDbContext : DbContext
     {
     }
 
-    public DbSet<Socio> Socios => Set<Socio>();
+    public DbSet<Paciente> Pacientes => Set<Paciente>();
 
     public DbSet<Membresia> Membresias => Set<Membresia>();
 
