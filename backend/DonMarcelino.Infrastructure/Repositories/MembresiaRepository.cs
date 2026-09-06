@@ -34,4 +34,14 @@ public class MembresiaRepository : IMembresiaRepository
 
         await _context.SaveChangesAsync(cancellationToken);
     }
+    public Task<List<Membresia>> ObtenerPorSocioIdAsync(
+    Guid socioId,
+    CancellationToken cancellationToken = default)
+    {
+        return _context.Membresias
+            .AsNoTracking()
+            .Where(x => x.SocioId == socioId)
+            .OrderByDescending(x => x.FechaInicio)
+            .ToListAsync(cancellationToken);
+    }
 }

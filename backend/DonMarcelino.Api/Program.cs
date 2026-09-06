@@ -1,8 +1,8 @@
-using DonMarcelino.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
-using DonMarcelino.Application.Socios;
-using DonMarcelino.Infrastructure.Repositories;
 using DonMarcelino.Application.Membresias;
+using DonMarcelino.Application.Socios;
+using DonMarcelino.Infrastructure.Persistence;
+using DonMarcelino.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,19 +14,18 @@ builder.Services.AddDbContext<DonMarcelinoDbContext>(options =>
     )
 );
 
+// Socios
 builder.Services.AddScoped<ISocioRepository, SocioRepository>();
 builder.Services.AddScoped<CrearSocioService>();
-
 builder.Services.AddScoped<ObtenerSociosService>();
-
 builder.Services.AddScoped<ObtenerSocioPorIdService>();
-
 builder.Services.AddScoped<ActualizarSocioService>();
-
 builder.Services.AddScoped<DesactivarSocioService>();
 
+// Membresías
 builder.Services.AddScoped<IMembresiaRepository, MembresiaRepository>();
 builder.Services.AddScoped<CrearMembresiaService>();
+builder.Services.AddScoped<ObtenerMembresiasPorSocioService>();
 
 var app = builder.Build();
 
@@ -37,6 +36,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Health
 app.MapGet("/api/health", () =>
 {
     return Results.Ok(new
@@ -47,6 +47,7 @@ app.MapGet("/api/health", () =>
     });
 });
 
+// Crear socio
 app.MapPost("/api/socios", async (
     CrearSocioRequest request,
     CrearSocioService service,
@@ -54,9 +55,13 @@ app.MapPost("/api/socios", async (
 {
     try
     {
-        var socio = await service.CrearAsync(request, cancellationToken);
+        var socio = await service.CrearAsync(
+            request,
+            cancellationToken);
 
-        return Results.Created($"/api/socios/{socio.Id}", socio);
+        return Results.Created(
+            $"/api/socios/{socio.Id}",
+            socio);
     }
     catch (InvalidOperationException ex)
     {
@@ -67,21 +72,26 @@ app.MapPost("/api/socios", async (
     }
 });
 
+// Listar socios
 app.MapGet("/api/socios", async (
     ObtenerSociosService service,
     CancellationToken cancellationToken) =>
 {
-    var socios = await service.ObtenerAsync(cancellationToken);
+    var socios = await service.ObtenerAsync(
+        cancellationToken);
 
     return Results.Ok(socios);
 });
 
+// Obtener socio por ID
 app.MapGet("/api/socios/{id:guid}", async (
     Guid id,
     ObtenerSocioPorIdService service,
     CancellationToken cancellationToken) =>
 {
-    var socio = await service.ObtenerAsync(id, cancellationToken);
+    var socio = await service.ObtenerAsync(
+        id,
+        cancellationToken);
 
     if (socio is null)
     {
@@ -94,6 +104,7 @@ app.MapGet("/api/socios/{id:guid}", async (
     return Results.Ok(socio);
 });
 
+// Actualizar socio
 app.MapPut("/api/socios/{id:guid}", async (
     Guid id,
     ActualizarSocioRequest request,
@@ -102,7 +113,10 @@ app.MapPut("/api/socios/{id:guid}", async (
 {
     try
     {
-        var socio = await service.ActualizarAsync(id, request, cancellationToken);
+        var socio = await service.ActualizarAsync(
+            id,
+            request,
+            cancellationToken);
 
         if (socio is null)
         {
@@ -123,12 +137,15 @@ app.MapPut("/api/socios/{id:guid}", async (
     }
 });
 
+// Baja lógica de socio
 app.MapDelete("/api/socios/{id:guid}", async (
     Guid id,
     DesactivarSocioService service,
     CancellationToken cancellationToken) =>
 {
-    var desactivado = await service.DesactivarAsync(id, cancellationToken);
+    var desactivado = await service.DesactivarAsync(
+        id,
+        cancellationToken);
 
     if (!desactivado)
     {
@@ -141,6 +158,7 @@ app.MapDelete("/api/socios/{id:guid}", async (
     return Results.NoContent();
 });
 
+// Crear membresía
 app.MapPost("/api/socios/{socioId:guid}/membresias", async (
     Guid socioId,
     CrearMembresiaRequest request,
@@ -172,6 +190,19 @@ app.MapPost("/api/socios/{socioId:guid}/membresias", async (
             error = ex.Message
         });
     }
+});
+
+// Listar membresías de un socio
+app.MapGet("/api/socios/{socioId:guid}/membresias", async (
+    Guid socioId,
+    ObtenerMembresiasPorSocioService service,
+    CancellationToken cancellationToken) =>
+{
+    var membresias = await service.ObtenerAsync(
+        socioId,
+        cancellationToken);
+
+    return Results.Ok(membresias);
 });
 
 app.Run();

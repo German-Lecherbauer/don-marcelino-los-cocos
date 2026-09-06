@@ -1,5 +1,6 @@
 @DonMarcelino.Api_HostAddress = http://localhost:5106
 
+### Crear socio Germán
 POST {{DonMarcelino.Api_HostAddress}}/api/socios
 Content-Type: application/json
 
@@ -10,16 +11,13 @@ Content-Type: application/json
   "documento": "12345678"
 }
 
-###
-
+### Listar socios
 GET {{DonMarcelino.Api_HostAddress}}/api/socios
 
-###
-
+### Obtener socio Germán por id
 GET {{DonMarcelino.Api_HostAddress}}/api/socios/7734785f-57cf-40a1-a911-f581c0e8e8ac
 
-###
-
+### Actualizar socio Germán
 PUT {{DonMarcelino.Api_HostAddress}}/api/socios/7734785f-57cf-40a1-a911-f581c0e8e8ac
 Content-Type: application/json
 
@@ -30,12 +28,10 @@ Content-Type: application/json
   "documento": "12345678"
 }
 
-###
-
+### Desactivar socio Germán
 DELETE {{DonMarcelino.Api_HostAddress}}/api/socios/7734785f-57cf-40a1-a911-f581c0e8e8ac
 
-###
-
+### Intentar crear membresía para Germán inactivo
 POST {{DonMarcelino.Api_HostAddress}}/api/socios/7734785f-57cf-40a1-a911-f581c0e8e8ac/membresias
 Content-Type: application/json
 
@@ -45,8 +41,7 @@ Content-Type: application/json
   "estado": 1
 }
 
-###
-
+### Crear socio Lucía
 POST {{DonMarcelino.Api_HostAddress}}/api/socios
 Content-Type: application/json
 
@@ -57,23 +52,22 @@ Content-Type: application/json
   "documento": "87654321"
 }
 
-POST {{DonMarcelino.Api_HostAddress}}/api/socios
-Content-Type: application/json
-
-{
-  "nombre": "Lucia",
-  "apellido": "Activa",
-  "email": "lucia.activa@donmarcelino.com",
-  "documento": "87654321"
-}
-
-###
-
+### Crear membresía activa para Lucía
 POST {{DonMarcelino.Api_HostAddress}}/api/socios/1dd542c5-2981-43cd-b889-49363182eb59/membresias
 Content-Type: application/json
 
 {
   "fechaInicio": "2026-09-05T00:00:00Z",
   "fechaVencimiento": "2027-09-05T00:00:00Z",
+  "estado": 1
+}
+
+### Intentar crear segunda membresía activa para Lucía
+POST {{DonMarcelino.Api_HostAddress}}/api/socios/1dd542c5-2981-43cd-b889-49363182eb59/membresias
+Content-Type: application/json
+
+{
+  "fechaInicio": "2026-09-06T00:00:00Z",
+  "fechaVencimiento": "2027-09-06T00:00:00Z",
   "estado": 1
 }

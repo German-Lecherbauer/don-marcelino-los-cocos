@@ -11,4 +11,8 @@ public interface IMembresiaRepository
     Task AgregarAsync(
         Membresia membresia,
         CancellationToken cancellationToken = default);
+
+    Task<List<Membresia>> ObtenerPorSocioIdAsync(
+    Guid socioId,
+    CancellationToken cancellationToken = default);
 }
