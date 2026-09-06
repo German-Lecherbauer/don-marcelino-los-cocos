@@ -42,6 +42,10 @@ builder.Services.AddScoped<ActualizarEstadoMembresiaService>();
 // Usuarios
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<CrearUsuarioService>();
+builder.Services.AddScoped<ObtenerUsuariosService>();
+builder.Services.AddScoped<ObtenerUsuarioPorIdService>();
+builder.Services.AddScoped<ActualizarRolUsuarioService>();
+builder.Services.AddScoped<CambiarEstadoUsuarioService>();
 builder.Services.AddScoped<PasswordHasher<Usuario>>();
 
 // Auth
@@ -335,6 +339,120 @@ app.MapPost("/api/usuarios", async (
             usuario.Activo,
             usuario.FechaAlta
         });
+})
+.RequireAuthorization("AdminOnly");
+
+// Listar usuarios
+app.MapGet("/api/usuarios", async (
+    ObtenerUsuariosService service,
+    CancellationToken cancellationToken) =>
+{
+    var usuarios = await service.ObtenerAsync(
+        cancellationToken);
+
+    var response = usuarios.Select(usuario => new
+    {
+        usuario.Id,
+        usuario.Nombre,
+        usuario.Email,
+        usuario.Rol,
+        usuario.Activo,
+        usuario.FechaAlta
+    });
+
+    return Results.Ok(response);
+})
+.RequireAuthorization("AdminOnly");
+
+// Obtener usuario por ID
+app.MapGet("/api/usuarios/{id:guid}", async (
+    Guid id,
+    ObtenerUsuarioPorIdService service,
+    CancellationToken cancellationToken) =>
+{
+    var usuario = await service.ObtenerAsync(
+        id,
+        cancellationToken);
+
+    if (usuario is null)
+    {
+        return Results.NotFound(new
+        {
+            error = "Usuario no encontrado."
+        });
+    }
+
+    return Results.Ok(new
+    {
+        usuario.Id,
+        usuario.Nombre,
+        usuario.Email,
+        usuario.Rol,
+        usuario.Activo,
+        usuario.FechaAlta
+    });
+})
+.RequireAuthorization("AdminOnly");
+
+// Actualizar rol de usuario
+app.MapPatch("/api/usuarios/{id:guid}/rol", async (
+    Guid id,
+    ActualizarRolUsuarioRequest request,
+    ActualizarRolUsuarioService service,
+    CancellationToken cancellationToken) =>
+{
+    var usuario = await service.ActualizarAsync(
+        id,
+        request,
+        cancellationToken);
+
+    if (usuario is null)
+    {
+        return Results.NotFound(new
+        {
+            error = "Usuario no encontrado."
+        });
+    }
+
+    return Results.Ok(new
+    {
+        usuario.Id,
+        usuario.Nombre,
+        usuario.Email,
+        usuario.Rol,
+        usuario.Activo
+    });
+})
+.RequireAuthorization("AdminOnly");
+
+// Activar o desactivar usuario
+app.MapPatch("/api/usuarios/{id:guid}/estado", async (
+    Guid id,
+    bool activo,
+    CambiarEstadoUsuarioService service,
+    CancellationToken cancellationToken) =>
+{
+    var usuario = await service.CambiarAsync(
+        id,
+        activo,
+        cancellationToken);
+
+    if (usuario is null)
+    {
+        return Results.NotFound(new
+        {
+            error = "Usuario no encontrado."
+        });
+    }
+
+    return Results.Ok(new
+    {
+        usuario.Id,
+        usuario.Nombre,
+        usuario.Email,
+        usuario.Rol,
+        usuario.Activo
+    });
 })
 .RequireAuthorization("AdminOnly");
 

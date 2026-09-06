@@ -1,7 +1,7 @@
 @DonMarcelino.Api_HostAddress = http://localhost:5106
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzYjE1MTI0NS0zZDRiLTQ0Y2MtYWRjYS01YjgwM2NkNTY2OWEiLCJlbWFpbCI6ImFkbWluQGRvbm1hcmNlbGluby5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiR2VybWFuIEFkbWluIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODg2Njk2NjcsImlzcyI6IkRvbk1hcmNlbGluby5BcGkiLCJhdWQiOiJEb25NYXJjZWxpbm8uQ2xpZW50In0.XP80cRDVCKhsFRJ3687YcoqxFMnpnaI8jM2y9gShEIc
 @tokenConsulta = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmViMWQ0Zi1mODI5LTQ2NzUtOWNjNC1jZTZkMTk1NTczZjciLCJlbWFpbCI6ImNvbnN1bHRhQGRvbm1hcmNlbGluby5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVXN1YXJpbyBDb25zdWx0YSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkNvbnN1bHRhIiwiZXhwIjoxNzg4NjcwMDg0LCJpc3MiOiJEb25NYXJjZWxpbm8uQXBpIiwiYXVkIjoiRG9uTWFyY2VsaW5vLkNsaWVudCJ9.IMVRlw4z77EeNJMF3G444m5ROxXYz_9jlIpGvX6mCxU
-
+@tokenOperador = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlNGMxNmFlOS1kNDdiLTRjYTMtOTk0ZC0zMWVhNGI0MGUzMjIiLCJlbWFpbCI6Im9wZXJhZG9yQGRvbm1hcmNlbGluby5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVXN1YXJpbyBPcGVyYWRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6Ik9wZXJhZG9yIiwiZXhwIjoxNzg4NjcxMDEyLCJpc3MiOiJEb25NYXJjZWxpbm8uQXBpIiwiYXVkIjoiRG9uTWFyY2VsaW5vLkNsaWVudCJ9.ErI33LyZX1rGpYzXfbqJseV4kz8DyJtJl-ZhqoRgktM
 ### Crear socio Germán
 POST {{DonMarcelino.Api_HostAddress}}/api/socios
 Content-Type: application/json
@@ -195,3 +195,44 @@ Content-Type: application/json
   "password": "Operador123!",
   "rol": 2
 }
+
+### Login usuario Operador
+POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "operador@donmarcelino.com",
+  "password": "Operador123!"
+}
+
+### Operador puede crear socios
+POST {{DonMarcelino.Api_HostAddress}}/api/socios
+Authorization: Bearer {{tokenOperador}}
+Content-Type: application/json
+
+{
+  "nombre": "Carlos",
+  "apellido": "Operador",
+  "email": "carlos.operador@donmarcelino.com",
+  "documento": "40111222"
+}
+
+### Operador NO puede crear usuarios
+POST {{DonMarcelino.Api_HostAddress}}/api/usuarios
+Authorization: Bearer {{tokenOperador}}
+Content-Type: application/json
+
+{
+  "nombre": "Usuario Prohibido",
+  "email": "prohibido@donmarcelino.com",
+  "password": "Prohibido123!",
+  "rol": 3
+}
+
+### Listar usuarios
+GET {{DonMarcelino.Api_HostAddress}}/api/usuarios
+Authorization: Bearer {{token}}
+
+### Obtener usuario por ID
+GET {{DonMarcelino.Api_HostAddress}}/api/usuarios/3b151245-3d4b-44cc-adca-5b803cd5669a
+Authorization: Bearer {{token}}

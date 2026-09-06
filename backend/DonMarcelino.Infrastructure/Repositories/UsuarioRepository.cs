@@ -22,6 +22,36 @@ public class UsuarioRepository : IUsuarioRepository
             .AnyAsync(x => x.Email == email, cancellationToken);
     }
 
+    public Task<Usuario?> ObtenerPorEmailAsync(
+        string email,
+        CancellationToken cancellationToken = default)
+    {
+        return _context.Usuarios
+            .AsNoTracking()
+            .FirstOrDefaultAsync(
+                x => x.Email == email,
+                cancellationToken);
+    }
+
+    public Task<Usuario?> ObtenerPorIdAsync(
+        Guid id,
+        CancellationToken cancellationToken = default)
+    {
+        return _context.Usuarios
+            .FirstOrDefaultAsync(
+                x => x.Id == id,
+                cancellationToken);
+    }
+
+    public Task<List<Usuario>> ObtenerTodosAsync(
+        CancellationToken cancellationToken = default)
+    {
+        return _context.Usuarios
+            .AsNoTracking()
+            .OrderBy(x => x.Nombre)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task AgregarAsync(
         Usuario usuario,
         CancellationToken cancellationToken = default)
@@ -30,14 +60,9 @@ public class UsuarioRepository : IUsuarioRepository
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public Task<Usuario?> ObtenerPorEmailAsync(
-    string email,
-    CancellationToken cancellationToken = default)
+    public Task GuardarCambiosAsync(
+        CancellationToken cancellationToken = default)
     {
-        return _context.Usuarios
-            .AsNoTracking()
-            .FirstOrDefaultAsync(
-                x => x.Email == email,
-                cancellationToken);
+        return _context.SaveChangesAsync(cancellationToken);
     }
 }
