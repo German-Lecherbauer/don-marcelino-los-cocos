@@ -1,5 +1,6 @@
 ﻿using DonMarcelino.Application.Socios;
 using DonMarcelino.Domain.Entities;
+using DonMarcelino.Domain.Enums;
 
 namespace DonMarcelino.Application.Membresias;
 
@@ -59,7 +60,7 @@ public class CrearMembresiaService
             SocioId = socioId,
             FechaInicio = request.FechaInicio,
             FechaVencimiento = request.FechaVencimiento,
-            Estado = request.Estado
+            Estado = EstadoMembresia.Activa
         };
 
         await _membresiaRepository.AgregarAsync(
@@ -69,3 +70,4 @@ public class CrearMembresiaService
         return membresia;
     }
 }
+

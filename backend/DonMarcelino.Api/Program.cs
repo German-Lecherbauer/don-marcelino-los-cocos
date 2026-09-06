@@ -27,6 +27,12 @@ builder.Services.AddScoped<IMembresiaRepository, MembresiaRepository>();
 builder.Services.AddScoped<CrearMembresiaService>();
 builder.Services.AddScoped<ObtenerMembresiasPorSocioService>();
 
+builder.Services.AddScoped<ObtenerMembresiaPorIdService>();
+
+builder.Services.AddScoped<ActualizarMembresiaService>();
+
+builder.Services.AddScoped<ActualizarEstadoMembresiaService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -203,6 +209,80 @@ app.MapGet("/api/socios/{socioId:guid}/membresias", async (
         cancellationToken);
 
     return Results.Ok(membresias);
+});
+
+app.MapGet("/api/membresias/{id:guid}", async (
+    Guid id,
+    ObtenerMembresiaPorIdService service,
+    CancellationToken cancellationToken) =>
+{
+    var membresia = await service.ObtenerAsync(
+        id,
+        cancellationToken);
+
+    if (membresia is null)
+    {
+        return Results.NotFound(new
+        {
+            error = "Membresía no encontrada."
+        });
+    }
+
+    return Results.Ok(membresia);
+});
+
+app.MapPut("/api/membresias/{id:guid}", async (
+    Guid id,
+    ActualizarMembresiaRequest request,
+    ActualizarMembresiaService service,
+    CancellationToken cancellationToken) =>
+{
+    try
+    {
+        var membresia = await service.ActualizarAsync(
+            id,
+            request,
+            cancellationToken);
+
+        if (membresia is null)
+        {
+            return Results.NotFound(new
+            {
+                error = "Membresía no encontrada."
+            });
+        }
+
+        return Results.Ok(membresia);
+    }
+    catch (InvalidOperationException ex)
+    {
+        return Results.BadRequest(new
+        {
+            error = ex.Message
+        });
+    }
+});
+
+app.MapPatch("/api/membresias/{id:guid}/estado", async (
+    Guid id,
+    ActualizarEstadoMembresiaRequest request,
+    ActualizarEstadoMembresiaService service,
+    CancellationToken cancellationToken) =>
+{
+    var membresia = await service.ActualizarAsync(
+        id,
+        request,
+        cancellationToken);
+
+    if (membresia is null)
+    {
+        return Results.NotFound(new
+        {
+            error = "Membresía no encontrada."
+        });
+    }
+
+    return Results.Ok(membresia);
 });
 
 app.Run();

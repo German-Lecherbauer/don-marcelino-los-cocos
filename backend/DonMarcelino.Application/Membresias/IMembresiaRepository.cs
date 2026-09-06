@@ -15,4 +15,10 @@ public interface IMembresiaRepository
     Task<List<Membresia>> ObtenerPorSocioIdAsync(
     Guid socioId,
     CancellationToken cancellationToken = default);
+    Task<Membresia?> ObtenerPorIdAsync(
+    Guid id,
+    CancellationToken cancellationToken = default);
+    Task ActualizarAsync(
+    Membresia membresia,
+    CancellationToken cancellationToken = default);
 }

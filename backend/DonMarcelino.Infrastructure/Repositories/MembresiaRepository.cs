@@ -44,4 +44,21 @@ public class MembresiaRepository : IMembresiaRepository
             .OrderByDescending(x => x.FechaInicio)
             .ToListAsync(cancellationToken);
     }
+
+    public Task<Membresia?> ObtenerPorIdAsync(
+    Guid id,
+    CancellationToken cancellationToken = default)
+    {
+        return _context.Membresias
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
+
+    public async Task ActualizarAsync(
+    Membresia membresia,
+    CancellationToken cancellationToken = default)
+    {
+        _context.Membresias.Update(membresia);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }
