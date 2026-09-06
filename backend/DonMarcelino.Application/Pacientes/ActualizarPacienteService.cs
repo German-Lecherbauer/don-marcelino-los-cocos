@@ -1,4 +1,5 @@
-﻿using DonMarcelino.Application.Common.Exceptions;
+﻿using System.Net.Mail;
+using DonMarcelino.Application.Common.Exceptions;
 using DonMarcelino.Domain.Entities;
 
 namespace DonMarcelino.Application.Pacientes;
@@ -23,10 +24,44 @@ public class ActualizarPacienteService
             cancellationToken);
 
         if (paciente is null)
+        {
             return null;
+        }
 
+        if (string.IsNullOrWhiteSpace(request.Nombre))
+        {
+            throw new BusinessRuleException(
+                "El nombre es obligatorio.");
+        }
+
+        if (string.IsNullOrWhiteSpace(request.Apellido))
+        {
+            throw new BusinessRuleException(
+                "El apellido es obligatorio.");
+        }
+
+        if (string.IsNullOrWhiteSpace(request.Email))
+        {
+            throw new BusinessRuleException(
+                "El email es obligatorio.");
+        }
+
+        if (string.IsNullOrWhiteSpace(request.Documento))
+        {
+            throw new BusinessRuleException(
+                "El documento es obligatorio.");
+        }
+
+        var nombre = request.Nombre.Trim();
+        var apellido = request.Apellido.Trim();
         var email = request.Email.Trim().ToLowerInvariant();
         var documento = request.Documento.Trim();
+
+        if (!EsEmailValido(email))
+        {
+            throw new BusinessRuleException(
+                "El email no tiene un formato válido.");
+        }
 
         if (email != paciente.Email &&
             await _pacienteRepository.ExistePorEmailAsync(
@@ -46,8 +81,8 @@ public class ActualizarPacienteService
                 "Ya existe un paciente con ese documento.");
         }
 
-        paciente.Nombre = request.Nombre.Trim();
-        paciente.Apellido = request.Apellido.Trim();
+        paciente.Nombre = nombre;
+        paciente.Apellido = apellido;
         paciente.Email = email;
         paciente.Documento = documento;
 
@@ -56,5 +91,18 @@ public class ActualizarPacienteService
             cancellationToken);
 
         return paciente;
+    }
+
+    private static bool EsEmailValido(string email)
+    {
+        try
+        {
+            var address = new MailAddress(email);
+            return address.Address == email;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

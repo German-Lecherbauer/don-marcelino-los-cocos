@@ -322,8 +322,8 @@ app.MapPost("/api/pacientes/{pacienteId:guid}/membresias", async (
         cancellationToken);
 
     return Results.Created(
-        $"/api/pacientes/{pacienteId}/membresias/{membresia.Id}",
-        membresia);
+        $"/api/membresias/{membresia.Id}",
+        MembresiaMapper.ToResponse(membresia));
 })
 .RequireAuthorization("AdminOrOperador");
 
@@ -337,7 +337,11 @@ app.MapGet("/api/pacientes/{pacienteId:guid}/membresias", async (
         pacienteId,
         cancellationToken);
 
-    return Results.Ok(membresias);
+    var response = membresias
+        .Select(MembresiaMapper.ToResponse)
+        .ToList();
+
+    return Results.Ok(response);
 })
 .RequireAuthorization();
 
@@ -359,7 +363,8 @@ app.MapGet("/api/membresias/{id:guid}", async (
         });
     }
 
-    return Results.Ok(membresia);
+    return Results.Ok(
+        MembresiaMapper.ToResponse(membresia));
 })
 .RequireAuthorization();
 
@@ -397,7 +402,8 @@ app.MapPut("/api/membresias/{id:guid}", async (
         "Se actualizaron las fechas de una membresía.",
         cancellationToken);
 
-    return Results.Ok(membresia);
+    return Results.Ok(
+        MembresiaMapper.ToResponse(membresia));
 })
 .RequireAuthorization("AdminOrOperador");
 
@@ -435,7 +441,8 @@ app.MapPatch("/api/membresias/{id:guid}/estado", async (
         $"Se cambió el estado de la membresía a {membresia.Estado}.",
         cancellationToken);
 
-    return Results.Ok(membresia);
+    return Results.Ok(
+        MembresiaMapper.ToResponse(membresia));
 })
 .RequireAuthorization("AdminOrOperador");
 
@@ -465,15 +472,7 @@ app.MapPost("/api/usuarios", async (
 
     return Results.Created(
         $"/api/usuarios/{usuario.Id}",
-        new
-        {
-            usuario.Id,
-            usuario.Nombre,
-            usuario.Email,
-            usuario.Rol,
-            usuario.Activo,
-            usuario.FechaAlta
-        });
+        UsuarioMapper.ToResponse(usuario));
 })
 .RequireAuthorization("AdminOnly");
 
@@ -485,15 +484,9 @@ app.MapGet("/api/usuarios", async (
     var usuarios = await service.ObtenerAsync(
         cancellationToken);
 
-    var response = usuarios.Select(usuario => new
-    {
-        usuario.Id,
-        usuario.Nombre,
-        usuario.Email,
-        usuario.Rol,
-        usuario.Activo,
-        usuario.FechaAlta
-    });
+    var response = usuarios
+        .Select(UsuarioMapper.ToResponse)
+        .ToList();
 
     return Results.Ok(response);
 })
@@ -517,15 +510,8 @@ app.MapGet("/api/usuarios/{id:guid}", async (
         });
     }
 
-    return Results.Ok(new
-    {
-        usuario.Id,
-        usuario.Nombre,
-        usuario.Email,
-        usuario.Rol,
-        usuario.Activo,
-        usuario.FechaAlta
-    });
+    return Results.Ok(
+        UsuarioMapper.ToResponse(usuario));
 })
 .RequireAuthorization("AdminOnly");
 
@@ -563,14 +549,8 @@ app.MapPatch("/api/usuarios/{id:guid}/rol", async (
         $"Se cambió el rol de {usuario.Email} a {usuario.Rol}.",
         cancellationToken);
 
-    return Results.Ok(new
-    {
-        usuario.Id,
-        usuario.Nombre,
-        usuario.Email,
-        usuario.Rol,
-        usuario.Activo
-    });
+    return Results.Ok(
+        UsuarioMapper.ToResponse(usuario));
 })
 .RequireAuthorization("AdminOnly");
 
@@ -610,14 +590,8 @@ app.MapPatch("/api/usuarios/{id:guid}/estado", async (
             : $"Se desactivó el usuario {usuario.Email}.",
         cancellationToken);
 
-    return Results.Ok(new
-    {
-        usuario.Id,
-        usuario.Nombre,
-        usuario.Email,
-        usuario.Rol,
-        usuario.Activo
-    });
+    return Results.Ok(
+        UsuarioMapper.ToResponse(usuario));
 })
 .RequireAuthorization("AdminOnly");
 
@@ -661,13 +635,7 @@ app.MapPost("/api/auth/login", async (
     return Results.Ok(new
     {
         token,
-        usuario = new
-        {
-            usuario.Id,
-            usuario.Nombre,
-            usuario.Email,
-            usuario.Rol
-        }
+        usuario = UsuarioMapper.ToResponse(usuario)
     });
 });
 

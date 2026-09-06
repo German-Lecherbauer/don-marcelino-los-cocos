@@ -1,4 +1,6 @@
-﻿using DonMarcelino.Domain.Entities;
+﻿using DonMarcelino.Application.Common.Exceptions;
+using DonMarcelino.Domain.Entities;
+using DonMarcelino.Domain.Enums;
 
 namespace DonMarcelino.Application.Membresias;
 
@@ -24,6 +26,18 @@ public class ActualizarEstadoMembresiaService
         if (membresia is null)
         {
             return null;
+        }
+
+        if (!Enum.IsDefined(typeof(EstadoMembresia), request.Estado))
+        {
+            throw new BusinessRuleException(
+                "El estado de la membresía no es válido.");
+        }
+
+        if (membresia.Estado == request.Estado)
+        {
+            throw new BusinessRuleException(
+                "La membresía ya se encuentra en ese estado.");
         }
 
         membresia.Estado = request.Estado;

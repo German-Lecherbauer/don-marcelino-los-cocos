@@ -27,6 +27,18 @@ public class ActualizarMembresiaService
             return null;
         }
 
+        if (request.FechaInicio == default)
+        {
+            throw new BusinessRuleException(
+                "La fecha de inicio es obligatoria.");
+        }
+
+        if (request.FechaVencimiento == default)
+        {
+            throw new BusinessRuleException(
+                "La fecha de vencimiento es obligatoria.");
+        }
+
         if (request.FechaVencimiento <= request.FechaInicio)
         {
             throw new BusinessRuleException(

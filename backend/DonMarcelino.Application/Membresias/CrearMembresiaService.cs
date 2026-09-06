@@ -23,6 +23,24 @@ public class CrearMembresiaService
         CrearMembresiaRequest request,
         CancellationToken cancellationToken = default)
     {
+        if (request.FechaInicio == default)
+        {
+            throw new BusinessRuleException(
+                "La fecha de inicio es obligatoria.");
+        }
+
+        if (request.FechaVencimiento == default)
+        {
+            throw new BusinessRuleException(
+                "La fecha de vencimiento es obligatoria.");
+        }
+
+        if (request.FechaVencimiento <= request.FechaInicio)
+        {
+            throw new BusinessRuleException(
+                "La fecha de vencimiento debe ser posterior a la fecha de inicio.");
+        }
+
         var paciente = await _pacienteRepository.ObtenerPorIdAsync(
             pacienteId,
             cancellationToken);
@@ -37,12 +55,6 @@ public class CrearMembresiaService
         {
             throw new BusinessRuleException(
                 "No se puede crear una membresía para un paciente inactivo.");
-        }
-
-        if (request.FechaVencimiento <= request.FechaInicio)
-        {
-            throw new BusinessRuleException(
-                "La fecha de vencimiento debe ser posterior a la fecha de inicio.");
         }
 
         var tieneMembresiaActiva =

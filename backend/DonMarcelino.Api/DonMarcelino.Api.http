@@ -1,135 +1,21 @@
 @DonMarcelino.Api_HostAddress = http://localhost:5106
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzYjE1MTI0NS0zZDRiLTQ0Y2MtYWRjYS01YjgwM2NkNTY2OWEiLCJlbWFpbCI6ImFkbWluQGRvbm1hcmNlbGluby5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiR2VybWFuIEFkbWluIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODg2Njk2NjcsImlzcyI6IkRvbk1hcmNlbGluby5BcGkiLCJhdWQiOiJEb25NYXJjZWxpbm8uQ2xpZW50In0.XP80cRDVCKhsFRJ3687YcoqxFMnpnaI8jM2y9gShEIc
-@tokenConsulta = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmViMWQ0Zi1mODI5LTQ2NzUtOWNjNC1jZTZkMTk1NTczZjciLCJlbWFpbCI6ImNvbnN1bHRhQGRvbm1hcmNlbGluby5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVXN1YXJpbyBDb25zdWx0YSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkNvbnN1bHRhIiwiZXhwIjoxNzg4NjcwMDg0LCJpc3MiOiJEb25NYXJjZWxpbm8uQXBpIiwiYXVkIjoiRG9uTWFyY2VsaW5vLkNsaWVudCJ9.IMVRlw4z77EeNJMF3G444m5ROxXYz_9jlIpGvX6mCxU
-@tokenOperador = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlNGMxNmFlOS1kNDdiLTRjYTMtOTk0ZC0zMWVhNGI0MGUzMjIiLCJlbWFpbCI6Im9wZXJhZG9yQGRvbm1hcmNlbGluby5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVXN1YXJpbyBPcGVyYWRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6Ik9wZXJhZG9yIiwiZXhwIjoxNzg4NjcxMDEyLCJpc3MiOiJEb25NYXJjZWxpbm8uQXBpIiwiYXVkIjoiRG9uTWFyY2VsaW5vLkNsaWVudCJ9.ErI33LyZX1rGpYzXfbqJseV4kz8DyJtJl-ZhqoRgktM
-### Crear socio Germán
-POST {{DonMarcelino.Api_HostAddress}}/api/socios
-Content-Type: application/json
 
-{
-  "nombre": "German",
-  "apellido": "Prueba",
-  "email": "german.prueba@donmarcelino.com",
-  "documento": "12345678"
-}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzYjE1MTI0NS0zZDRiLTQ0Y2MtYWRjYS01YjgwM2NkNTY2OWEiLCJlbWFpbCI6ImFkbWluQGRvbm1hcmNlbGluby5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiR2VybWFuIEFkbWluIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODg2NzYxMjEsImlzcyI6IkRvbk1hcmNlbGluby5BcGkiLCJhdWQiOiJEb25NYXJjZWxpbm8uQ2xpZW50In0.QQCA2JzQPM9Xg1PWldgg_DCo7XSHBUOx7ik6hcr55hY
+@tokenConsulta = PEGA_ACA_TOKEN_CONSULTA
+@tokenOperador = PEGA_ACA_TOKEN_OPERADOR
 
-### Listar socios
-GET {{DonMarcelino.Api_HostAddress}}/api/socios
 
-### Obtener socio Germán por id
-GET {{DonMarcelino.Api_HostAddress}}/api/socios/7734785f-57cf-40a1-a911-f581c0e8e8ac
+###############################################
+# HEALTH
+###############################################
 
-### Actualizar socio Germán
-PUT {{DonMarcelino.Api_HostAddress}}/api/socios/7734785f-57cf-40a1-a911-f581c0e8e8ac
-Content-Type: application/json
+### Health
+GET {{DonMarcelino.Api_HostAddress}}/api/health
 
-{
-  "nombre": "German",
-  "apellido": "Actualizado",
-  "email": "german.prueba@donmarcelino.com",
-  "documento": "12345678"
-}
 
-### Desactivar socio Germán
-DELETE {{DonMarcelino.Api_HostAddress}}/api/socios/7734785f-57cf-40a1-a911-f581c0e8e8ac
-
-### Intentar crear membresía para Germán inactivo
-POST {{DonMarcelino.Api_HostAddress}}/api/socios/7734785f-57cf-40a1-a911-f581c0e8e8ac/membresias
-Content-Type: application/json
-
-{
-  "fechaInicio": "2026-09-05T00:00:00Z",
-  "fechaVencimiento": "2027-09-05T00:00:00Z",
-  "estado": 1
-}
-
-### Crear socio Lucía
-POST {{DonMarcelino.Api_HostAddress}}/api/socios
-Content-Type: application/json
-
-{
-  "nombre": "Lucia",
-  "apellido": "Activa",
-  "email": "lucia.activa@donmarcelino.com",
-  "documento": "87654321"
-}
-
-### Crear membresía activa para Lucía
-POST {{DonMarcelino.Api_HostAddress}}/api/socios/1dd542c5-2981-43cd-b889-49363182eb59/membresias
-Content-Type: application/json
-
-{
-  "fechaInicio": "2026-09-05T00:00:00Z",
-  "fechaVencimiento": "2027-09-05T00:00:00Z",
-  "estado": 1
-}
-
-### Intentar crear segunda membresía activa para Lucía
-POST {{DonMarcelino.Api_HostAddress}}/api/socios/1dd542c5-2981-43cd-b889-49363182eb59/membresias
-Content-Type: application/json
-
-{
-  "fechaInicio": "2026-09-06T00:00:00Z",
-  "fechaVencimiento": "2027-09-06T00:00:00Z",
-  "estado": 1
-}
-
-### Listar membresías de Lucía
-GET {{DonMarcelino.Api_HostAddress}}/api/socios/1dd542c5-2981-43cd-b889-49363182eb59/membresias
-
-### Obtener membresía por id
-GET {{DonMarcelino.Api_HostAddress}}/api/membresias/1c6f9596-8b55-4849-b1ad-e8d4477e6355
-
-### Obtener membresía inexistente
-GET {{DonMarcelino.Api_HostAddress}}/api/membresias/11111111-1111-1111-1111-111111111111
-
-### Actualizar fechas de membresía
-PUT {{DonMarcelino.Api_HostAddress}}/api/membresias/1c6f9596-8b55-4849-b1ad-e8d4477e6355
-Content-Type: application/json
-
-{
-  "fechaInicio": "2026-09-10T00:00:00Z",
-  "fechaVencimiento": "2027-09-10T00:00:00Z"
-}
-
-### Suspender membresía de Lucía
-PATCH {{DonMarcelino.Api_HostAddress}}/api/membresias/1c6f9596-8b55-4849-b1ad-e8d4477e6355/estado
-Content-Type: application/json
-
-{
-  "estado": 3
-}
-
-### Membresía con fechas inválidas
-POST {{DonMarcelino.Api_HostAddress}}/api/socios/1dd542c5-2981-43cd-b889-49363182eb59/membresias
-Content-Type: application/json
-
-{
-  "fechaInicio": "2027-09-10T00:00:00Z",
-  "fechaVencimiento": "2026-09-10T00:00:00Z"
-}
-
-### Crear usuario admin
-POST {{DonMarcelino.Api_HostAddress}}/api/usuarios
-Content-Type: application/json
-
-{
-  "nombre": "German Admin",
-  "email": "admin@donmarcelino.com",
-  "password": "Admin123!",
-  "rol": 1
-}
-
-### Usuario con contraseña corta
-POST {{DonMarcelino.Api_HostAddress}}/api/usuarios
-Content-Type: application/json
-
-{
-  "nombre": "Usuario Prueba",
-  "email": "prueba@donmarcelino.com",
-  "password": "123",
-  "rol": 2
-}
+###############################################
+# AUTH
+###############################################
 
 ### Login admin
 POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
@@ -140,12 +26,258 @@ Content-Type: application/json
   "password": "Admin123!"
 }
 
-### Listar socios sin token
-GET {{DonMarcelino.Api_HostAddress}}/api/socios
 
-### Listar socios con token
-GET {{DonMarcelino.Api_HostAddress}}/api/socios
+### Login contraseña incorrecta
+POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@donmarcelino.com",
+  "password": "Mala123!"
+}
+
+
+### Login usuario Consulta
+POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "consulta@donmarcelino.com",
+  "password": "Consulta123!"
+}
+
+
+### Login usuario Operador
+POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "operador@donmarcelino.com",
+  "password": "Operador123!"
+}
+
+
+###############################################
+# PACIENTES
+###############################################
+
+### Crear paciente Germán
+POST {{DonMarcelino.Api_HostAddress}}/api/pacientes
 Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "German",
+  "apellido": "Prueba",
+  "email": "german.prueba@donmarcelino.com",
+  "documento": "12345678"
+}
+
+
+### Listar pacientes SIN token
+# Debe devolver 401
+GET {{DonMarcelino.Api_HostAddress}}/api/pacientes
+
+
+### Listar pacientes con Admin
+GET {{DonMarcelino.Api_HostAddress}}/api/pacientes
+Authorization: Bearer {{token}}
+
+
+### Obtener paciente Germán por ID
+GET {{DonMarcelino.Api_HostAddress}}/api/pacientes/7734785f-57cf-40a1-a911-f581c0e8e8ac
+Authorization: Bearer {{token}}
+
+
+### Actualizar paciente Germán
+PUT {{DonMarcelino.Api_HostAddress}}/api/pacientes/7734785f-57cf-40a1-a911-f581c0e8e8ac
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "German",
+  "apellido": "Actualizado",
+  "email": "german.prueba@donmarcelino.com",
+  "documento": "12345678"
+}
+
+
+### Desactivar paciente Germán
+DELETE {{DonMarcelino.Api_HostAddress}}/api/pacientes/7734785f-57cf-40a1-a911-f581c0e8e8ac
+Authorization: Bearer {{token}}
+
+
+### Crear paciente Lucía
+POST {{DonMarcelino.Api_HostAddress}}/api/pacientes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Lucia",
+  "apellido": "Activa",
+  "email": "lucia.activa@donmarcelino.com",
+  "documento": "87654321"
+}
+
+
+###############################################
+# PERMISOS DE PACIENTES
+###############################################
+
+### Consulta puede listar pacientes
+# Debe devolver 200
+GET {{DonMarcelino.Api_HostAddress}}/api/pacientes
+Authorization: Bearer {{tokenConsulta}}
+
+
+### Consulta NO puede crear pacientes
+# Debe devolver 403
+POST {{DonMarcelino.Api_HostAddress}}/api/pacientes
+Authorization: Bearer {{tokenConsulta}}
+Content-Type: application/json
+
+{
+  "nombre": "No",
+  "apellido": "Permitido",
+  "email": "no.permitido@donmarcelino.com",
+  "documento": "99999999"
+}
+
+
+### Operador puede crear pacientes
+# Puede devolver 201 o 400 si Carlos ya existe
+POST {{DonMarcelino.Api_HostAddress}}/api/pacientes
+Authorization: Bearer {{tokenOperador}}
+Content-Type: application/json
+
+{
+  "nombre": "Carlos",
+  "apellido": "Operador",
+  "email": "carlos.operador@donmarcelino.com",
+  "documento": "40111222"
+}
+
+
+###############################################
+# MEMBRESÍAS
+###############################################
+
+### Intentar crear membresía para Germán inactivo
+# Debe devolver 400 si Germán está inactivo
+POST {{DonMarcelino.Api_HostAddress}}/api/pacientes/7734785f-57cf-40a1-a911-f581c0e8e8ac/membresias
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fechaInicio": "2026-09-05T00:00:00Z",
+  "fechaVencimiento": "2027-09-05T00:00:00Z"
+}
+
+
+### Crear membresía activa para Lucía
+POST {{DonMarcelino.Api_HostAddress}}/api/pacientes/1dd542c5-2981-43cd-b889-49363182eb59/membresias
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fechaInicio": "2026-09-05T00:00:00Z",
+  "fechaVencimiento": "2027-09-05T00:00:00Z"
+}
+
+
+### Intentar crear segunda membresía activa para Lucía
+# Debe devolver 400
+POST {{DonMarcelino.Api_HostAddress}}/api/pacientes/1dd542c5-2981-43cd-b889-49363182eb59/membresias
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fechaInicio": "2026-09-06T00:00:00Z",
+  "fechaVencimiento": "2027-09-06T00:00:00Z"
+}
+
+
+### Listar membresías de Lucía
+GET {{DonMarcelino.Api_HostAddress}}/api/pacientes/1dd542c5-2981-43cd-b889-49363182eb59/membresias
+Authorization: Bearer {{token}}
+
+
+### Obtener membresía por ID
+GET {{DonMarcelino.Api_HostAddress}}/api/membresias/1c6f9596-8b55-4849-b1ad-e8d4477e6355
+Authorization: Bearer {{token}}
+
+
+### Obtener membresía inexistente
+# Debe devolver 404
+GET {{DonMarcelino.Api_HostAddress}}/api/membresias/11111111-1111-1111-1111-111111111111
+Authorization: Bearer {{token}}
+
+
+### Actualizar fechas de membresía
+PUT {{DonMarcelino.Api_HostAddress}}/api/membresias/1c6f9596-8b55-4849-b1ad-e8d4477e6355
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fechaInicio": "2026-09-10T00:00:00Z",
+  "fechaVencimiento": "2027-09-10T00:00:00Z"
+}
+
+
+### Suspender membresía de Lucía
+PATCH {{DonMarcelino.Api_HostAddress}}/api/membresias/1c6f9596-8b55-4849-b1ad-e8d4477e6355/estado
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "estado": 3
+}
+
+
+### Membresía con fechas inválidas
+# Debe devolver 400
+POST {{DonMarcelino.Api_HostAddress}}/api/pacientes/1dd542c5-2981-43cd-b889-49363182eb59/membresias
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fechaInicio": "2027-09-10T00:00:00Z",
+  "fechaVencimiento": "2026-09-10T00:00:00Z"
+}
+
+
+###############################################
+# USUARIOS
+###############################################
+
+### Crear usuario Admin
+# Este test sirve sobre una DB nueva.
+# Actualmente puede devolver 400 si el email ya existe.
+POST {{DonMarcelino.Api_HostAddress}}/api/usuarios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "German Admin",
+  "email": "admin@donmarcelino.com",
+  "password": "Admin123!",
+  "rol": 1
+}
+
+
+### Crear usuario con contraseña corta
+# Debe devolver 400
+POST {{DonMarcelino.Api_HostAddress}}/api/usuarios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Usuario Prueba",
+  "email": "prueba@donmarcelino.com",
+  "password": "123",
+  "rol": 2
+}
+
 
 ### Crear usuario Consulta
 POST {{DonMarcelino.Api_HostAddress}}/api/usuarios
@@ -159,30 +291,6 @@ Content-Type: application/json
   "rol": 3
 }
 
-### Login usuario Consulta
-POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
-Content-Type: application/json
-
-{
-  "email": "consulta@donmarcelino.com",
-  "password": "Consulta123!"
-}
-
-### Consulta puede listar socios
-GET {{DonMarcelino.Api_HostAddress}}/api/socios
-Authorization: Bearer {{tokenConsulta}}
-
-### Consulta NO puede crear socios
-POST {{DonMarcelino.Api_HostAddress}}/api/socios
-Authorization: Bearer {{tokenConsulta}}
-Content-Type: application/json
-
-{
-  "nombre": "No",
-  "apellido": "Permitido",
-  "email": "no.permitido@donmarcelino.com",
-  "documento": "99999999"
-}
 
 ### Crear usuario Operador
 POST {{DonMarcelino.Api_HostAddress}}/api/usuarios
@@ -196,28 +304,9 @@ Content-Type: application/json
   "rol": 2
 }
 
-### Login usuario Operador
-POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
-Content-Type: application/json
-
-{
-  "email": "operador@donmarcelino.com",
-  "password": "Operador123!"
-}
-
-### Operador puede crear socios
-POST {{DonMarcelino.Api_HostAddress}}/api/socios
-Authorization: Bearer {{tokenOperador}}
-Content-Type: application/json
-
-{
-  "nombre": "Carlos",
-  "apellido": "Operador",
-  "email": "carlos.operador@donmarcelino.com",
-  "documento": "40111222"
-}
 
 ### Operador NO puede crear usuarios
+# Debe devolver 403
 POST {{DonMarcelino.Api_HostAddress}}/api/usuarios
 Authorization: Bearer {{tokenOperador}}
 Content-Type: application/json
@@ -229,28 +318,18 @@ Content-Type: application/json
   "rol": 3
 }
 
+
 ### Listar usuarios
 GET {{DonMarcelino.Api_HostAddress}}/api/usuarios
 Authorization: Bearer {{token}}
 
-### Obtener usuario por ID
+
+### Obtener Admin por ID
 GET {{DonMarcelino.Api_HostAddress}}/api/usuarios/3b151245-3d4b-44cc-adca-5b803cd5669a
 Authorization: Bearer {{token}}
 
-### Obtener usuario por ID
-GET {{DonMarcelino.Api_HostAddress}}/api/usuarios/3b151245-3d4b-44cc-adca-5b803cd5669a
-Authorization: Bearer {{token}}
 
-### Cambiar rol de usuario
-PATCH {{DonMarcelino.Api_HostAddress}}/api/usuarios/ID_DEL_USUARIO_CONSULTA/rol
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "rol": 2
-}
-
-### Cambiar Consulta a Operador
+### Cambiar rol de Consulta a Operador
 PATCH {{DonMarcelino.Api_HostAddress}}/api/usuarios/52eb1d4f-f829-4675-9cc4-ce6d195573f7/rol
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -259,49 +338,25 @@ Content-Type: application/json
   "rol": 2
 }
 
-### Desactivar usuario
+
+### Desactivar Operador
 PATCH {{DonMarcelino.Api_HostAddress}}/api/usuarios/e4c16ae9-d47b-4ca3-994d-31ea4b40e322/estado?activo=false
 Authorization: Bearer {{token}}
 
-### Login usuario desactivado
-POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
-Content-Type: application/json
-
-{
-  "email": "consulta@donmarcelino.com",
-  "password": "Consulta123!"
-}
 
 ### Desactivar Consulta
 PATCH {{DonMarcelino.Api_HostAddress}}/api/usuarios/52eb1d4f-f829-4675-9cc4-ce6d195573f7/estado?activo=false
 Authorization: Bearer {{token}}
 
-### Reactivar usuario Consulta
+
+### Reactivar Consulta
 PATCH {{DonMarcelino.Api_HostAddress}}/api/usuarios/52eb1d4f-f829-4675-9cc4-ce6d195573f7/estado?activo=true
 Authorization: Bearer {{token}}
 
-### Listar auditorías
-GET {{DonMarcelino.Api_HostAddress}}/api/auditorias
-Authorization: Bearer {{token}}
-
-### Dashboard resumen
-GET {{DonMarcelino.Api_HostAddress}}/api/dashboard/resumen
-Authorization: Bearer {{token}}
-
-### Login contraseña incorrecta
-POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
-Content-Type: application/json
-
-{
-  "email": "admin@donmarcelino.com",
-  "password": "Mala123!"
-}
-
-### Desactivar usuario Consulta
-PATCH {{DonMarcelino.Api_HostAddress}}/api/usuarios/52eb1d4f-f829-4675-9cc4-ce6d195573f7/estado?activo=false
-Authorization: Bearer {{token}}
 
 ### Login usuario inactivo
+# Primero desactivar Consulta.
+# Debe devolver 401.
 POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
 Content-Type: application/json
 
@@ -310,11 +365,69 @@ Content-Type: application/json
   "password": "Consulta123!"
 }
 
-### Login admin después de mover JWT key a User Secrets
-POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
+
+###############################################
+# AUDITORÍA
+###############################################
+
+### Listar auditorías
+GET {{DonMarcelino.Api_HostAddress}}/api/auditorias
+Authorization: Bearer {{token}}
+
+
+### Consulta NO puede listar auditorías
+# Debe devolver 403
+GET {{DonMarcelino.Api_HostAddress}}/api/auditorias
+Authorization: Bearer {{tokenConsulta}}
+
+
+###############################################
+# DASHBOARD
+###############################################
+
+### Dashboard con Admin
+GET {{DonMarcelino.Api_HostAddress}}/api/dashboard/resumen
+Authorization: Bearer {{token}}
+
+
+### Dashboard con Operador
+GET {{DonMarcelino.Api_HostAddress}}/api/dashboard/resumen
+Authorization: Bearer {{tokenOperador}}
+
+
+### Dashboard con Consulta
+GET {{DonMarcelino.Api_HostAddress}}/api/dashboard/resumen
+Authorization: Bearer {{tokenConsulta}}
+
+### 
+GET {{DonMarcelino.Api_HostAddress}}/api/membresias/1c6f9596-8b55-4849-b1ad-e8d4477e6355
+Authorization: Bearer {{token}}
+
+###
+
+GET {{DonMarcelino.Api_HostAddress}}/api/usuarios
+Authorization: Bearer {{token}}
+
+### Prueba Nombre
+POST {{DonMarcelino.Api_HostAddress}}/api/pacientes
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "email": "admin@donmarcelino.com",
-  "password": "Admin123!"
+  "nombre": "German",
+  "apellido": "asasasas",
+  "email": "asasasas",
+  "documento": ""
 }
+
+###
+
+PATCH {{DonMarcelino.Api_HostAddress}}/api/membresias/1c6f9596-8b55-4849-b1ad-e8d4477e6355/estado
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "estado": 3
+}
+
+
