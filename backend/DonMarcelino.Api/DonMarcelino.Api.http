@@ -97,3 +97,12 @@ Content-Type: application/json
 {
   "estado": 3
 }
+
+### Membresía con fechas inválidas
+POST {{DonMarcelino.Api_HostAddress}}/api/socios/1dd542c5-2981-43cd-b889-49363182eb59/membresias
+Content-Type: application/json
+
+{
+  "fechaInicio": "2027-09-10T00:00:00Z",
+  "fechaVencimiento": "2026-09-10T00:00:00Z"
+}

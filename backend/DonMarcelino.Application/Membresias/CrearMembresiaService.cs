@@ -1,4 +1,5 @@
-﻿using DonMarcelino.Application.Socios;
+﻿using DonMarcelino.Application.Common.Exceptions;
+using DonMarcelino.Application.Socios;
 using DonMarcelino.Domain.Entities;
 using DonMarcelino.Domain.Enums;
 
@@ -28,18 +29,19 @@ public class CrearMembresiaService
 
         if (socio is null)
         {
-            throw new KeyNotFoundException("Socio no encontrado.");
+            throw new KeyNotFoundException(
+                "Socio no encontrado.");
         }
 
         if (!socio.Activo)
         {
-            throw new InvalidOperationException(
+            throw new BusinessRuleException(
                 "No se puede crear una membresía para un socio inactivo.");
         }
 
         if (request.FechaVencimiento <= request.FechaInicio)
         {
-            throw new InvalidOperationException(
+            throw new BusinessRuleException(
                 "La fecha de vencimiento debe ser posterior a la fecha de inicio.");
         }
 
@@ -50,7 +52,7 @@ public class CrearMembresiaService
 
         if (tieneMembresiaActiva)
         {
-            throw new InvalidOperationException(
+            throw new BusinessRuleException(
                 "El socio ya posee una membresía activa.");
         }
 
@@ -70,4 +72,3 @@ public class CrearMembresiaService
         return membresia;
     }
 }
-

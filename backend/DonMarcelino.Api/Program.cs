@@ -1,3 +1,4 @@
+using DonMarcelino.Api.Middleware;
 using DonMarcelino.Application.Membresias;
 using DonMarcelino.Application.Socios;
 using DonMarcelino.Infrastructure.Persistence;
@@ -26,14 +27,13 @@ builder.Services.AddScoped<DesactivarSocioService>();
 builder.Services.AddScoped<IMembresiaRepository, MembresiaRepository>();
 builder.Services.AddScoped<CrearMembresiaService>();
 builder.Services.AddScoped<ObtenerMembresiasPorSocioService>();
-
 builder.Services.AddScoped<ObtenerMembresiaPorIdService>();
-
 builder.Services.AddScoped<ActualizarMembresiaService>();
-
 builder.Services.AddScoped<ActualizarEstadoMembresiaService>();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -59,23 +59,13 @@ app.MapPost("/api/socios", async (
     CrearSocioService service,
     CancellationToken cancellationToken) =>
 {
-    try
-    {
-        var socio = await service.CrearAsync(
-            request,
-            cancellationToken);
+    var socio = await service.CrearAsync(
+        request,
+        cancellationToken);
 
-        return Results.Created(
-            $"/api/socios/{socio.Id}",
-            socio);
-    }
-    catch (InvalidOperationException ex)
-    {
-        return Results.BadRequest(new
-        {
-            error = ex.Message
-        });
-    }
+    return Results.Created(
+        $"/api/socios/{socio.Id}",
+        socio);
 });
 
 // Listar socios
@@ -117,30 +107,20 @@ app.MapPut("/api/socios/{id:guid}", async (
     ActualizarSocioService service,
     CancellationToken cancellationToken) =>
 {
-    try
-    {
-        var socio = await service.ActualizarAsync(
-            id,
-            request,
-            cancellationToken);
+    var socio = await service.ActualizarAsync(
+        id,
+        request,
+        cancellationToken);
 
-        if (socio is null)
-        {
-            return Results.NotFound(new
-            {
-                error = "Socio no encontrado."
-            });
-        }
-
-        return Results.Ok(socio);
-    }
-    catch (InvalidOperationException ex)
+    if (socio is null)
     {
-        return Results.BadRequest(new
+        return Results.NotFound(new
         {
-            error = ex.Message
+            error = "Socio no encontrado."
         });
     }
+
+    return Results.Ok(socio);
 });
 
 // Baja lógica de socio
@@ -171,31 +151,14 @@ app.MapPost("/api/socios/{socioId:guid}/membresias", async (
     CrearMembresiaService service,
     CancellationToken cancellationToken) =>
 {
-    try
-    {
-        var membresia = await service.CrearAsync(
-            socioId,
-            request,
-            cancellationToken);
+    var membresia = await service.CrearAsync(
+        socioId,
+        request,
+        cancellationToken);
 
-        return Results.Created(
-            $"/api/socios/{socioId}/membresias/{membresia.Id}",
-            membresia);
-    }
-    catch (KeyNotFoundException ex)
-    {
-        return Results.NotFound(new
-        {
-            error = ex.Message
-        });
-    }
-    catch (InvalidOperationException ex)
-    {
-        return Results.BadRequest(new
-        {
-            error = ex.Message
-        });
-    }
+    return Results.Created(
+        $"/api/socios/{socioId}/membresias/{membresia.Id}",
+        membresia);
 });
 
 // Listar membresías de un socio
@@ -211,6 +174,7 @@ app.MapGet("/api/socios/{socioId:guid}/membresias", async (
     return Results.Ok(membresias);
 });
 
+// Obtener membresía por ID
 app.MapGet("/api/membresias/{id:guid}", async (
     Guid id,
     ObtenerMembresiaPorIdService service,
@@ -231,38 +195,30 @@ app.MapGet("/api/membresias/{id:guid}", async (
     return Results.Ok(membresia);
 });
 
+// Actualizar fechas de membresía
 app.MapPut("/api/membresias/{id:guid}", async (
     Guid id,
     ActualizarMembresiaRequest request,
     ActualizarMembresiaService service,
     CancellationToken cancellationToken) =>
 {
-    try
-    {
-        var membresia = await service.ActualizarAsync(
-            id,
-            request,
-            cancellationToken);
+    var membresia = await service.ActualizarAsync(
+        id,
+        request,
+        cancellationToken);
 
-        if (membresia is null)
-        {
-            return Results.NotFound(new
-            {
-                error = "Membresía no encontrada."
-            });
-        }
-
-        return Results.Ok(membresia);
-    }
-    catch (InvalidOperationException ex)
+    if (membresia is null)
     {
-        return Results.BadRequest(new
+        return Results.NotFound(new
         {
-            error = ex.Message
+            error = "Membresía no encontrada."
         });
     }
+
+    return Results.Ok(membresia);
 });
 
+// Actualizar estado de membresía
 app.MapPatch("/api/membresias/{id:guid}/estado", async (
     Guid id,
     ActualizarEstadoMembresiaRequest request,

@@ -1,4 +1,5 @@
-﻿using DonMarcelino.Domain.Entities;
+﻿using DonMarcelino.Application.Common.Exceptions;
+using DonMarcelino.Domain.Entities;
 
 namespace DonMarcelino.Application.Socios;
 
@@ -20,13 +21,13 @@ public class CrearSocioService
 
         if (await _socioRepository.ExistePorEmailAsync(email, cancellationToken))
         {
-            throw new InvalidOperationException(
+            throw new BusinessRuleException(
                 "Ya existe un socio con ese email.");
         }
 
         if (await _socioRepository.ExistePorDocumentoAsync(documento, cancellationToken))
         {
-            throw new InvalidOperationException(
+            throw new BusinessRuleException(
                 "Ya existe un socio con ese documento.");
         }
 
@@ -41,7 +42,9 @@ public class CrearSocioService
             Activo = true
         };
 
-        await _socioRepository.AgregarAsync(socio, cancellationToken);
+        await _socioRepository.AgregarAsync(
+            socio,
+            cancellationToken);
 
         return socio;
     }

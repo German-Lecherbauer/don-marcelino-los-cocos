@@ -1,4 +1,5 @@
-﻿using DonMarcelino.Domain.Entities;
+﻿using DonMarcelino.Application.Common.Exceptions;
+using DonMarcelino.Domain.Entities;
 
 namespace DonMarcelino.Application.Membresias;
 
@@ -28,7 +29,7 @@ public class ActualizarMembresiaService
 
         if (request.FechaVencimiento <= request.FechaInicio)
         {
-            throw new InvalidOperationException(
+            throw new BusinessRuleException(
                 "La fecha de vencimiento debe ser posterior a la fecha de inicio.");
         }
 

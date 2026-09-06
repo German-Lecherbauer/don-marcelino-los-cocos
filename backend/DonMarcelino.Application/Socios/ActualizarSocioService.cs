@@ -1,4 +1,5 @@
-﻿using DonMarcelino.Domain.Entities;
+﻿using DonMarcelino.Application.Common.Exceptions;
+using DonMarcelino.Domain.Entities;
 
 namespace DonMarcelino.Application.Socios;
 
@@ -16,7 +17,9 @@ public class ActualizarSocioService
         ActualizarSocioRequest request,
         CancellationToken cancellationToken = default)
     {
-        var socio = await _socioRepository.ObtenerPorIdAsync(id, cancellationToken);
+        var socio = await _socioRepository.ObtenerPorIdAsync(
+            id,
+            cancellationToken);
 
         if (socio is null)
             return null;
@@ -25,15 +28,21 @@ public class ActualizarSocioService
         var documento = request.Documento.Trim();
 
         if (email != socio.Email &&
-            await _socioRepository.ExistePorEmailAsync(email, cancellationToken))
+            await _socioRepository.ExistePorEmailAsync(
+                email,
+                cancellationToken))
         {
-            throw new InvalidOperationException("Ya existe un socio con ese email.");
+            throw new BusinessRuleException(
+                "Ya existe un socio con ese email.");
         }
 
         if (documento != socio.Documento &&
-            await _socioRepository.ExistePorDocumentoAsync(documento, cancellationToken))
+            await _socioRepository.ExistePorDocumentoAsync(
+                documento,
+                cancellationToken))
         {
-            throw new InvalidOperationException("Ya existe un socio con ese documento.");
+            throw new BusinessRuleException(
+                "Ya existe un socio con ese documento.");
         }
 
         socio.Nombre = request.Nombre.Trim();
@@ -41,7 +50,9 @@ public class ActualizarSocioService
         socio.Email = email;
         socio.Documento = documento;
 
-        await _socioRepository.ActualizarAsync(socio, cancellationToken);
+        await _socioRepository.ActualizarAsync(
+            socio,
+            cancellationToken);
 
         return socio;
     }
