@@ -1,5 +1,6 @@
 @DonMarcelino.Api_HostAddress = http://localhost:5106
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzYjE1MTI0NS0zZDRiLTQ0Y2MtYWRjYS01YjgwM2NkNTY2OWEiLCJlbWFpbCI6ImFkbWluQGRvbm1hcmNlbGluby5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiR2VybWFuIEFkbWluIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODg2Njk2NjcsImlzcyI6IkRvbk1hcmNlbGluby5BcGkiLCJhdWQiOiJEb25NYXJjZWxpbm8uQ2xpZW50In0.XP80cRDVCKhsFRJ3687YcoqxFMnpnaI8jM2y9gShEIc
+@tokenConsulta = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmViMWQ0Zi1mODI5LTQ2NzUtOWNjNC1jZTZkMTk1NTczZjciLCJlbWFpbCI6ImNvbnN1bHRhQGRvbm1hcmNlbGluby5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVXN1YXJpbyBDb25zdWx0YSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkNvbnN1bHRhIiwiZXhwIjoxNzg4NjcwMDg0LCJpc3MiOiJEb25NYXJjZWxpbm8uQXBpIiwiYXVkIjoiRG9uTWFyY2VsaW5vLkNsaWVudCJ9.IMVRlw4z77EeNJMF3G444m5ROxXYz_9jlIpGvX6mCxU
 
 ### Crear socio Germán
 POST {{DonMarcelino.Api_HostAddress}}/api/socios
@@ -156,4 +157,41 @@ Content-Type: application/json
   "email": "consulta@donmarcelino.com",
   "password": "Consulta123!",
   "rol": 3
+}
+
+### Login usuario Consulta
+POST {{DonMarcelino.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "consulta@donmarcelino.com",
+  "password": "Consulta123!"
+}
+
+### Consulta puede listar socios
+GET {{DonMarcelino.Api_HostAddress}}/api/socios
+Authorization: Bearer {{tokenConsulta}}
+
+### Consulta NO puede crear socios
+POST {{DonMarcelino.Api_HostAddress}}/api/socios
+Authorization: Bearer {{tokenConsulta}}
+Content-Type: application/json
+
+{
+  "nombre": "No",
+  "apellido": "Permitido",
+  "email": "no.permitido@donmarcelino.com",
+  "documento": "99999999"
+}
+
+### Crear usuario Operador
+POST {{DonMarcelino.Api_HostAddress}}/api/usuarios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Usuario Operador",
+  "email": "operador@donmarcelino.com",
+  "password": "Operador123!",
+  "rol": 2
 }
