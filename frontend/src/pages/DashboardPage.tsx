@@ -5,7 +5,7 @@ import type { DashboardResumen } from "../types/dashboard";
 import "./DashboardPage.css";
 
 export default function DashboardPage() {
-    const { usuario, logout } = useAuth();
+    const { usuario } = useAuth();
 
     const [dashboard, setDashboard] =
         useState<DashboardResumen | null>(null);
@@ -33,6 +33,39 @@ export default function DashboardPage() {
 
         cargarDashboard();
     }, []);
+
+    const obtenerRol = (rol?: number) => {
+        switch (rol) {
+            case 1:
+                return "Admin";
+
+            case 2:
+                return "Operador";
+
+            case 3:
+                return "Consulta";
+
+            default:
+                return "Usuario";
+        }
+    };
+
+    const formatearFechaHora = (
+        fecha: string
+    ) => {
+        return new Intl.DateTimeFormat(
+            "es-AR",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+            }
+        ).format(
+            new Date(fecha)
+        );
+    };
 
     if (cargando) {
         return (
@@ -62,7 +95,9 @@ export default function DashboardPage() {
                         Don Marcelino
                     </p>
 
-                    <h1>Dashboard</h1>
+                    <h1>
+                        Dashboard
+                    </h1>
 
                     <p className="dashboard-subtitle">
                         Resumen general del sistema
@@ -78,21 +113,22 @@ export default function DashboardPage() {
                         <strong>
                             {usuario?.nombre}
                         </strong>
-                    </div>
 
-                    <button
-                        className="logout-button"
-                        onClick={logout}
-                    >
-                        Cerrar sesión
-                    </button>
+                        <span className="dashboard-user-role">
+                            {obtenerRol(
+                                usuario?.rol
+                            )}
+                        </span>
+                    </div>
                 </div>
             </header>
 
             <main className="dashboard-content">
                 <section className="metrics-grid">
                     <article className="metric-card">
-                        <span>Total pacientes</span>
+                        <span>
+                            Total pacientes
+                        </span>
 
                         <strong>
                             {dashboard.totalPacientes}
@@ -100,7 +136,9 @@ export default function DashboardPage() {
                     </article>
 
                     <article className="metric-card">
-                        <span>Pacientes activos</span>
+                        <span>
+                            Pacientes activos
+                        </span>
 
                         <strong>
                             {dashboard.pacientesActivos}
@@ -108,7 +146,9 @@ export default function DashboardPage() {
                     </article>
 
                     <article className="metric-card">
-                        <span>Membresías activas</span>
+                        <span>
+                            Membresías activas
+                        </span>
 
                         <strong>
                             {dashboard.membresiasActivas}
@@ -116,7 +156,9 @@ export default function DashboardPage() {
                     </article>
 
                     <article className="metric-card">
-                        <span>Membresías vencidas</span>
+                        <span>
+                            Membresías vencidas
+                        </span>
 
                         <strong>
                             {dashboard.membresiasVencidas}
@@ -124,7 +166,9 @@ export default function DashboardPage() {
                     </article>
 
                     <article className="metric-card">
-                        <span>Usuarios activos</span>
+                        <span>
+                            Usuarios activos
+                        </span>
 
                         <strong>
                             {dashboard.usuariosActivos}
@@ -135,7 +179,9 @@ export default function DashboardPage() {
                 <section className="activity-section">
                     <div className="section-heading">
                         <div>
-                            <h2>Últimas acciones</h2>
+                            <h2>
+                                Últimas acciones
+                            </h2>
 
                             <p>
                                 Actividad reciente registrada por el sistema
@@ -150,7 +196,10 @@ export default function DashboardPage() {
                     ) : (
                         <div className="activity-list">
                             {dashboard.ultimasAcciones.map(
-                                (accion, index) => (
+                                (
+                                    accion,
+                                    index
+                                ) => (
                                     <article
                                         className="activity-card"
                                         key={`${accion.fecha}-${index}`}
@@ -158,23 +207,33 @@ export default function DashboardPage() {
                                         <div className="activity-top">
                                             <div>
                                                 <strong>
-                                                    {accion.usuarioNombre}
+                                                    {
+                                                        accion.usuarioNombre
+                                                    }
                                                 </strong>
 
                                                 <span className="activity-meta">
-                                                    {accion.accion} · {accion.entidad}
+                                                    {
+                                                        accion.accion
+                                                    }
+                                                    {" · "}
+                                                    {
+                                                        accion.entidad
+                                                    }
                                                 </span>
                                             </div>
 
                                             <time>
-                                                {new Date(
+                                                {formatearFechaHora(
                                                     accion.fecha
-                                                ).toLocaleString()}
+                                                )}
                                             </time>
                                         </div>
 
                                         <p>
-                                            {accion.detalle}
+                                            {
+                                                accion.detalle
+                                            }
                                         </p>
                                     </article>
                                 )

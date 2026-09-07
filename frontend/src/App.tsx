@@ -3,6 +3,7 @@ import {
     Route,
     Routes,
 } from "react-router-dom";
+import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import PacientesPage from "./pages/PacientesPage";
@@ -18,6 +19,11 @@ import MainLayout from "./layouts/MainLayout";
 export default function App() {
     return (
         <Routes>
+            <Route
+                path="/"
+                element={<HomePage />}
+            />
+
             <Route
                 path="/login"
                 element={<LoginPage />}
@@ -75,20 +81,10 @@ export default function App() {
             </Route>
 
             <Route
-                path="/"
-                element={
-                    <Navigate
-                        to="/dashboard"
-                        replace
-                    />
-                }
-            />
-
-            <Route
                 path="*"
                 element={
                     <Navigate
-                        to="/dashboard"
+                        to="/"
                         replace
                     />
                 }

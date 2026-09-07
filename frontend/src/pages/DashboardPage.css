@@ -42,6 +42,7 @@
     .dashboard-user > div {
         display: flex;
         flex-direction: column;
+        align-items: flex-end;
         text-align: right;
     }
 
@@ -51,18 +52,25 @@
     color: #8b93a1;
 }
 
-.logout-button {
-    border: 1px solid #343943;
-    border-radius: 10px;
-    padding: 10px 16px;
-    background: #20242b;
-    color: #f5f7fa;
-    cursor: pointer;
+.dashboard-user strong {
+    font-size: 16px;
 }
 
-    .logout-button:hover {
-        background: #2a2f38;
-    }
+.dashboard-user-role {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 7px;
+    padding: 4px 9px;
+    border: 1px solid #343943;
+    border-radius: 999px;
+    background: #20242b;
+    color: #b8c0cc;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
 
 .dashboard-content {
     width: min(1200px, calc(100% - 48px));
@@ -86,7 +94,13 @@
     border-radius: 16px;
     background: #171a20;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+    transition: transform 0.18s ease, border-color 0.18s ease;
 }
+
+    .metric-card:hover {
+        transform: translateY(-2px);
+        border-color: #39404b;
+    }
 
     .metric-card span {
         font-size: 14px;
@@ -127,7 +141,13 @@
     border: 1px solid #2a2f38;
     border-radius: 14px;
     background: #1a1e25;
+    transition: background 0.18s ease, border-color 0.18s ease;
 }
+
+    .activity-card:hover {
+        border-color: #353c47;
+        background: #1d222a;
+    }
 
 .activity-top {
     display: flex;
@@ -149,6 +169,7 @@
 .activity-card p {
     margin: 14px 0 0;
     color: #c8ced7;
+    line-height: 1.5;
 }
 
 .activity-card time {
@@ -177,18 +198,23 @@
 
     .dashboard-user {
         width: 100%;
-        justify-content: space-between;
     }
 
         .dashboard-user > div {
+            align-items: flex-start;
             text-align: left;
         }
 
     .dashboard-content {
         width: min(100% - 32px, 1200px);
+        padding-top: 28px;
     }
 
     .activity-top {
         flex-direction: column;
+    }
+
+    .activity-card time {
+        white-space: normal;
     }
 }
