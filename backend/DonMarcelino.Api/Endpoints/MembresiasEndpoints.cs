@@ -40,6 +40,32 @@ public static class MembresiasEndpoints
         })
         .RequireAuthorization("AdminOrOperador");
 
+        // Listar todas las membresías
+        app.MapGet("/api/membresias", async (
+            ObtenerMembresiasService service,
+            CancellationToken cancellationToken) =>
+        {
+            var membresias = await service.ObtenerAsync(
+                cancellationToken);
+
+            var response = membresias
+                .Select(membresia => new
+                {
+                    id = membresia.Id,
+                    pacienteId = membresia.PacienteId,
+                    pacienteNombre = membresia.Paciente is null
+                        ? ""
+                        : $"{membresia.Paciente.Nombre} {membresia.Paciente.Apellido}",
+                    fechaInicio = membresia.FechaInicio,
+                    fechaVencimiento = membresia.FechaVencimiento,
+                    estado = (int)membresia.Estado
+                })
+                .ToList();
+
+            return Results.Ok(response);
+        })
+        .RequireAuthorization();
+
         // Listar membresías de un paciente
         app.MapGet("/api/pacientes/{pacienteId:guid}/membresias", async (
             Guid pacienteId,

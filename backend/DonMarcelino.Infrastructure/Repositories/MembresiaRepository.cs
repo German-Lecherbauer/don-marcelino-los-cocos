@@ -35,6 +35,16 @@ public class MembresiaRepository : IMembresiaRepository
         await _context.SaveChangesAsync(cancellationToken);
     }
 
+    public Task<List<Membresia>> ObtenerTodasAsync(
+        CancellationToken cancellationToken = default)
+    {
+        return _context.Membresias
+            .AsNoTracking()
+            .Include(x => x.Paciente)
+            .OrderByDescending(x => x.FechaInicio)
+            .ToListAsync(cancellationToken);
+    }
+
     public Task<List<Membresia>> ObtenerPorPacienteIdAsync(
         Guid pacienteId,
         CancellationToken cancellationToken = default)

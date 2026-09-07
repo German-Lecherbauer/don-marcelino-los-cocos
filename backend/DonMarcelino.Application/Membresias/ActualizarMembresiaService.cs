@@ -45,8 +45,16 @@ public class ActualizarMembresiaService
                 "La fecha de vencimiento debe ser posterior a la fecha de inicio.");
         }
 
-        membresia.FechaInicio = request.FechaInicio;
-        membresia.FechaVencimiento = request.FechaVencimiento;
+        var fechaInicioUtc = DateTime.SpecifyKind(
+            request.FechaInicio,
+            DateTimeKind.Utc);
+
+        var fechaVencimientoUtc = DateTime.SpecifyKind(
+            request.FechaVencimiento,
+            DateTimeKind.Utc);
+
+        membresia.FechaInicio = fechaInicioUtc;
+        membresia.FechaVencimiento = fechaVencimientoUtc;
 
         await _membresiaRepository.ActualizarAsync(
             membresia,

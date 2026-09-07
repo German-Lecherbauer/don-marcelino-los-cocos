@@ -1,0 +1,85 @@
+.estado-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+}
+
+.estado-modal-card {
+    width: min(480px, 100%);
+    padding: 26px;
+    border: 1px solid #303641;
+    border-radius: 18px;
+    background: #171a20;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+.estado-modal-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+    .estado-modal-header h2 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .estado-modal-header p {
+        margin: 6px 0 0;
+        color: #929ba8;
+    }
+
+.estado-modal-close {
+    width: 38px;
+    height: 38px;
+    border: 1px solid #343943;
+    border-radius: 10px;
+    background: #20242b;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.estado-modal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+    .estado-modal-field label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #aab1bd;
+    }
+
+    .estado-modal-field select {
+        width: 100%;
+        padding: 11px 12px;
+        border: 1px solid #343943;
+        border-radius: 10px;
+        outline: none;
+        background: #111419;
+        color: #fff;
+    }
+
+.estado-modal-error {
+    margin-top: 18px;
+    padding: 12px 14px;
+    border: 1px solid #6a3030;
+    border-radius: 10px;
+    background: #2a1717;
+    color: #ff9d9d;
+}
+
+.estado-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 26px;
+}

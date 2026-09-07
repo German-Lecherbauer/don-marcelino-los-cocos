@@ -68,12 +68,20 @@ public class CrearMembresiaService
                 "El paciente ya posee una membresía activa.");
         }
 
+        var fechaInicioUtc = DateTime.SpecifyKind(
+            request.FechaInicio,
+            DateTimeKind.Utc);
+
+        var fechaVencimientoUtc = DateTime.SpecifyKind(
+            request.FechaVencimiento,
+            DateTimeKind.Utc);
+
         var membresia = new Membresia
         {
             Id = Guid.NewGuid(),
             PacienteId = pacienteId,
-            FechaInicio = request.FechaInicio,
-            FechaVencimiento = request.FechaVencimiento,
+            FechaInicio = fechaInicioUtc,
+            FechaVencimiento = fechaVencimientoUtc,
             Estado = EstadoMembresia.Activa
         };
 

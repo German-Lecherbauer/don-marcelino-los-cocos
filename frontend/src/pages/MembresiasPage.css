@@ -1,0 +1,143 @@
+.membresias-page {
+    min-height: 100%;
+    background: #0f1217;
+    color: #ffffff;
+}
+
+.membresias-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 36px 40px 28px;
+    border-bottom: 1px solid #272d36;
+}
+
+    .membresias-header h1 {
+        margin: 4px 0 8px;
+        font-size: 34px;
+    }
+
+    .membresias-header p {
+        margin: 0;
+        color: #98a1ae;
+    }
+
+.membresias-content {
+    padding: 36px 40px;
+}
+
+.membresias-card {
+    overflow: hidden;
+    border: 1px solid #2b313b;
+    border-radius: 18px;
+    background: #171a20;
+}
+
+.membresias-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 26px;
+    border-bottom: 1px solid #2b313b;
+}
+
+    .membresias-card-header h2 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .membresias-card-header p {
+        margin: 6px 0 0;
+        color: #929ba8;
+    }
+
+.membresias-table-wrapper {
+    overflow-x: auto;
+}
+
+.membresias-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .membresias-table th {
+        padding: 16px 18px;
+        text-align: left;
+        border-bottom: 1px solid #2b313b;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #8fa0b8;
+    }
+
+    .membresias-table td {
+        padding: 16px 18px;
+        border-bottom: 1px solid #252b34;
+    }
+
+    .membresias-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .membresias-table tbody tr:hover {
+        background: #1c2027;
+    }
+
+.membresia-paciente-link {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .membresia-paciente-link:hover {
+        text-decoration: underline;
+    }
+
+.membresias-estado {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+    .membresias-estado.activa {
+        background: #16331f;
+        color: #63d882;
+    }
+
+    .membresias-estado.vencida {
+        background: #292d35;
+        color: #c7ced9;
+    }
+
+    .membresias-estado.suspendida {
+        background: #342c12;
+        color: #f0c94b;
+    }
+
+    .membresias-estado.cancelada {
+        background: #351a1a;
+        color: #ff7676;
+    }
+
+.membresias-empty,
+.membresias-state {
+    padding: 32px;
+    color: #98a1ae;
+}
+
+@media (max-width: 800px) {
+    .membresias-header,
+    .membresias-content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

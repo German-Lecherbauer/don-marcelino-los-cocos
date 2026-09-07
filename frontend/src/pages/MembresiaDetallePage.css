@@ -1,0 +1,143 @@
+.membresia-detalle-page {
+    min-height: 100vh;
+    background: #0f1115;
+    color: #f5f7fa;
+}
+
+.membresia-detalle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 32px 44px;
+    border-bottom: 1px solid #272b33;
+    background: #15181e;
+}
+
+    .membresia-detalle-header h1 {
+        margin: 0;
+        font-size: 34px;
+    }
+
+    .membresia-detalle-header p {
+        margin: 8px 0 0;
+        color: #949daa;
+    }
+
+.membresia-detalle-content {
+    width: min( 1000px, calc(100% - 48px) );
+    margin: 0 auto;
+    padding: 38px 0 64px;
+}
+
+.membresia-detalle-card {
+    overflow: hidden;
+    border: 1px solid #282d36;
+    border-radius: 18px;
+    background: #15181e;
+}
+
+.membresia-detalle-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 26px;
+    border-bottom: 1px solid #282d36;
+}
+
+    .membresia-detalle-card-header h2 {
+        margin: 0;
+        font-size: 22px;
+    }
+
+    .membresia-detalle-card-header p {
+        margin: 6px 0 0;
+        color: #8f98a6;
+    }
+
+.membresia-detalle-grid {
+    display: grid;
+    grid-template-columns: repeat( 3, minmax(0, 1fr) );
+    gap: 24px;
+    padding: 28px 26px;
+}
+
+.membresia-detalle-item {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+    .membresia-detalle-item span {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #858e9c;
+    }
+
+    .membresia-detalle-item strong {
+        font-size: 16px;
+        color: #f0f2f5;
+    }
+
+.membresia-estado {
+    display: inline-flex;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+    .membresia-estado.activa {
+        background: rgba( 76, 175, 80, 0.12 );
+        color: #7ed887;
+    }
+
+    .membresia-estado.vencida {
+        background: rgba( 244, 67, 54, 0.12 );
+        color: #ff8d83;
+    }
+
+    .membresia-estado.suspendida {
+        background: rgba( 255, 193, 7, 0.12 );
+        color: #f5cd69;
+    }
+
+    .membresia-estado.cancelada {
+        background: #252a31;
+        color: #9ca4b1;
+    }
+
+.membresia-detalle-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 0 26px 26px;
+}
+
+.membresia-detalle-state {
+    padding: 50px;
+    text-align: center;
+    color: #a0a8b4;
+}
+
+@media (max-width: 700px) {
+    .membresia-detalle-header {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 24px;
+    }
+
+    .membresia-detalle-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .membresia-detalle-actions {
+        flex-direction: column;
+    }
+
+        .membresia-detalle-actions button {
+            width: 100%;
+        }
+}

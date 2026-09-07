@@ -12,6 +12,9 @@ public interface IMembresiaRepository
         Membresia membresia,
         CancellationToken cancellationToken = default);
 
+    Task<List<Membresia>> ObtenerTodasAsync(
+        CancellationToken cancellationToken = default);
+
     Task<List<Membresia>> ObtenerPorPacienteIdAsync(
         Guid pacienteId,
         CancellationToken cancellationToken = default);

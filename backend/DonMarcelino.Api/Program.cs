@@ -26,6 +26,18 @@ builder.Services.AddDbContext<DonMarcelinoDbContext>(options =>
     )
 );
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 // Pacientes
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<CrearPacienteService>();
@@ -41,6 +53,7 @@ builder.Services.AddScoped<ObtenerMembresiasPorPacienteService>();
 builder.Services.AddScoped<ObtenerMembresiaPorIdService>();
 builder.Services.AddScoped<ActualizarMembresiaService>();
 builder.Services.AddScoped<ActualizarEstadoMembresiaService>();
+builder.Services.AddScoped<ObtenerMembresiasService>();
 
 // Usuarios
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
@@ -116,6 +129,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("Frontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
