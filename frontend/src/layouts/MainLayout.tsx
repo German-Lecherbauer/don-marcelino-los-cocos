@@ -5,6 +5,8 @@ import "./MainLayout.css";
 export default function MainLayout() {
     const { usuario, logout } = useAuth();
 
+    const esAdmin = usuario?.rol === 1;
+
     return (
         <div className="app-shell">
             <aside className="sidebar">
@@ -12,14 +14,19 @@ export default function MainLayout() {
                     <span className="sidebar-brand-small">
                         Don
                     </span>
-                    <strong>Marcelino</strong>
+
+                    <strong>
+                        Marcelino
+                    </strong>
                 </div>
 
                 <nav className="sidebar-nav">
                     <NavLink
                         to="/dashboard"
                         className={({ isActive }) =>
-                            isActive ? "nav-item active" : "nav-item"
+                            isActive
+                                ? "nav-item active"
+                                : "nav-item"
                         }
                     >
                         Dashboard
@@ -28,7 +35,9 @@ export default function MainLayout() {
                     <NavLink
                         to="/pacientes"
                         className={({ isActive }) =>
-                            isActive ? "nav-item active" : "nav-item"
+                            isActive
+                                ? "nav-item active"
+                                : "nav-item"
                         }
                     >
                         Pacientes
@@ -37,38 +46,54 @@ export default function MainLayout() {
                     <NavLink
                         to="/membresias"
                         className={({ isActive }) =>
-                            isActive ? "nav-item active" : "nav-item"
+                            isActive
+                                ? "nav-item active"
+                                : "nav-item"
                         }
                     >
                         Membresías
                     </NavLink>
 
-                    <NavLink
-                        to="/usuarios"
-                        className={({ isActive }) =>
-                            isActive ? "nav-item active" : "nav-item"
-                        }
-                    >
-                        Usuarios
-                    </NavLink>
+                    {esAdmin && (
+                        <>
+                            <NavLink
+                                to="/usuarios"
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? "nav-item active"
+                                        : "nav-item"
+                                }
+                            >
+                                Usuarios
+                            </NavLink>
 
-                    <NavLink
-                        to="/auditoria"
-                        className={({ isActive }) =>
-                            isActive ? "nav-item active" : "nav-item"
-                        }
-                    >
-                        Auditoría
-                    </NavLink>
+                            <NavLink
+                                to="/auditoria"
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? "nav-item active"
+                                        : "nav-item"
+                                }
+                            >
+                                Auditoría
+                            </NavLink>
+                        </>
+                    )}
                 </nav>
 
                 <div className="sidebar-footer">
                     <div className="sidebar-user">
-                        <span>{usuario?.nombre}</span>
-                        <small>{usuario?.email}</small>
+                        <span>
+                            {usuario?.nombre}
+                        </span>
+
+                        <small>
+                            {usuario?.email}
+                        </small>
                     </div>
 
                     <button
+                        type="button"
                         className="sidebar-logout"
                         onClick={logout}
                     >

@@ -1,0 +1,144 @@
+.auditoria-page {
+    min-height: 100%;
+    background: #0f1217;
+    color: #ffffff;
+}
+
+.auditoria-header {
+    padding: 36px 40px 28px;
+    border-bottom: 1px solid #272d36;
+}
+
+    .auditoria-header h1 {
+        margin: 4px 0 8px;
+        font-size: 34px;
+    }
+
+    .auditoria-header p {
+        margin: 0;
+        color: #98a1ae;
+    }
+
+.auditoria-content {
+    padding: 36px 40px;
+}
+
+.auditoria-card {
+    overflow: hidden;
+    border: 1px solid #2b313b;
+    border-radius: 18px;
+    background: #171a20;
+}
+
+.auditoria-card-header {
+    padding: 24px 26px;
+    border-bottom: 1px solid #2b313b;
+}
+
+    .auditoria-card-header h2 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .auditoria-card-header p {
+        margin: 6px 0 0;
+        color: #929ba8;
+    }
+
+.auditoria-table-wrapper {
+    overflow-x: auto;
+}
+
+.auditoria-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .auditoria-table th {
+        padding: 16px 18px;
+        text-align: left;
+        border-bottom: 1px solid #2b313b;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #8fa0b8;
+    }
+
+    .auditoria-table td {
+        padding: 16px 18px;
+        border-bottom: 1px solid #252b34;
+        vertical-align: top;
+    }
+
+    .auditoria-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .auditoria-table tbody tr:hover {
+        background: #1c2027;
+    }
+
+.auditoria-accion {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+    .auditoria-accion.crear {
+        background: #16331f;
+        color: #63d882;
+    }
+
+    .auditoria-accion.actualizar {
+        background: #17334a;
+        color: #7bc4ff;
+    }
+
+    .auditoria-accion.estado {
+        background: #342c12;
+        color: #f0c94b;
+    }
+
+    .auditoria-accion.rol {
+        background: #332044;
+        color: #d6a8ff;
+    }
+
+    .auditoria-accion.activar {
+        background: #16331f;
+        color: #63d882;
+    }
+
+    .auditoria-accion.desactivar {
+        background: #351a1a;
+        color: #ff7676;
+    }
+
+    .auditoria-accion.default {
+        background: #2b3038;
+        color: #c6ccd6;
+    }
+
+.auditoria-detalle {
+    min-width: 280px;
+    color: #c7ced8;
+}
+
+.auditoria-empty,
+.auditoria-state {
+    padding: 32px;
+    color: #98a1ae;
+}
+
+@media (max-width: 900px) {
+    .auditoria-header,
+    .auditoria-content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

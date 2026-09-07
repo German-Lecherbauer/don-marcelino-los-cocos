@@ -1,0 +1,131 @@
+.usuarios-page {
+    min-height: 100%;
+    background: #0f1217;
+    color: #ffffff;
+}
+
+.usuarios-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 36px 40px 28px;
+    border-bottom: 1px solid #272d36;
+}
+
+    .usuarios-header h1 {
+        margin: 4px 0 8px;
+        font-size: 34px;
+    }
+
+    .usuarios-header p {
+        margin: 0;
+        color: #98a1ae;
+    }
+
+.usuarios-content {
+    padding: 36px 40px;
+}
+
+.usuarios-card {
+    overflow: hidden;
+    border: 1px solid #2b313b;
+    border-radius: 18px;
+    background: #171a20;
+}
+
+.usuarios-card-header {
+    padding: 24px 26px;
+    border-bottom: 1px solid #2b313b;
+}
+
+    .usuarios-card-header h2 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .usuarios-card-header p {
+        margin: 6px 0 0;
+        color: #929ba8;
+    }
+
+.usuarios-table-wrapper {
+    overflow-x: auto;
+}
+
+.usuarios-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .usuarios-table th {
+        padding: 16px 18px;
+        text-align: left;
+        border-bottom: 1px solid #2b313b;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #8fa0b8;
+    }
+
+    .usuarios-table td {
+        padding: 16px 18px;
+        border-bottom: 1px solid #252b34;
+    }
+
+    .usuarios-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .usuarios-table tbody tr:hover {
+        background: #1c2027;
+    }
+
+.usuarios-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.rol-badge {
+    display: inline-flex;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+    .rol-badge.admin {
+        background: #332044;
+        color: #d6a8ff;
+    }
+
+    .rol-badge.operador {
+        background: #17334a;
+        color: #7bc4ff;
+    }
+
+    .rol-badge.consulta {
+        background: #2b3038;
+        color: #c6ccd6;
+    }
+
+.usuarios-empty,
+.usuarios-state {
+    padding: 32px;
+    color: #98a1ae;
+}
+
+@media (max-width: 900px) {
+    .usuarios-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .usuarios-header,
+    .usuarios-content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

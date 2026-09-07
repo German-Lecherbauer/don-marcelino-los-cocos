@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../api/apiClient";
 import PacienteModal from "../components/PacienteModal";
+import { useAuth } from "../auth/AuthContext";
 import type { Paciente } from "../types/paciente";
 import "./PacientesPage.css";
 
 export default function PacientesPage() {
     const navigate = useNavigate();
+    const { usuario } = useAuth();
+
+    const puedeEditar =
+        usuario?.rol === 1 ||
+        usuario?.rol === 2;
 
     const [pacientes, setPacientes] = useState<Paciente[]>([]);
     const [cargando, setCargando] = useState(true);
@@ -17,11 +23,15 @@ export default function PacientesPage() {
         const cargarPacientes = async () => {
             try {
                 const response =
-                    await apiClient.get<Paciente[]>("/pacientes");
+                    await apiClient.get<Paciente[]>(
+                        "/pacientes"
+                    );
 
                 setPacientes(response.data);
             } catch {
-                setError("No se pudieron cargar los pacientes.");
+                setError(
+                    "No se pudieron cargar los pacientes."
+                );
             } finally {
                 setCargando(false);
             }
@@ -30,7 +40,9 @@ export default function PacientesPage() {
         cargarPacientes();
     }, []);
 
-    const agregarPaciente = (paciente: Paciente) => {
+    const agregarPaciente = (
+        paciente: Paciente
+    ) => {
         setPacientes((actuales) => [
             ...actuales,
             paciente,
@@ -53,20 +65,26 @@ export default function PacientesPage() {
                         Don Marcelino
                     </p>
 
-                    <h1>Pacientes</h1>
+                    <h1>
+                        Pacientes
+                    </h1>
 
                     <p>
                         Gestión y seguimiento de pacientes.
                     </p>
                 </div>
 
-                <button
-                    type="button"
-                    className="primary-button"
-                    onClick={() => setModalAbierto(true)}
-                >
-                    Nuevo paciente
-                </button>
+                {puedeEditar && (
+                    <button
+                        type="button"
+                        className="primary-button"
+                        onClick={() =>
+                            setModalAbierto(true)
+                        }
+                    >
+                        Nuevo paciente
+                    </button>
+                )}
             </header>
 
             <main className="pacientes-content">
@@ -108,58 +126,72 @@ export default function PacientesPage() {
                                 </thead>
 
                                 <tbody>
-                                    {pacientes.map((paciente) => (
-                                        <tr key={paciente.id}>
-                                            <td>
-                                                <strong>
-                                                    {paciente.nombre}{" "}
-                                                    {paciente.apellido}
-                                                </strong>
-                                            </td>
+                                    {pacientes.map(
+                                        (paciente) => (
+                                            <tr
+                                                key={
+                                                    paciente.id
+                                                }
+                                            >
+                                                <td>
+                                                    <strong>
+                                                        {
+                                                            paciente.nombre
+                                                        }{" "}
+                                                        {
+                                                            paciente.apellido
+                                                        }
+                                                    </strong>
+                                                </td>
 
-                                            <td>
-                                                {paciente.documento}
-                                            </td>
-
-                                            <td>
-                                                {paciente.email}
-                                            </td>
-
-                                            <td>
-                                                {new Date(
-                                                    paciente.fechaAlta
-                                                ).toLocaleDateString()}
-                                            </td>
-
-                                            <td>
-                                                <span
-                                                    className={
-                                                        paciente.activo
-                                                            ? "status-badge active"
-                                                            : "status-badge inactive"
+                                                <td>
+                                                    {
+                                                        paciente.documento
                                                     }
-                                                >
-                                                    {paciente.activo
-                                                        ? "Activo"
-                                                        : "Inactivo"}
-                                                </span>
-                                            </td>
+                                                </td>
 
-                                            <td>
-                                                <button
-                                                    className="table-action"
-                                                    type="button"
-                                                    onClick={() =>
-                                                        navigate(
-                                                            `/pacientes/${paciente.id}`
-                                                        )
+                                                <td>
+                                                    {
+                                                        paciente.email
                                                     }
-                                                >
-                                                    Ver
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                                </td>
+
+                                                <td>
+                                                    {new Date(
+                                                        paciente.fechaAlta
+                                                    ).toLocaleDateString()}
+                                                </td>
+
+                                                <td>
+                                                    <span
+                                                        className={
+                                                            paciente.activo
+                                                                ? "status-badge active"
+                                                                : "status-badge inactive"
+                                                        }
+                                                    >
+                                                        {paciente.activo
+                                                            ? "Activo"
+                                                            : "Inactivo"}
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    <button
+                                                        type="button"
+                                                        className="table-action"
+                                                        onClick={() =>
+                                                            navigate(
+                                                                `/pacientes/${paciente.id}`
+                                                            )
+                                                        }
+                                                    >
+                                                        Ver
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    )}
                                 </tbody>
                             </table>
                         </div>
@@ -167,11 +199,17 @@ export default function PacientesPage() {
                 </section>
             </main>
 
-            <PacienteModal
-                abierto={modalAbierto}
-                onCerrar={() => setModalAbierto(false)}
-                onCreado={agregarPaciente}
-            />
+            {puedeEditar && (
+                <PacienteModal
+                    abierto={modalAbierto}
+                    onCerrar={() =>
+                        setModalAbierto(false)
+                    }
+                    onCreado={
+                        agregarPaciente
+                    }
+                />
+            )}
         </div>
     );
 }

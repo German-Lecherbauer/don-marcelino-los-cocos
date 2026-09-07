@@ -4,6 +4,7 @@ import axios from "axios";
 import apiClient from "../api/apiClient";
 import MembresiaModal from "../components/MembresiaModal";
 import EditarPacienteModal from "../components/EditarPacienteModal";
+import { useAuth } from "../auth/AuthContext";
 import type { Paciente } from "../types/paciente";
 import "./PacienteDetallePage.css";
 
@@ -18,6 +19,11 @@ interface Membresia {
 export default function PacienteDetallePage() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { usuario } = useAuth();
+
+    const puedeEditar =
+        usuario?.rol === 1 ||
+        usuario?.rol === 2;
 
     const [paciente, setPaciente] = useState<Paciente | null>(null);
     const [membresias, setMembresias] = useState<Membresia[]>([]);
@@ -278,36 +284,38 @@ export default function PacienteDetallePage() {
                         </div>
                     </div>
 
-                    <div className="detalle-actions">
-                        <button
-                            type="button"
-                            className="table-action"
-                            onClick={() =>
-                                setModalEditarAbierto(
-                                    true
-                                )
-                            }
-                        >
-                            Editar paciente
-                        </button>
-
-                        {paciente.activo && (
+                    {puedeEditar && (
+                        <div className="detalle-actions">
                             <button
                                 type="button"
-                                className="danger-button"
-                                onClick={
-                                    desactivarPaciente
-                                }
-                                disabled={
-                                    desactivando
+                                className="table-action"
+                                onClick={() =>
+                                    setModalEditarAbierto(
+                                        true
+                                    )
                                 }
                             >
-                                {desactivando
-                                    ? "Desactivando..."
-                                    : "Desactivar paciente"}
+                                Editar paciente
                             </button>
-                        )}
-                    </div>
+
+                            {paciente.activo && (
+                                <button
+                                    type="button"
+                                    className="danger-button"
+                                    onClick={
+                                        desactivarPaciente
+                                    }
+                                    disabled={
+                                        desactivando
+                                    }
+                                >
+                                    {desactivando
+                                        ? "Desactivando..."
+                                        : "Desactivar paciente"}
+                                </button>
+                            )}
+                        </div>
+                    )}
                 </section>
 
                 <section className="detalle-card">
@@ -322,19 +330,20 @@ export default function PacienteDetallePage() {
                             </p>
                         </div>
 
-                        {paciente.activo && (
-                            <button
-                                type="button"
-                                className="primary-button"
-                                onClick={() =>
-                                    setModalMembresiaAbierto(
-                                        true
-                                    )
-                                }
-                            >
-                                Nueva membresía
-                            </button>
-                        )}
+                        {puedeEditar &&
+                            paciente.activo && (
+                                <button
+                                    type="button"
+                                    className="primary-button"
+                                    onClick={() =>
+                                        setModalMembresiaAbierto(
+                                            true
+                                        )
+                                    }
+                                >
+                                    Nueva membresía
+                                </button>
+                            )}
                     </div>
 
                     {membresias.length === 0 ? (
@@ -406,42 +415,52 @@ export default function PacienteDetallePage() {
                 </section>
             </main>
 
-            <MembresiaModal
-                abierto={
-                    modalMembresiaAbierto
-                }
-                pacienteId={paciente.id}
-                onCerrar={() =>
-                    setModalMembresiaAbierto(
-                        false
-                    )
-                }
-                onCreada={(membresia) =>
-                    setMembresias(
-                        (actuales) => [
-                            ...actuales,
-                            membresia,
-                        ]
-                    )
-                }
-            />
+            {puedeEditar && (
+                <>
+                    <MembresiaModal
+                        abierto={
+                            modalMembresiaAbierto
+                        }
+                        pacienteId={
+                            paciente.id
+                        }
+                        onCerrar={() =>
+                            setModalMembresiaAbierto(
+                                false
+                            )
+                        }
+                        onCreada={(membresia) =>
+                            setMembresias(
+                                (actuales) => [
+                                    ...actuales,
+                                    membresia,
+                                ]
+                            )
+                        }
+                    />
 
-            <EditarPacienteModal
-                abierto={modalEditarAbierto}
-                paciente={paciente}
-                onCerrar={() =>
-                    setModalEditarAbierto(
-                        false
-                    )
-                }
-                onActualizado={(
-                    pacienteActualizado
-                ) =>
-                    setPaciente(
-                        pacienteActualizado
-                    )
-                }
-            />
+                    <EditarPacienteModal
+                        abierto={
+                            modalEditarAbierto
+                        }
+                        paciente={
+                            paciente
+                        }
+                        onCerrar={() =>
+                            setModalEditarAbierto(
+                                false
+                            )
+                        }
+                        onActualizado={(
+                            pacienteActualizado
+                        ) =>
+                            setPaciente(
+                                pacienteActualizado
+                            )
+                        }
+                    />
+                </>
+            )}
         </div>
     );
 }

@@ -8,11 +8,12 @@ import DashboardPage from "./pages/DashboardPage";
 import PacientesPage from "./pages/PacientesPage";
 import PacienteDetallePage from "./pages/PacienteDetallePage";
 import MembresiasPage from "./pages/MembresiasPage";
+import MembresiaDetallePage from "./pages/MembresiaDetallePage";
 import UsuariosPage from "./pages/UsuariosPage";
 import AuditoriaPage from "./pages/AuditoriaPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import AdminRoute from "./routes/AdminRoute";
 import MainLayout from "./layouts/MainLayout";
-import MembresiaDetallePage from "./pages/MembresiaDetallePage";
 
 export default function App() {
     return (
@@ -50,13 +51,26 @@ export default function App() {
                 />
 
                 <Route
+                    path="/membresias/:id"
+                    element={<MembresiaDetallePage />}
+                />
+
+                <Route
                     path="/usuarios"
-                    element={<UsuariosPage />}
+                    element={
+                        <AdminRoute>
+                            <UsuariosPage />
+                        </AdminRoute>
+                    }
                 />
 
                 <Route
                     path="/auditoria"
-                    element={<AuditoriaPage />}
+                    element={
+                        <AdminRoute>
+                            <AuditoriaPage />
+                        </AdminRoute>
+                    }
                 />
             </Route>
 
@@ -79,12 +93,6 @@ export default function App() {
                     />
                 }
             />
-
-            <Route
-                path="/membresias/:id"
-                element={<MembresiaDetallePage />}
-            />
-
         </Routes>
     );
 }

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import apiClient from "../api/apiClient";
 import CambiarEstadoMembresiaModal from "../components/CambiarEstadoMembresiaModal";
 import EditarMembresiaModal from "../components/EditarMembresiaModal";
+import { useAuth } from "../auth/AuthContext";
 import "./MembresiaDetallePage.css";
 
 interface Membresia {
@@ -16,6 +17,11 @@ interface Membresia {
 export default function MembresiaDetallePage() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { usuario } = useAuth();
+
+    const puedeEditar =
+        usuario?.rol === 1 ||
+        usuario?.rol === 2;
 
     const [membresia, setMembresia] =
         useState<Membresia | null>(null);
@@ -243,51 +249,57 @@ export default function MembresiaDetallePage() {
                         </div>
                     </div>
 
-                    <div className="membresia-detalle-actions">
-                        <button
-                            type="button"
-                            className="table-action"
-                            onClick={() =>
-                                setModalEditarAbierto(true)
-                            }
-                        >
-                            Editar fechas
-                        </button>
+                    {puedeEditar && (
+                        <div className="membresia-detalle-actions">
+                            <button
+                                type="button"
+                                className="table-action"
+                                onClick={() =>
+                                    setModalEditarAbierto(true)
+                                }
+                            >
+                                Editar fechas
+                            </button>
 
-                        <button
-                            type="button"
-                            className="table-action"
-                            onClick={() =>
-                                setModalEstadoAbierto(true)
-                            }
-                        >
-                            Cambiar estado
-                        </button>
-                    </div>
+                            <button
+                                type="button"
+                                className="table-action"
+                                onClick={() =>
+                                    setModalEstadoAbierto(true)
+                                }
+                            >
+                                Cambiar estado
+                            </button>
+                        </div>
+                    )}
                 </section>
             </main>
 
-            <EditarMembresiaModal
-                abierto={modalEditarAbierto}
-                membresia={membresia}
-                onCerrar={() =>
-                    setModalEditarAbierto(false)
-                }
-                onActualizada={(actualizada) =>
-                    setMembresia(actualizada)
-                }
-            />
+            {puedeEditar && (
+                <>
+                    <EditarMembresiaModal
+                        abierto={modalEditarAbierto}
+                        membresia={membresia}
+                        onCerrar={() =>
+                            setModalEditarAbierto(false)
+                        }
+                        onActualizada={(actualizada) =>
+                            setMembresia(actualizada)
+                        }
+                    />
 
-            <CambiarEstadoMembresiaModal
-                abierto={modalEstadoAbierto}
-                membresia={membresia}
-                onCerrar={() =>
-                    setModalEstadoAbierto(false)
-                }
-                onActualizada={(actualizada) =>
-                    setMembresia(actualizada)
-                }
-            />
+                    <CambiarEstadoMembresiaModal
+                        abierto={modalEstadoAbierto}
+                        membresia={membresia}
+                        onCerrar={() =>
+                            setModalEstadoAbierto(false)
+                        }
+                        onActualizada={(actualizada) =>
+                            setMembresia(actualizada)
+                        }
+                    />
+                </>
+            )}
         </div>
     );
 }

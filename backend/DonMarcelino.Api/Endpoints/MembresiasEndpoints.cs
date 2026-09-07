@@ -1,5 +1,6 @@
 ﻿using DonMarcelino.Application.Auditoria;
 using DonMarcelino.Application.Membresias;
+using DonMarcelino.Application.Pacientes;
 
 namespace DonMarcelino.Api.Endpoints;
 
@@ -13,6 +14,7 @@ public static class MembresiasEndpoints
             Guid pacienteId,
             CrearMembresiaRequest request,
             CrearMembresiaService service,
+            ObtenerPacientePorIdService pacienteService,
             AuditoriaService auditoriaService,
             HttpContext httpContext,
             CancellationToken cancellationToken) =>
@@ -22,8 +24,16 @@ public static class MembresiasEndpoints
                 request,
                 cancellationToken);
 
+            var paciente = await pacienteService.ObtenerAsync(
+                pacienteId,
+                cancellationToken);
+
             var (usuarioId, usuarioNombre) =
                 EndpointHelpers.ObtenerUsuarioAuditoria(httpContext);
+
+            var detalleAuditoria = paciente is not null
+                ? $"Se creó una membresía para el paciente {paciente.Nombre} {paciente.Apellido}."
+                : $"Se creó una membresía para el paciente {pacienteId}.";
 
             await auditoriaService.RegistrarAsync(
                 usuarioId,
@@ -31,7 +41,7 @@ public static class MembresiasEndpoints
                 "Crear",
                 "Membresia",
                 membresia.Id.ToString(),
-                $"Se creó una membresía para el paciente {pacienteId}.",
+                detalleAuditoria,
                 cancellationToken);
 
             return Results.Created(
