@@ -1,6 +1,13 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+
 import logoDonMarcelino from "../assets/logo-don-marcelino-los-cocos.png";
+
+import argenCannLogo from "../assets/partners/argencann.png";
+import cannaTestLogo from "../assets/partners/cannatest.webp";
+import donMarcelinoFooterLogo from "../assets/partners/don-marcelino-footer.webp";
+import reprocannLogo from "../assets/partners/reprocann.png";
+
 import "./HomePage.css";
 
 const documentosMarcoLegal = [
@@ -77,12 +84,14 @@ const documentosMarcoLegal = [
     {
         nombre: "Salta",
         detalle: "Resolución Ministerio de Salud - Epilepsia",
-        archivo: "/documentos/marco-legal/salta-resolucion-min-salud-epilepsia-ref.docx",
+        archivo:
+            "/documentos/marco-legal/salta-resolucion-min-salud-epilepsia-ref.docx",
     },
     {
         nombre: "Salta",
         detalle: "Resolución Ministerio de Salud",
-        archivo: "/documentos/marco-legal/salta-resolucion-min-salud.docx",
+        archivo:
+            "/documentos/marco-legal/salta-resolucion-min-salud.docx",
     },
     {
         nombre: "San Juan",
@@ -92,17 +101,20 @@ const documentosMarcoLegal = [
     {
         nombre: "San Juan",
         detalle: "Decreto reglamentario",
-        archivo: "/documentos/marco-legal/san-juan-decreto-reg.docx",
+        archivo:
+            "/documentos/marco-legal/san-juan-decreto-reg.docx",
     },
     {
         nombre: "San Juan",
         detalle: "Estatuto Sociedad del Estado",
-        archivo: "/documentos/marco-legal/san-juan-estatuto-sociedad-del-estado.docx",
+        archivo:
+            "/documentos/marco-legal/san-juan-estatuto-sociedad-del-estado.docx",
     },
     {
         nombre: "San Juan",
         detalle: "Sociedad del Estado",
-        archivo: "/documentos/marco-legal/san-juan-sociedad-del-estado.docx",
+        archivo:
+            "/documentos/marco-legal/san-juan-sociedad-del-estado.docx",
     },
     {
         nombre: "San Luis",
@@ -122,7 +134,8 @@ const documentosMarcoLegal = [
     {
         nombre: "Tierra del Fuego",
         detalle: "Adhesión",
-        archivo: "/documentos/marco-legal/tierra-del-fuego-adhesion.docx",
+        archivo:
+            "/documentos/marco-legal/tierra-del-fuego-adhesion.docx",
     },
     {
         nombre: "Tucumán",
@@ -161,7 +174,10 @@ export default function HomePage() {
     return (
         <div className="home-page">
             <header className="home-navbar">
-                <div className="home-brand">
+                <a
+                    href="#inicio"
+                    className="home-brand"
+                >
                     <span>
                         Don Marcelino
                     </span>
@@ -169,7 +185,7 @@ export default function HomePage() {
                     <strong>
                         y Los Cocos
                     </strong>
-                </div>
+                </a>
 
                 <nav className="home-nav">
                     <a href="#nosotros">
@@ -177,7 +193,7 @@ export default function HomePage() {
                     </a>
 
                     <a href="#beneficios">
-                        Beneficios
+                        Nuestra labor
                     </a>
 
                     <a href="#marco-legal">
@@ -188,8 +204,8 @@ export default function HomePage() {
                         Recursos
                     </a>
 
-                    <a href="#como-funciona">
-                        Cómo funciona
+                    <a href="#contacto">
+                        Contacto
                     </a>
                 </nav>
 
@@ -205,23 +221,30 @@ export default function HomePage() {
             </header>
 
             <main>
-                <section className="home-hero">
+                {/* HERO */}
+
+                <section
+                    id="inicio"
+                    className="home-hero"
+                >
                     <div className="home-hero-overlay" />
 
                     <div className="home-hero-content">
                         <p className="home-eyebrow">
-                            Club Don Marcelino y Los Cocos
+                            Asociación Civil · Ciudad Autónoma de Buenos Aires
                         </p>
 
                         <h1>
-                            Cultivamos comunidad.
+                            Cultivamos
+                            <br />
+                            comunidad.
                         </h1>
 
                         <p className="home-hero-text">
-                            Cultivo solidario medicinal en red.
-                            Una asociación civil sin fines de lucro
-                            dedicada a informar, investigar y acompañar
-                            a la comunidad.
+                            Asociación civil dedicada al estudio,
+                            la información y el acompañamiento
+                            en el uso medicinal y terapéutico
+                            del cannabis.
                         </p>
 
                         <div className="home-hero-actions">
@@ -229,18 +252,15 @@ export default function HomePage() {
                                 href="#nosotros"
                                 className="home-primary-button"
                             >
-                                Conocé el club
+                                Conocer la asociación
                             </a>
 
-                            <button
-                                type="button"
+                            <a
+                                href="#marco-legal"
                                 className="home-secondary-button"
-                                onClick={() =>
-                                    navigate("/login")
-                                }
                             >
-                                Acceso al sistema
-                            </button>
+                                Consultar marco legal
+                            </a>
                         </div>
                     </div>
 
@@ -255,31 +275,35 @@ export default function HomePage() {
                     </div>
                 </section>
 
+                {/* NOSOTROS */}
+
                 <section
                     id="nosotros"
                     className="home-section home-about"
                 >
                     <div className="home-section-heading">
                         <p className="home-eyebrow">
-                            Sobre nosotros
+                            La asociación
                         </p>
 
                         <h2>
-                            Una comunidad con raíces.
+                            Una comunidad
+                            <br />
+                            con raíces.
                         </h2>
 
                         <p>
                             Don Marcelino y Los Cocos es una
-                            Asociación Civil sin fines de lucro,
-                            ubicada en la Ciudad Autónoma de Buenos
-                            Aires, República Argentina.
+                            Asociación Civil sin fines de lucro
+                            ubicada en la Ciudad Autónoma de Buenos Aires,
+                            República Argentina.
                         </p>
 
                         <p>
-                            Nuestro objetivo es investigar,
-                            informar y acompañar a la comunidad
-                            en los diferentes usos del cannabis
-                            medicinal y terapéutico.
+                            Trabajamos para investigar, informar
+                            y acompañar a la comunidad en los
+                            diferentes usos medicinales y terapéuticos
+                            del cannabis.
                         </p>
                     </div>
 
@@ -294,9 +318,9 @@ export default function HomePage() {
                             </h3>
 
                             <p>
-                                Un espacio pensado para conectar
-                                personas y acompañarlas dentro
-                                de una comunidad organizada.
+                                Construimos un espacio organizado
+                                de encuentro, información
+                                y acompañamiento.
                             </p>
                         </article>
 
@@ -310,9 +334,9 @@ export default function HomePage() {
                             </h3>
 
                             <p>
-                                Acceso a información clara sobre
-                                cannabis medicinal, normativa
-                                y herramientas disponibles.
+                                Facilitamos el acceso a normativa,
+                                recursos y contenidos vinculados
+                                al cannabis medicinal.
                             </p>
                         </article>
 
@@ -326,13 +350,15 @@ export default function HomePage() {
                             </h3>
 
                             <p>
-                                Seguimiento y orientación para
-                                quienes forman parte de nuestra
-                                comunidad.
+                                Orientamos a quienes forman parte
+                                de la comunidad durante sus distintos
+                                procesos y necesidades.
                             </p>
                         </article>
                     </div>
                 </section>
+
+                {/* NUESTRA LABOR */}
 
                 <section
                     id="beneficios"
@@ -340,11 +366,15 @@ export default function HomePage() {
                 >
                     <div className="home-section-heading">
                         <p className="home-eyebrow">
-                            El club
+                            Nuestra labor
                         </p>
 
                         <h2>
-                            Una experiencia simple y cuidada.
+                            Información,
+                            <br />
+                            acompañamiento
+                            <br />
+                            y gestión.
                         </h2>
                     </div>
 
@@ -355,12 +385,13 @@ export default function HomePage() {
                             </div>
 
                             <h3>
-                                Gestión ordenada
+                                Gestión institucional
                             </h3>
 
                             <p>
-                                Información y documentación
-                                centralizada en un mismo lugar.
+                                Organización centralizada
+                                de información, documentación
+                                y procesos internos.
                             </p>
                         </article>
 
@@ -374,8 +405,9 @@ export default function HomePage() {
                             </h3>
 
                             <p>
-                                Control del estado y vigencia
-                                de cada membresía.
+                                Herramientas para mantener
+                                actualizada la información
+                                vinculada a cada miembro.
                             </p>
                         </article>
 
@@ -389,13 +421,15 @@ export default function HomePage() {
                             </h3>
 
                             <p>
-                                Una identidad construida desde
-                                el vínculo, la información y
-                                la confianza.
+                                Un vínculo construido desde
+                                la responsabilidad, la información
+                                y la confianza.
                             </p>
                         </article>
                     </div>
                 </section>
+
+                {/* MARCO LEGAL */}
 
                 <section
                     id="marco-legal"
@@ -408,7 +442,9 @@ export default function HomePage() {
                             </p>
 
                             <h2>
-                                Información y normativa.
+                                Información
+                                <br />
+                                y normativa.
                             </h2>
 
                             <p>
@@ -419,9 +455,9 @@ export default function HomePage() {
                             </p>
 
                             <p>
-                                Su objetivo es establecer un marco
-                                regulatorio para la investigación
-                                médica y científica del uso medicinal,
+                                La normativa establece un marco
+                                para la investigación médica
+                                y científica del uso medicinal,
                                 terapéutico y paliativo del cannabis
                                 y sus derivados.
                             </p>
@@ -429,25 +465,36 @@ export default function HomePage() {
 
                         <div className="home-legal-highlight">
                             <span>
-                                Ley 27.350
+                                Legislación nacional
                             </span>
 
                             <strong>
-                                Cannabis medicinal
+                                Ley 27.350
                             </strong>
 
                             <p>
-                                Recopilación de normativa nacional,
-                                provincial y municipal relacionada
-                                con cannabis medicinal.
+                                Marco regulatorio nacional
+                                vinculado al uso medicinal
+                                de la planta de cannabis
+                                y sus derivados.
                             </p>
+
+                            <a
+                                href="https://www.argentina.gob.ar/normativa/nacional/norma-273801"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="home-legal-highlight-link"
+                            >
+                                Consultar norma
+                                <span>→</span>
+                            </a>
                         </div>
                     </div>
 
                     <div className="home-legal-title-row">
                         <div>
                             <span className="home-legal-kicker">
-                                Biblioteca
+                                Biblioteca normativa
                             </span>
 
                             <h3>
@@ -531,23 +578,27 @@ export default function HomePage() {
                     </div>
                 </section>
 
+                {/* RECURSOS */}
+
                 <section
                     id="recursos"
                     className="home-section home-resources"
                 >
                     <div className="home-section-heading">
                         <p className="home-eyebrow">
-                            Recursos
+                            Recursos oficiales
                         </p>
 
                         <h2>
-                            Información útil para la comunidad.
+                            Información
+                            <br />
+                            para la comunidad.
                         </h2>
 
                         <p>
-                            Accedé a información oficial sobre
-                            REPROCANN y al marco normativo nacional
-                            relacionado con cannabis medicinal.
+                            Acceso directo a información oficial
+                            vinculada a REPROCANN y al marco normativo
+                            nacional sobre cannabis medicinal.
                         </p>
                     </div>
 
@@ -564,15 +615,22 @@ export default function HomePage() {
                             </div>
 
                             <h3>
-                                ¿Cómo obtener el permiso para cultivar?
+                                Registro del Programa de Cannabis.
                             </h3>
 
                             <p>
-                                El Registro del Programa de Cannabis
-                                permite la inscripción de personas
-                                autorizadas al cultivo controlado con
-                                fines medicinales, terapéuticos y/o
-                                paliativos.
+                                REPROCANN permite la inscripción
+                                de personas vinculadas al cultivo
+                                controlado con fines medicinales,
+                                terapéuticos y/o paliativos,
+                                de acuerdo con los requisitos
+                                establecidos por la autoridad sanitaria.
+                            </p>
+
+                            <p className="home-resource-note">
+                                La información vigente y los requisitos
+                                del trámite se encuentran disponibles
+                                en el sitio oficial de Argentina.gob.ar.
                             </p>
 
                             <a
@@ -581,7 +639,7 @@ export default function HomePage() {
                                 rel="noreferrer"
                                 className="home-resource-link"
                             >
-                                Ir a REPROCANN
+                                Consultar REPROCANN
                                 <span>→</span>
                             </a>
                         </article>
@@ -598,13 +656,13 @@ export default function HomePage() {
                             </div>
 
                             <h3>
-                                Conocé el marco legal nacional.
+                                Marco legal nacional.
                             </h3>
 
                             <p>
                                 La Ley 27.350 establece el marco
-                                para la investigación médica y
-                                científica del uso medicinal,
+                                para la investigación médica
+                                y científica del uso medicinal,
                                 terapéutico y paliativo del cannabis
                                 y sus derivados.
                             </p>
@@ -615,30 +673,188 @@ export default function HomePage() {
                                 rel="noreferrer"
                                 className="home-resource-link"
                             >
-                                Ver Ley 27350
+                                Consultar Ley 27.350
                                 <span>→</span>
                             </a>
                         </article>
                     </div>
                 </section>
 
-                <section
-                    id="como-funciona"
-                    className="home-cta-section"
-                >
-                    <div>
+                {/* ASESORAMIENTO */}
+
+                <section className="home-section home-advisory">
+                    <div className="home-advisory-content">
+                        <div>
+                            <p className="home-eyebrow">
+                                Asesoramiento jurídico
+                            </p>
+
+                            <h2>
+                                Derecho cannábico
+                                <br />
+                                especializado.
+                            </h2>
+
+                            <p className="home-advisory-text">
+                                La comunidad cuenta con acceso
+                                a asesoramiento jurídico especializado
+                                a través de Estudio4Veinte.
+                            </p>
+                        </div>
+
+                        <div className="home-advisory-card">
+                            <span>
+                                Estudio jurídico
+                            </span>
+
+                            <strong>
+                                Estudio4Veinte
+                            </strong>
+
+                            <p>
+                                Asesoramiento para organizaciones,
+                                asociaciones y personas vinculadas
+                                al cannabis.
+                            </p>
+
+                            <a
+                                href="https://www.instagram.com/estudio4veinte/"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                @estudio4veinte
+                                <span>→</span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                {/* INSTITUCIONES */}
+
+                <section className="home-section home-partners">
+                    <div className="home-section-heading">
                         <p className="home-eyebrow">
-                            Don Marcelino y Los Cocos
+                            Vinculaciones
                         </p>
 
                         <h2>
-                            Todo empieza desde una buena raíz.
+                            Instituciones
+                            <br />
+                            y organizaciones.
+                        </h2>
+                    </div>
+
+                    <div className="home-partners-grid">
+                        <div className="home-partner-card">
+                            <img
+                                src={argenCannLogo}
+                                alt="ArgenCann"
+                            />
+                        </div>
+
+                        <div className="home-partner-card">
+                            <img
+                                src={cannaTestLogo}
+                                alt="Cannatest"
+                            />
+                        </div>
+
+                        <div className="home-partner-card home-partner-card-reprocann">
+                            <img
+                                src={reprocannLogo}
+                                alt="REPROCANN - Ministerio de Salud de la Nación"
+                            />
+                        </div>
+                    </div>
+                </section>
+
+                {/* CONTACTO */}
+
+                <section
+                    id="contacto"
+                    className="home-contact"
+                >
+                    <div className="home-contact-main">
+                        <p className="home-eyebrow">
+                            Contacto
+                        </p>
+
+                        <h2>
+                            Estamos para
+                            <br />
+                            acompañarte.
                         </h2>
 
                         <p>
-                            Conocé más sobre el club,
-                            la comunidad y el espacio
-                            que estamos construyendo.
+                            Para conocer más sobre Don Marcelino
+                            y Los Cocos, recibir información
+                            o realizar una consulta, podés
+                            comunicarte directamente con nosotros.
+                        </p>
+                    </div>
+
+                    <div className="home-contact-list">
+                        <a
+                            href="https://wa.me/5491151656918"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="home-contact-item"
+                        >
+                            <div>
+                                <span>
+                                    WhatsApp
+                                </span>
+
+                                <strong>
+                                    Iniciar conversación
+                                </strong>
+                            </div>
+
+                            <span className="home-contact-arrow">
+                                →
+                            </span>
+                        </a>
+
+                        <a
+                            href="mailto:donmarcelino@donmarcelinoyloscocos.com"
+                            className="home-contact-item"
+                        >
+                            <div>
+                                <span>
+                                    Correo electrónico
+                                </span>
+
+                                <strong>
+                                    Enviar consulta
+                                </strong>
+                            </div>
+
+                            <span className="home-contact-arrow">
+                                →
+                            </span>
+                        </a>
+                    </div>
+                </section>
+
+                {/* ACCESO */}
+
+                <section className="home-cta-section">
+                    <div>
+                        <p className="home-eyebrow">
+                            Área privada
+                        </p>
+
+                        <h2>
+                            Gestión para
+                            <br />
+                            nuestra comunidad.
+                        </h2>
+
+                        <p>
+                            Los miembros autorizados cuentan
+                            con un espacio privado para acceder
+                            a la plataforma de gestión de
+                            Don Marcelino y Los Cocos.
                         </p>
                     </div>
 
@@ -654,20 +870,61 @@ export default function HomePage() {
                 </section>
             </main>
 
-            <footer className="home-footer">
-                <div>
-                    <strong>
-                        Don Marcelino y Los Cocos
-                    </strong>
+            {/* FOOTER */}
 
-                    <span>
-                        Cultivo solidario medicinal en red
-                    </span>
+            <footer className="home-footer home-footer-expanded">
+                <div className="home-footer-brand">
+                    <img
+                        src={donMarcelinoFooterLogo}
+                        alt="Don Marcelino y Los Cocos"
+                    />
+
+                    <div>
+                        <strong>
+                            Don Marcelino y Los Cocos
+                        </strong>
+
+                        <span>
+                            Asociación Civil sin fines de lucro
+                        </span>
+
+                        <span>
+                            Ciudad Autónoma de Buenos Aires
+                        </span>
+                    </div>
                 </div>
 
-                <p>
-                    © 2026 Don Marcelino y Los Cocos.
-                </p>
+                <div className="home-footer-links">
+                    <a href="#nosotros">
+                        Nosotros
+                    </a>
+
+                    <a href="#beneficios">
+                        Nuestra labor
+                    </a>
+
+                    <a href="#marco-legal">
+                        Marco legal
+                    </a>
+
+                    <a href="#recursos">
+                        Recursos
+                    </a>
+
+                    <a href="#contacto">
+                        Contacto
+                    </a>
+                </div>
+
+                <div className="home-footer-bottom">
+                    <span>
+                        Cannabis medicinal · Información · Comunidad
+                    </span>
+
+                    <p>
+                        © 2026 Don Marcelino y Los Cocos.
+                    </p>
+                </div>
             </footer>
         </div>
     );
