@@ -36,6 +36,9 @@ export default function PacienteDetallePage() {
     const [modalEditarAbierto, setModalEditarAbierto] =
         useState(false);
 
+    const [confirmarDesactivacion, setConfirmarDesactivacion] =
+        useState(false);
+
     const [desactivando, setDesactivando] =
         useState(false);
 
@@ -116,19 +119,25 @@ export default function PacienteDetallePage() {
         );
     };
 
+    const solicitarDesactivacion = () => {
+        setError("");
+        setConfirmarDesactivacion(true);
+    };
+
+    const cancelarDesactivacion = () => {
+        if (desactivando) {
+            return;
+        }
+
+        setConfirmarDesactivacion(false);
+    };
+
     const desactivarPaciente = async () => {
         if (!paciente) {
             return;
         }
 
-        const confirmar = window.confirm(
-            `¿Seguro que querés desactivar a ${paciente.nombre} ${paciente.apellido}?`
-        );
-
-        if (!confirmar) {
-            return;
-        }
-
+        setError("");
         setDesactivando(true);
 
         try {
@@ -140,17 +149,21 @@ export default function PacienteDetallePage() {
                 ...paciente,
                 activo: false,
             });
+
+            setConfirmarDesactivacion(false);
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                alert(
+                setError(
                     error.response?.data?.error ??
                     "No se pudo desactivar el paciente."
                 );
             } else {
-                alert(
+                setError(
                     "Ocurrió un error inesperado."
                 );
             }
+
+            setConfirmarDesactivacion(false);
         } finally {
             setDesactivando(false);
         }
@@ -164,12 +177,31 @@ export default function PacienteDetallePage() {
         );
     }
 
-    if (error || !paciente) {
+    if (error && !paciente) {
         return (
             <div className="paciente-detalle-state">
                 <p>
-                    {error ||
-                        "Paciente no encontrado."}
+                    {error}
+                </p>
+
+                <button
+                    type="button"
+                    className="secondary-button"
+                    onClick={() =>
+                        navigate("/pacientes")
+                    }
+                >
+                    Volver
+                </button>
+            </div>
+        );
+    }
+
+    if (!paciente) {
+        return (
+            <div className="paciente-detalle-state">
+                <p>
+                    Paciente no encontrado.
                 </p>
 
                 <button
@@ -190,7 +222,7 @@ export default function PacienteDetallePage() {
             <header className="paciente-detalle-header">
                 <div>
                     <p className="page-eyebrow">
-                        Don Marcelino
+                        Área de gestión
                     </p>
 
                     <h1>
@@ -215,6 +247,12 @@ export default function PacienteDetallePage() {
             </header>
 
             <main className="paciente-detalle-content">
+                {error && (
+                    <div className="pacientes-error">
+                        {error}
+                    </div>
+                )}
+
                 <section className="detalle-card">
                     <div className="detalle-card-header">
                         <div>
@@ -303,15 +341,13 @@ export default function PacienteDetallePage() {
                                     type="button"
                                     className="danger-button"
                                     onClick={
-                                        desactivarPaciente
+                                        solicitarDesactivacion
                                     }
                                     disabled={
                                         desactivando
                                     }
                                 >
-                                    {desactivando
-                                        ? "Desactivando..."
-                                        : "Desactivar paciente"}
+                                    Desactivar paciente
                                 </button>
                             )}
                         </div>
@@ -460,6 +496,80 @@ export default function PacienteDetallePage() {
                         }
                     />
                 </>
+            )}
+
+            {confirmarDesactivacion && (
+                <div
+                    className="confirm-backdrop"
+                    onMouseDown={(event) => {
+                        if (
+                            event.target ===
+                            event.currentTarget
+                        ) {
+                            cancelarDesactivacion();
+                        }
+                    }}
+                >
+                    <div
+                        className="confirm-card"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="confirm-title"
+                    >
+                        <p className="confirm-eyebrow">
+                            Confirmar acción
+                        </p>
+
+                        <h2 id="confirm-title">
+                            Desactivar paciente
+                        </h2>
+
+                        <p>
+                            ¿Seguro que querés desactivar a{" "}
+                            <strong>
+                                {paciente.nombre}{" "}
+                                {paciente.apellido}
+                            </strong>
+                            ?
+                        </p>
+
+                        <span className="confirm-warning">
+                            El paciente dejará de figurar como activo,
+                            pero sus datos y su historial permanecerán
+                            registrados.
+                        </span>
+
+                        <div className="confirm-actions">
+                            <button
+                                type="button"
+                                className="secondary-button"
+                                onClick={
+                                    cancelarDesactivacion
+                                }
+                                disabled={
+                                    desactivando
+                                }
+                            >
+                                Cancelar
+                            </button>
+
+                            <button
+                                type="button"
+                                className="danger-button"
+                                onClick={
+                                    desactivarPaciente
+                                }
+                                disabled={
+                                    desactivando
+                                }
+                            >
+                                {desactivando
+                                    ? "Desactivando..."
+                                    : "Sí, desactivar"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

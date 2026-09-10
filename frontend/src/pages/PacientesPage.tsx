@@ -49,10 +49,27 @@ export default function PacientesPage() {
         ]);
     };
 
+    const formatearFecha = (fecha: string) => {
+        return new Intl.DateTimeFormat(
+            "es-AR",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+            }
+        ).format(new Date(fecha));
+    };
+
     if (cargando) {
         return (
             <div className="pacientes-state">
-                Cargando pacientes...
+                <span>
+                    Don Marcelino
+                </span>
+
+                <strong>
+                    Cargando pacientes...
+                </strong>
             </div>
         );
     }
@@ -62,14 +79,14 @@ export default function PacientesPage() {
             <header className="pacientes-header">
                 <div>
                     <p className="page-eyebrow">
-                        Don Marcelino
+                        Área de gestión
                     </p>
 
                     <h1>
                         Pacientes
                     </h1>
 
-                    <p>
+                    <p className="pacientes-subtitle">
                         Gestión y seguimiento de pacientes.
                     </p>
                 </div>
@@ -97,6 +114,10 @@ export default function PacientesPage() {
                 <section className="pacientes-panel">
                     <div className="pacientes-panel-header">
                         <div>
+                            <p className="page-section-label">
+                                Registro
+                            </p>
+
                             <h2>
                                 Listado de pacientes
                             </h2>
@@ -121,7 +142,9 @@ export default function PacientesPage() {
                                         <th>Email</th>
                                         <th>Fecha de alta</th>
                                         <th>Estado</th>
-                                        <th></th>
+                                        <th className="table-actions-heading">
+                                            Acción
+                                        </th>
                                     </tr>
                                 </thead>
 
@@ -134,7 +157,7 @@ export default function PacientesPage() {
                                                 }
                                             >
                                                 <td>
-                                                    <strong>
+                                                    <strong className="patient-name">
                                                         {
                                                             paciente.nombre
                                                         }{" "}
@@ -150,16 +173,16 @@ export default function PacientesPage() {
                                                     }
                                                 </td>
 
-                                                <td>
+                                                <td className="patient-email">
                                                     {
                                                         paciente.email
                                                     }
                                                 </td>
 
                                                 <td>
-                                                    {new Date(
+                                                    {formatearFecha(
                                                         paciente.fechaAlta
-                                                    ).toLocaleDateString()}
+                                                    )}
                                                 </td>
 
                                                 <td>
@@ -176,7 +199,7 @@ export default function PacientesPage() {
                                                     </span>
                                                 </td>
 
-                                                <td>
+                                                <td className="table-actions-cell">
                                                     <button
                                                         type="button"
                                                         className="table-action"

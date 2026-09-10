@@ -1,7 +1,7 @@
 .paciente-detalle-page {
     min-height: 100vh;
-    background: #0f1115;
-    color: #f5f7fa;
+    background: #0f1511;
+    color: #f3eee6;
 }
 
 .paciente-detalle-header {
@@ -9,19 +9,24 @@
     justify-content: space-between;
     align-items: center;
     gap: 24px;
-    padding: 32px 44px;
-    border-bottom: 1px solid #272b33;
-    background: #15181e;
+    padding: 42px 48px 34px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: #13251a;
 }
 
     .paciente-detalle-header h1 {
         margin: 0;
-        font-size: 34px;
+        color: #f3eee6;
+        font-size: 48px;
+        font-weight: 620;
+        line-height: 1;
+        letter-spacing: -0.045em;
     }
 
     .paciente-detalle-header p {
-        margin: 8px 0 0;
-        color: #949daa;
+        margin: 12px 0 0;
+        color: rgba(238, 234, 225, 0.56);
+        font-size: 14px;
     }
 
 .paciente-detalle-content {
@@ -33,9 +38,10 @@
 .detalle-card {
     margin-bottom: 28px;
     overflow: hidden;
-    border: 1px solid #282d36;
-    border-radius: 18px;
-    background: #15181e;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    background: #152219;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
 }
 
 .detalle-card-header {
@@ -44,23 +50,32 @@
     align-items: center;
     gap: 20px;
     padding: 24px 26px;
-    border-bottom: 1px solid #282d36;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    background: #17251d;
 }
 
     .detalle-card-header h2 {
         margin: 0;
-        font-size: 22px;
+        color: #f3eee6;
+        font-size: 24px;
+        font-weight: 620;
+        letter-spacing: -0.03em;
     }
 
     .detalle-card-header p {
-        margin: 6px 0 0;
-        color: #8f98a6;
+        margin: 7px 0 0;
+        color: rgba(238, 234, 225, 0.46);
+        font-size: 13px;
     }
+
+/* =========================================================
+   DATOS DEL PACIENTE
+========================================================= */
 
 .detalle-grid {
     display: grid;
-    grid-template-columns: repeat( 4, minmax(0, 1fr) );
-    gap: 24px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
     padding: 26px;
 }
 
@@ -68,7 +83,11 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 8px;
+    padding: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    background: #141f18;
 }
 
 .detalle-item-email {
@@ -76,18 +95,24 @@
 }
 
 .detalle-item span {
-    font-size: 12px;
+    color: rgba(238, 234, 225, 0.42);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #858e9c;
 }
 
 .detalle-item strong {
     min-width: 0;
-    font-size: 16px;
-    color: #f0f2f5;
+    color: #f3eee6;
+    font-size: 15px;
+    font-weight: 650;
     overflow-wrap: anywhere;
 }
+
+/* =========================================================
+   ACCIONES
+========================================================= */
 
 .detalle-actions {
     display: flex;
@@ -98,17 +123,30 @@
 
 .danger-button {
     padding: 9px 14px;
-    border: 1px solid #713838;
-    border-radius: 9px;
-    background: #2a1717;
-    color: #ff9898;
+    border: 1px solid rgba(216, 157, 151, 0.22);
+    border-radius: 8px;
+    background: rgba(125, 46, 46, 0.16);
+    color: #e5aaa3;
+    font-size: 12px;
+    font-weight: 650;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
     .danger-button:hover {
-        background: #351b1b;
+        border-color: rgba(229, 170, 163, 0.34);
+        background: rgba(125, 46, 46, 0.24);
+        color: #f0b8b1;
     }
+
+    .danger-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+/* =========================================================
+   TABLA MEMBRESÍAS
+========================================================= */
 
 .detalle-table-wrapper {
     overflow-x: auto;
@@ -123,19 +161,21 @@
     .detalle-table td {
         padding: 17px 20px;
         text-align: left;
-        border-bottom: 1px solid #252a31;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .detalle-table th {
-        font-size: 12px;
-        font-weight: 600;
+        background: #132019;
+        color: rgba(238, 234, 225, 0.46);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: #818997;
     }
 
     .detalle-table td {
-        color: #cbd1da;
+        color: rgba(243, 238, 230, 0.74);
+        font-size: 13px;
     }
 
     .detalle-table tbody tr {
@@ -143,40 +183,154 @@
     }
 
         .detalle-table tbody tr:hover {
-            background: #191d24;
+            background: #19281f;
         }
 
         .detalle-table tbody tr:last-child td {
             border-bottom: none;
         }
 
-.membership-badge {
+/* =========================================================
+   BADGES
+========================================================= */
+
+.status-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 5px 9px;
     border-radius: 999px;
-    background: #20242b;
-    color: #cbd1da;
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 750;
+}
+
+    .status-badge.active {
+        border: 1px solid rgba(181, 202, 131, 0.18);
+        background: rgba(181, 202, 131, 0.1);
+        color: #c6d99b;
+    }
+
+    .status-badge.inactive {
+        border: 1px solid rgba(216, 157, 151, 0.18);
+        background: rgba(216, 157, 151, 0.08);
+        color: #dca39d;
+    }
+
+.membership-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 9px;
+    border: 1px solid rgba(196, 153, 73, 0.18);
+    border-radius: 999px;
+    background: rgba(196, 153, 73, 0.08);
+    color: #d6b56d;
+    font-size: 11px;
     font-weight: 700;
 }
+
+/* =========================================================
+   ESTADOS
+========================================================= */
 
 .detalle-empty {
     padding: 40px;
     text-align: center;
-    color: #9ca4b1;
+    color: rgba(238, 234, 225, 0.5);
 }
 
 .paciente-detalle-state {
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
     padding: 50px;
+    background: #0f1511;
+    color: rgba(238, 234, 225, 0.6);
     text-align: center;
-    color: #a0a8b4;
 }
 
-@media (max-width: 900px) {
+/* =========================================================
+   CONFIRMACIÓN DE DESACTIVACIÓN
+========================================================= */
+
+.confirm-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(4, 12, 8, 0.78);
+    backdrop-filter: blur(6px);
+}
+
+.confirm-card {
+    width: min(460px, 100%);
+    box-sizing: border-box;
+    padding: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    background: #152219;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.42);
+}
+
+.confirm-eyebrow {
+    margin: 0 0 10px;
+    color: #d6a29c;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.confirm-card h2 {
+    margin: 0;
+    color: #f3eee6;
+    font-size: 26px;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+}
+
+.confirm-card > p:not(.confirm-eyebrow) {
+    margin: 14px 0 0;
+    color: rgba(243, 238, 230, 0.7);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.confirm-card strong {
+    color: #f3eee6;
+}
+
+.confirm-warning {
+    display: block;
+    margin-top: 18px;
+    padding: 12px 14px;
+    border: 1px solid rgba(216, 157, 151, 0.16);
+    border-radius: 8px;
+    background: rgba(125, 46, 46, 0.1);
+    color: rgba(229, 170, 163, 0.82);
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
     .detalle-grid {
-        grid-template-columns: repeat( 2, minmax(0, 1fr) );
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -184,8 +338,12 @@
     .paciente-detalle-header {
         align-items: flex-start;
         flex-direction: column;
-        padding: 24px;
+        padding: 30px 24px;
     }
+
+        .paciente-detalle-header h1 {
+            font-size: 42px;
+        }
 
     .paciente-detalle-content {
         width: min(100% - 32px, 1250px);
@@ -203,8 +361,16 @@
 }
 
 @media (max-width: 600px) {
+    .paciente-detalle-header h1 {
+        font-size: 38px;
+    }
+
     .detalle-grid {
         grid-template-columns: 1fr;
+    }
+
+    .detalle-item-email {
+        grid-column: auto;
     }
 
     .detalle-actions {
@@ -212,6 +378,33 @@
     }
 
         .detalle-actions button {
+            width: 100%;
+        }
+
+    .detalle-card-header {
+        padding: 20px;
+    }
+
+    .detalle-grid {
+        padding: 20px;
+    }
+
+    .detalle-table th,
+    .detalle-table td {
+        padding: 14px 16px;
+    }
+}
+
+@media (max-width: 520px) {
+    .confirm-card {
+        padding: 22px;
+    }
+
+    .confirm-actions {
+        flex-direction: column-reverse;
+    }
+
+        .confirm-actions button {
             width: 100%;
         }
 }

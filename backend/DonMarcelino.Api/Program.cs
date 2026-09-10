@@ -82,7 +82,8 @@ builder.Services
     {
         var key = builder.Configuration["Jwt:Key"]
             ?? throw new InvalidOperationException(
-                "JWT Key no configurada.");
+                "JWT Key no configurada."
+            );
 
         options.TokenValidationParameters =
             new TokenValidationParameters
@@ -109,14 +110,20 @@ builder.Services
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy =>
-        policy.RequireRole("Admin"));
+    options.AddPolicy(
+        "AdminOnly",
+        policy => policy.RequireRole("Admin")
+    );
 
-    options.AddPolicy("AdminOrOperador", policy =>
-        policy.RequireRole("Admin", "Operador"));
+    options.AddPolicy(
+        "AdminOrOperador",
+        policy => policy.RequireRole("Admin", "Operador")
+    );
 
-    options.AddPolicy("Authenticated", policy =>
-        policy.RequireAuthenticatedUser());
+    options.AddPolicy(
+        "Authenticated",
+        policy => policy.RequireAuthenticatedUser()
+    );
 });
 
 var app = builder.Build();
@@ -128,7 +135,11 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+// En desarrollo local usamos HTTP directo.
+// Evitamos redirección HTTP -> HTTPS porque rompe
+// el preflight CORS del frontend.
+//
+// app.UseHttpsRedirection();
 
 app.UseCors("Frontend");
 

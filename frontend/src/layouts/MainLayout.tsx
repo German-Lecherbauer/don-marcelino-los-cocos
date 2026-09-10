@@ -12,11 +12,11 @@ export default function MainLayout() {
             <aside className="sidebar">
                 <div className="sidebar-brand">
                     <span className="sidebar-brand-small">
-                        Don
+                        Don Marcelino
                     </span>
 
                     <strong>
-                        Marcelino
+                        y Los Cocos
                     </strong>
                 </div>
 

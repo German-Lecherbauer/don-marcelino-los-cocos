@@ -50,9 +50,7 @@ export default function DashboardPage() {
         }
     };
 
-    const formatearFechaHora = (
-        fecha: string
-    ) => {
+    const formatearFechaHora = (fecha: string) => {
         return new Intl.DateTimeFormat(
             "es-AR",
             {
@@ -62,15 +60,19 @@ export default function DashboardPage() {
                 hour: "2-digit",
                 minute: "2-digit",
             }
-        ).format(
-            new Date(fecha)
-        );
+        ).format(new Date(fecha));
     };
 
     if (cargando) {
         return (
             <div className="dashboard-state">
-                Cargando dashboard...
+                <span className="dashboard-state-label">
+                    Don Marcelino
+                </span>
+
+                <strong>
+                    Cargando dashboard...
+                </strong>
             </div>
         );
     }
@@ -78,7 +80,13 @@ export default function DashboardPage() {
     if (error) {
         return (
             <div className="dashboard-state dashboard-error">
-                {error}
+                <span className="dashboard-state-label">
+                    Error
+                </span>
+
+                <strong>
+                    {error}
+                </strong>
             </div>
         );
     }
@@ -87,12 +95,35 @@ export default function DashboardPage() {
         return null;
     }
 
+    const metricas = [
+        {
+            etiqueta: "Total pacientes",
+            valor: dashboard.totalPacientes,
+        },
+        {
+            etiqueta: "Pacientes activos",
+            valor: dashboard.pacientesActivos,
+        },
+        {
+            etiqueta: "Membresías activas",
+            valor: dashboard.membresiasActivas,
+        },
+        {
+            etiqueta: "Membresías vencidas",
+            valor: dashboard.membresiasVencidas,
+        },
+        {
+            etiqueta: "Usuarios activos",
+            valor: dashboard.usuariosActivos,
+        },
+    ];
+
     return (
         <div className="dashboard-page">
             <header className="dashboard-header">
                 <div>
                     <p className="dashboard-brand">
-                        Don Marcelino
+                        Área de gestión
                     </p>
 
                     <h1>
@@ -105,86 +136,57 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="dashboard-user">
-                    <div>
-                        <span className="dashboard-user-label">
-                            Sesión iniciada como
-                        </span>
+                    <span className="dashboard-user-label">
+                        Sesión iniciada como
+                    </span>
 
-                        <strong>
-                            {usuario?.nombre}
-                        </strong>
+                    <strong>
+                        {usuario?.nombre}
+                    </strong>
 
-                        <span className="dashboard-user-role">
-                            {obtenerRol(
-                                usuario?.rol
-                            )}
-                        </span>
-                    </div>
+                    <span className="dashboard-user-role">
+                        {obtenerRol(usuario?.rol)}
+                    </span>
                 </div>
             </header>
 
             <main className="dashboard-content">
-                <section className="metrics-grid">
-                    <article className="metric-card">
-                        <span>
-                            Total pacientes
-                        </span>
+                <section className="metrics-section">
+                    <p className="dashboard-section-label">
+                        Resumen
+                    </p>
 
-                        <strong>
-                            {dashboard.totalPacientes}
-                        </strong>
-                    </article>
+                    <div className="metrics-grid">
+                        {metricas.map((metrica) => (
+                            <article
+                                className="metric-card"
+                                key={metrica.etiqueta}
+                            >
+                                <span className="metric-label">
+                                    {metrica.etiqueta}
+                                </span>
 
-                    <article className="metric-card">
-                        <span>
-                            Pacientes activos
-                        </span>
-
-                        <strong>
-                            {dashboard.pacientesActivos}
-                        </strong>
-                    </article>
-
-                    <article className="metric-card">
-                        <span>
-                            Membresías activas
-                        </span>
-
-                        <strong>
-                            {dashboard.membresiasActivas}
-                        </strong>
-                    </article>
-
-                    <article className="metric-card">
-                        <span>
-                            Membresías vencidas
-                        </span>
-
-                        <strong>
-                            {dashboard.membresiasVencidas}
-                        </strong>
-                    </article>
-
-                    <article className="metric-card">
-                        <span>
-                            Usuarios activos
-                        </span>
-
-                        <strong>
-                            {dashboard.usuariosActivos}
-                        </strong>
-                    </article>
+                                <strong className="metric-value">
+                                    {metrica.valor}
+                                </strong>
+                            </article>
+                        ))}
+                    </div>
                 </section>
 
                 <section className="activity-section">
                     <div className="section-heading">
                         <div>
+                            <p className="dashboard-section-label">
+                                Auditoría reciente
+                            </p>
+
                             <h2>
                                 Últimas acciones
                             </h2>
 
                             <p>
-                                Actividad reciente registrada por el sistema
+                                Actividad reciente registrada por el sistema.
                             </p>
                         </div>
                     </div>
@@ -196,31 +198,26 @@ export default function DashboardPage() {
                     ) : (
                         <div className="activity-list">
                             {dashboard.ultimasAcciones.map(
-                                (
-                                    accion,
-                                    index
-                                ) => (
+                                (accion, index) => (
                                     <article
                                         className="activity-card"
                                         key={`${accion.fecha}-${index}`}
                                     >
                                         <div className="activity-top">
-                                            <div>
-                                                <strong>
-                                                    {
-                                                        accion.usuarioNombre
-                                                    }
-                                                </strong>
+                                            <div className="activity-user">
+                                                <span className="activity-dot" />
 
-                                                <span className="activity-meta">
-                                                    {
-                                                        accion.accion
-                                                    }
-                                                    {" · "}
-                                                    {
-                                                        accion.entidad
-                                                    }
-                                                </span>
+                                                <div>
+                                                    <strong>
+                                                        {accion.usuarioNombre}
+                                                    </strong>
+
+                                                    <span className="activity-meta">
+                                                        {accion.accion}
+                                                        {" · "}
+                                                        {accion.entidad}
+                                                    </span>
+                                                </div>
                                             </div>
 
                                             <time>
@@ -231,9 +228,7 @@ export default function DashboardPage() {
                                         </div>
 
                                         <p>
-                                            {
-                                                accion.detalle
-                                            }
+                                            {accion.detalle}
                                         </p>
                                     </article>
                                 )

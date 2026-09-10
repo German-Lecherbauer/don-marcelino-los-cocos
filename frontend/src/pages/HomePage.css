@@ -242,7 +242,7 @@ body {
 
 .home-logo-stage {
     position: relative;
-    width: min(350px, 28vw);
+    width: min(430px, 34vw);
     aspect-ratio: 1;
     display: grid;
     place-items: center;
