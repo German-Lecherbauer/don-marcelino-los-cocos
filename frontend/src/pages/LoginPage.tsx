@@ -120,7 +120,7 @@ export default function LoginPage() {
                         <div className="login-card">
                             <div className="login-header">
                                 <p className="login-card-eyebrow">
-                                    Acceso socios
+                                    Acceso miembros
                                 </p>
 
                                 <h2>

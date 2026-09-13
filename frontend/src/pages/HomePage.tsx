@@ -216,7 +216,7 @@ export default function HomePage() {
                         navigate("/login")
                     }
                 >
-                    Ingreso socios
+                    Ingreso miembros
                 </button>
             </header>
 
@@ -860,7 +860,7 @@ export default function HomePage() {
                             navigate("/login")
                         }
                     >
-                        Ingreso socios
+                        Ingreso miembros
                     </button>
                 </section>
             </main>
