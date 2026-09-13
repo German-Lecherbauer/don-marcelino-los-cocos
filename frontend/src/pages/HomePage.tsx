@@ -310,7 +310,7 @@ export default function HomePage() {
                     <div className="home-about-grid">
                         <article>
                             <span>
-                                01
+                                1
                             </span>
 
                             <h3>
@@ -326,7 +326,7 @@ export default function HomePage() {
 
                         <article>
                             <span>
-                                02
+                                2
                             </span>
 
                             <h3>
@@ -342,7 +342,7 @@ export default function HomePage() {
 
                         <article>
                             <span>
-                                03
+                                3
                             </span>
 
                             <h3>
@@ -381,7 +381,7 @@ export default function HomePage() {
                     <div className="home-benefits-grid">
                         <article className="home-benefit-card">
                             <div className="home-benefit-icon">
-                                01
+                                1
                             </div>
 
                             <h3>
@@ -397,7 +397,7 @@ export default function HomePage() {
 
                         <article className="home-benefit-card">
                             <div className="home-benefit-icon">
-                                02
+                                2
                             </div>
 
                             <h3>
@@ -413,7 +413,7 @@ export default function HomePage() {
 
                         <article className="home-benefit-card">
                             <div className="home-benefit-icon">
-                                03
+                                3
                             </div>
 
                             <h3>
@@ -550,12 +550,7 @@ export default function HomePage() {
                                 >
                                     <div className="home-legal-card-top">
                                         <span className="home-legal-number">
-                                            {String(
-                                                index + 1
-                                            ).padStart(
-                                                2,
-                                                "0"
-                                            )}
+                                            {index + 1}
                                         </span>
 
                                         <span className="home-legal-download">
@@ -610,7 +605,7 @@ export default function HomePage() {
                                 </span>
 
                                 <span className="home-resource-index">
-                                    01
+                                    1
                                 </span>
                             </div>
 
@@ -651,7 +646,7 @@ export default function HomePage() {
                                 </span>
 
                                 <span className="home-resource-index">
-                                    02
+                                    2
                                 </span>
                             </div>
 
