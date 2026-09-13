@@ -10,6 +10,7 @@ public class ObtenerDashboardService
     }
 
     public async Task<DashboardResumen> ObtenerAsync(
+        bool incluirDatosAdministrativos,
         CancellationToken cancellationToken = default)
     {
         var totalPacientes =
@@ -24,7 +25,20 @@ public class ObtenerDashboardService
         var membresiasVencidas =
             await _repository.ObtenerMembresiasVencidasAsync(cancellationToken);
 
-        var usuariosActivos =
+        var resumen = new DashboardResumen
+        {
+            TotalPacientes = totalPacientes,
+            PacientesActivos = pacientesActivos,
+            MembresiasActivas = membresiasActivas,
+            MembresiasVencidas = membresiasVencidas
+        };
+
+        if (!incluirDatosAdministrativos)
+        {
+            return resumen;
+        }
+
+        resumen.UsuariosActivos =
             await _repository.ObtenerUsuariosActivosAsync(cancellationToken);
 
         var auditorias =
@@ -32,24 +46,17 @@ public class ObtenerDashboardService
                 5,
                 cancellationToken);
 
-        return new DashboardResumen
-        {
-            TotalPacientes = totalPacientes,
-            PacientesActivos = pacientesActivos,
-            MembresiasActivas = membresiasActivas,
-            MembresiasVencidas = membresiasVencidas,
-            UsuariosActivos = usuariosActivos,
+        resumen.UltimasAcciones = auditorias
+            .Select(x => new DashboardAuditoriaItem
+            {
+                UsuarioNombre = x.UsuarioNombre,
+                Accion = x.Accion,
+                Entidad = x.Entidad,
+                Detalle = x.Detalle,
+                Fecha = x.Fecha
+            })
+            .ToList();
 
-            UltimasAcciones = auditorias
-                .Select(x => new DashboardAuditoriaItem
-                {
-                    UsuarioNombre = x.UsuarioNombre,
-                    Accion = x.Accion,
-                    Entidad = x.Entidad,
-                    Detalle = x.Detalle,
-                    Fecha = x.Fecha
-                })
-                .ToList()
-        };
+        return resumen;
     }
 }

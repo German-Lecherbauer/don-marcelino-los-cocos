@@ -8,12 +8,23 @@ public class DonMarcelinoDbContextFactory
 {
     public DonMarcelinoDbContext CreateDbContext(string[] args)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<DonMarcelinoDbContext>();
+        var connectionString =
+            Environment.GetEnvironmentVariable(
+                "ConnectionStrings__DefaultConnection");
 
-        optionsBuilder.UseNpgsql(
-            "Host=localhost;Port=5432;Database=donmarcelino;Username=donmarcelino;Password=donmarcelino_dev"
-        );
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new InvalidOperationException(
+                "No se encontró la variable de entorno " +
+                "'ConnectionStrings__DefaultConnection'.");
+        }
 
-        return new DonMarcelinoDbContext(optionsBuilder.Options);
+        var optionsBuilder =
+            new DbContextOptionsBuilder<DonMarcelinoDbContext>();
+
+        optionsBuilder.UseNpgsql(connectionString);
+
+        return new DonMarcelinoDbContext(
+            optionsBuilder.Options);
     }
 }

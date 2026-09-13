@@ -1,4 +1,6 @@
-﻿namespace DonMarcelino.Application.Dashboard;
+﻿using System.Text.Json.Serialization;
+
+namespace DonMarcelino.Application.Dashboard;
 
 public class DashboardResumen
 {
@@ -10,9 +12,11 @@ public class DashboardResumen
 
     public int MembresiasVencidas { get; set; }
 
-    public int UsuariosActivos { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public int? UsuariosActivos { get; set; }
 
-    public List<DashboardAuditoriaItem> UltimasAcciones { get; set; } = [];
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public List<DashboardAuditoriaItem>? UltimasAcciones { get; set; }
 }
 
 public class DashboardAuditoriaItem
