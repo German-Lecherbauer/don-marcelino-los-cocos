@@ -106,7 +106,22 @@
 
 .pacientes-table-wrapper {
     overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(181, 202, 131, 0.35) transparent;
 }
+
+    .pacientes-table-wrapper::-webkit-scrollbar {
+        height: 5px;
+    }
+
+    .pacientes-table-wrapper::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .pacientes-table-wrapper::-webkit-scrollbar-thumb {
+        border-radius: 999px;
+        background: rgba(181, 202, 131, 0.35);
+    }
 
 .pacientes-table {
     width: 100%;
@@ -247,6 +262,10 @@
     color: #e5aaa3;
 }
 
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
 @media (max-width: 900px) {
     .pacientes-header {
         align-items: flex-start;
@@ -267,9 +286,16 @@
     }
 }
 
+@media (max-width: 700px) {
+    .pacientes-table th:nth-child(3),
+    .pacientes-table td:nth-child(3) {
+        display: none;
+    }
+}
+
 @media (max-width: 600px) {
     .pacientes-header h1 {
-        font-size: 38px;
+        font-size: 34px;
     }
 
     .pacientes-panel-header {
@@ -278,6 +304,35 @@
 
     .pacientes-table th,
     .pacientes-table td {
-        padding: 14px 16px;
+        padding: 14px 12px;
+    }
+
+    .pacientes-table {
+        table-layout: auto;
+    }
+
+        .pacientes-table th:nth-child(2),
+        .pacientes-table td:nth-child(2) {
+            display: none;
+        }
+
+        .pacientes-table th:first-child,
+        .pacientes-table td:first-child {
+            width: 46%;
+        }
+
+        .pacientes-table th:nth-last-child(2),
+        .pacientes-table td:nth-last-child(2) {
+            width: 24%;
+        }
+
+        .pacientes-table .table-actions-heading,
+        .pacientes-table .table-actions-cell {
+            width: 30%;
+        }
+
+    .table-action {
+        padding: 7px 10px;
+        font-size: 11px;
     }
 }

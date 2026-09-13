@@ -131,7 +131,13 @@ export default function MembresiaDetallePage() {
     if (cargando) {
         return (
             <div className="membresia-detalle-state">
-                Cargando membresía...
+                <span>
+                    Don Marcelino
+                </span>
+
+                <strong>
+                    Cargando membresía...
+                </strong>
             </div>
         );
     }
@@ -162,7 +168,7 @@ export default function MembresiaDetallePage() {
             <header className="membresia-detalle-header">
                 <div>
                     <p className="page-eyebrow">
-                        Don Marcelino
+                        Área de gestión
                     </p>
 
                     <h1>
@@ -191,6 +197,10 @@ export default function MembresiaDetallePage() {
                 <section className="membresia-detalle-card">
                     <div className="membresia-detalle-card-header">
                         <div>
+                            <p className="membresia-section-label">
+                                Membresía
+                            </p>
+
                             <h2>
                                 Información
                             </h2>

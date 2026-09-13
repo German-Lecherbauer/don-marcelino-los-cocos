@@ -24,6 +24,9 @@ export default function UsuariosPage() {
     const [usuarioSeleccionado, setUsuarioSeleccionado] =
         useState<Usuario | null>(null);
 
+    const [usuarioEstadoSeleccionado, setUsuarioEstadoSeleccionado] =
+        useState<Usuario | null>(null);
+
     const [cambiandoEstadoId, setCambiandoEstadoId] =
         useState<string | null>(null);
 
@@ -80,21 +83,41 @@ export default function UsuariosPage() {
         }
     };
 
-    const cambiarEstadoUsuario = async (
+    const formatearFecha = (fecha: string) => {
+        return new Intl.DateTimeFormat(
+            "es-AR",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+            }
+        ).format(new Date(fecha));
+    };
+
+    const solicitarCambioEstado = (
         usuario: Usuario
     ) => {
-        const nuevoEstado = !usuario.activo;
+        setError("");
+        setUsuarioEstadoSeleccionado(usuario);
+    };
 
-        const confirmar = window.confirm(
-            nuevoEstado
-                ? `¿Querés activar a ${usuario.nombre}?`
-                : `¿Querés desactivar a ${usuario.nombre}?`
-        );
-
-        if (!confirmar) {
+    const cancelarCambioEstado = () => {
+        if (cambiandoEstadoId) {
             return;
         }
 
+        setUsuarioEstadoSeleccionado(null);
+    };
+
+    const cambiarEstadoUsuario = async () => {
+        if (!usuarioEstadoSeleccionado) {
+            return;
+        }
+
+        const usuario = usuarioEstadoSeleccionado;
+        const nuevoEstado = !usuario.activo;
+
+        setError("");
         setCambiandoEstadoId(usuario.id);
 
         try {
@@ -116,10 +139,14 @@ export default function UsuariosPage() {
                         : actual
                 )
             );
+
+            setUsuarioEstadoSeleccionado(null);
         } catch {
-            alert(
+            setError(
                 "No se pudo cambiar el estado del usuario."
             );
+
+            setUsuarioEstadoSeleccionado(null);
         } finally {
             setCambiandoEstadoId(null);
         }
@@ -128,12 +155,16 @@ export default function UsuariosPage() {
     if (cargando) {
         return (
             <div className="usuarios-state">
-                Cargando usuarios...
+                <span>Don Marcelino</span>
+
+                <strong>
+                    Cargando usuarios...
+                </strong>
             </div>
         );
     }
 
-    if (error) {
+    if (error && usuarios.length === 0) {
         return (
             <div className="usuarios-state">
                 {error}
@@ -146,7 +177,7 @@ export default function UsuariosPage() {
             <header className="usuarios-header">
                 <div>
                     <p className="page-eyebrow">
-                        Don Marcelino
+                        Área de gestión
                     </p>
 
                     <h1>
@@ -170,9 +201,19 @@ export default function UsuariosPage() {
             </header>
 
             <main className="usuarios-content">
+                {error && (
+                    <div className="usuarios-error">
+                        {error}
+                    </div>
+                )}
+
                 <section className="usuarios-card">
                     <div className="usuarios-card-header">
                         <div>
+                            <p className="usuarios-section-label">
+                                Administración
+                            </p>
+
                             <h2>
                                 Usuarios registrados
                             </h2>
@@ -203,7 +244,7 @@ export default function UsuariosPage() {
                                         <th>Rol</th>
                                         <th>Estado</th>
                                         <th>Fecha alta</th>
-                                        <th></th>
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
 
@@ -211,22 +252,16 @@ export default function UsuariosPage() {
                                     {usuarios.map(
                                         (usuario) => (
                                             <tr
-                                                key={
-                                                    usuario.id
-                                                }
+                                                key={usuario.id}
                                             >
                                                 <td>
-                                                    <strong>
-                                                        {
-                                                            usuario.nombre
-                                                        }
+                                                    <strong className="usuario-nombre">
+                                                        {usuario.nombre}
                                                     </strong>
                                                 </td>
 
-                                                <td>
-                                                    {
-                                                        usuario.email
-                                                    }
+                                                <td className="usuario-email">
+                                                    {usuario.email}
                                                 </td>
 
                                                 <td>
@@ -256,9 +291,9 @@ export default function UsuariosPage() {
                                                 </td>
 
                                                 <td>
-                                                    {new Date(
+                                                    {formatearFecha(
                                                         usuario.fechaAlta
-                                                    ).toLocaleDateString()}
+                                                    )}
                                                 </td>
 
                                                 <td>
@@ -283,7 +318,7 @@ export default function UsuariosPage() {
                                                                     : "table-action"
                                                             }
                                                             onClick={() =>
-                                                                cambiarEstadoUsuario(
+                                                                solicitarCambioEstado(
                                                                     usuario
                                                                 )
                                                             }
@@ -331,9 +366,7 @@ export default function UsuariosPage() {
                         usuarioSeleccionado
                     }
                     onCerrar={() =>
-                        setUsuarioSeleccionado(
-                            null
-                        )
+                        setUsuarioSeleccionado(null)
                     }
                     onActualizado={(actualizado) => {
                         setUsuarios((actuales) =>
@@ -346,11 +379,99 @@ export default function UsuariosPage() {
                             )
                         );
 
-                        setUsuarioSeleccionado(
-                            null
-                        );
+                        setUsuarioSeleccionado(null);
                     }}
                 />
+            )}
+
+            {usuarioEstadoSeleccionado && (
+                <div
+                    className="usuario-confirm-backdrop"
+                    onMouseDown={(event) => {
+                        if (
+                            event.target ===
+                            event.currentTarget
+                        ) {
+                            cancelarCambioEstado();
+                        }
+                    }}
+                >
+                    <div
+                        className="usuario-confirm-card"
+                        role="dialog"
+                        aria-modal="true"
+                    >
+                        <p className="usuario-confirm-eyebrow">
+                            Confirmar acción
+                        </p>
+
+                        <h2>
+                            {usuarioEstadoSeleccionado.activo
+                                ? "Desactivar usuario"
+                                : "Activar usuario"}
+                        </h2>
+
+                        <p>
+                            ¿Seguro que querés{" "}
+                            {usuarioEstadoSeleccionado.activo
+                                ? "desactivar"
+                                : "activar"}{" "}
+                            a{" "}
+                            <strong>
+                                {
+                                    usuarioEstadoSeleccionado.nombre
+                                }
+                            </strong>
+                            ?
+                        </p>
+
+                        <span className="usuario-confirm-warning">
+                            {usuarioEstadoSeleccionado.activo
+                                ? "El usuario dejará de poder ingresar al sistema hasta que vuelva a ser activado."
+                                : "El usuario recuperará el acceso al sistema con su rol actual."}
+                        </span>
+
+                        <div className="usuario-confirm-actions">
+                            <button
+                                type="button"
+                                className="secondary-button"
+                                onClick={
+                                    cancelarCambioEstado
+                                }
+                                disabled={
+                                    Boolean(
+                                        cambiandoEstadoId
+                                    )
+                                }
+                            >
+                                Cancelar
+                            </button>
+
+                            <button
+                                type="button"
+                                className={
+                                    usuarioEstadoSeleccionado.activo
+                                        ? "danger-button"
+                                        : "primary-button"
+                                }
+                                onClick={
+                                    cambiarEstadoUsuario
+                                }
+                                disabled={
+                                    Boolean(
+                                        cambiandoEstadoId
+                                    )
+                                }
+                            >
+                                {cambiandoEstadoId
+                                    ? "Guardando..."
+                                    : usuarioEstadoSeleccionado.activo
+                                        ? "Sí, desactivar"
+                                        : "Sí, activar"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

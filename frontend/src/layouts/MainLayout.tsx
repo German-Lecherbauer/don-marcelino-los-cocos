@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import "./MainLayout.css";
@@ -5,11 +6,78 @@ import "./MainLayout.css";
 export default function MainLayout() {
     const { usuario, logout } = useAuth();
 
-    const esAdmin = usuario?.rol === 1;
+    const [menuAbierto, setMenuAbierto] =
+        useState(false);
+
+    const esAdmin =
+        usuario?.rol === 1;
+
+    const cerrarMenu = () => {
+        setMenuAbierto(false);
+    };
+
+    const cerrarSesion = () => {
+        cerrarMenu();
+        logout();
+    };
 
     return (
         <div className="app-shell">
-            <aside className="sidebar">
+            <header className="mobile-header">
+                <div className="mobile-brand">
+                    <span>
+                        Don Marcelino
+                    </span>
+
+                    <strong>
+                        y Los Cocos
+                    </strong>
+                </div>
+
+                <button
+                    type="button"
+                    className={`mobile-menu-button ${menuAbierto
+                            ? "open"
+                            : ""
+                        }`}
+                    aria-label={
+                        menuAbierto
+                            ? "Cerrar menú"
+                            : "Abrir menú"
+                    }
+                    aria-expanded={
+                        menuAbierto
+                    }
+                    onClick={() =>
+                        setMenuAbierto(
+                            (actual) =>
+                                !actual
+                        )
+                    }
+                >
+                    <span />
+                    <span />
+                    <span />
+                </button>
+            </header>
+
+            {menuAbierto && (
+                <button
+                    type="button"
+                    className="sidebar-overlay"
+                    aria-label="Cerrar menú"
+                    onClick={
+                        cerrarMenu
+                    }
+                />
+            )}
+
+            <aside
+                className={`sidebar ${menuAbierto
+                        ? "sidebar-open"
+                        : ""
+                    }`}
+            >
                 <div className="sidebar-brand">
                     <span className="sidebar-brand-small">
                         Don Marcelino
@@ -23,7 +91,12 @@ export default function MainLayout() {
                 <nav className="sidebar-nav">
                     <NavLink
                         to="/dashboard"
-                        className={({ isActive }) =>
+                        onClick={
+                            cerrarMenu
+                        }
+                        className={({
+                            isActive,
+                        }) =>
                             isActive
                                 ? "nav-item active"
                                 : "nav-item"
@@ -34,7 +107,12 @@ export default function MainLayout() {
 
                     <NavLink
                         to="/pacientes"
-                        className={({ isActive }) =>
+                        onClick={
+                            cerrarMenu
+                        }
+                        className={({
+                            isActive,
+                        }) =>
                             isActive
                                 ? "nav-item active"
                                 : "nav-item"
@@ -45,7 +123,12 @@ export default function MainLayout() {
 
                     <NavLink
                         to="/membresias"
-                        className={({ isActive }) =>
+                        onClick={
+                            cerrarMenu
+                        }
+                        className={({
+                            isActive,
+                        }) =>
                             isActive
                                 ? "nav-item active"
                                 : "nav-item"
@@ -58,7 +141,12 @@ export default function MainLayout() {
                         <>
                             <NavLink
                                 to="/usuarios"
-                                className={({ isActive }) =>
+                                onClick={
+                                    cerrarMenu
+                                }
+                                className={({
+                                    isActive,
+                                }) =>
                                     isActive
                                         ? "nav-item active"
                                         : "nav-item"
@@ -69,7 +157,12 @@ export default function MainLayout() {
 
                             <NavLink
                                 to="/auditoria"
-                                className={({ isActive }) =>
+                                onClick={
+                                    cerrarMenu
+                                }
+                                className={({
+                                    isActive,
+                                }) =>
                                     isActive
                                         ? "nav-item active"
                                         : "nav-item"
@@ -84,18 +177,24 @@ export default function MainLayout() {
                 <div className="sidebar-footer">
                     <div className="sidebar-user">
                         <span>
-                            {usuario?.nombre}
+                            {
+                                usuario?.nombre
+                            }
                         </span>
 
                         <small>
-                            {usuario?.email}
+                            {
+                                usuario?.email
+                            }
                         </small>
                     </div>
 
                     <button
                         type="button"
                         className="sidebar-logout"
-                        onClick={logout}
+                        onClick={
+                            cerrarSesion
+                        }
                     >
                         Cerrar sesión
                     </button>

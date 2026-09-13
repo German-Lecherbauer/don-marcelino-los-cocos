@@ -97,6 +97,7 @@ export default function AuditoriaPage() {
                 year: "numeric",
                 hour: "2-digit",
                 minute: "2-digit",
+                hour12: false,
             }
         ).format(
             new Date(fecha)
@@ -106,7 +107,13 @@ export default function AuditoriaPage() {
     if (cargando) {
         return (
             <div className="auditoria-state">
-                Cargando auditoría...
+                <span>
+                    Don Marcelino
+                </span>
+
+                <strong>
+                    Cargando auditoría...
+                </strong>
             </div>
         );
     }
@@ -124,7 +131,7 @@ export default function AuditoriaPage() {
             <header className="auditoria-header">
                 <div>
                     <p className="page-eyebrow">
-                        Don Marcelino
+                        Área de gestión
                     </p>
 
                     <h1>
@@ -141,6 +148,10 @@ export default function AuditoriaPage() {
                 <section className="auditoria-card">
                     <div className="auditoria-card-header">
                         <div>
+                            <p className="auditoria-section-label">
+                                Actividad del sistema
+                            </p>
+
                             <h2>
                                 Historial de actividad
                             </h2>
@@ -184,14 +195,14 @@ export default function AuditoriaPage() {
                                                     auditoria.id
                                                 }
                                             >
-                                                <td>
+                                                <td className="auditoria-fecha">
                                                     {formatearFechaHora(
                                                         auditoria.fecha
                                                     )}
                                                 </td>
 
                                                 <td>
-                                                    <strong>
+                                                    <strong className="auditoria-usuario">
                                                         {
                                                             auditoria.usuarioNombre
                                                         }
@@ -210,7 +221,7 @@ export default function AuditoriaPage() {
                                                     </span>
                                                 </td>
 
-                                                <td>
+                                                <td className="auditoria-entidad">
                                                     {
                                                         auditoria.entidad
                                                     }

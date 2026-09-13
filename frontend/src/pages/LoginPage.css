@@ -122,6 +122,7 @@
     width: 100%;
     max-width: 500px;
     padding: 42px;
+    box-sizing: border-box;
     border: 1px solid rgba(255, 255, 255, 0.09);
     border-radius: 6px;
     background: rgba(255, 255, 255, 0.035);
@@ -165,6 +166,7 @@
     .login-form-group input {
         width: 100%;
         min-height: 50px;
+        box-sizing: border-box;
         padding: 0 14px;
         border: 1px solid rgba(255, 255, 255, 0.12);
         border-radius: 4px;
@@ -173,7 +175,6 @@
         font: inherit;
         font-size: 14px;
         outline: none;
-        box-sizing: border-box;
         transition: border-color 0.2s ease, background 0.2s ease;
     }
 
@@ -232,9 +233,9 @@
     text-transform: uppercase;
 }
 
-/* =========================
+/* =========================================================
    RESPONSIVE
-========================= */
+========================================================= */
 
 @media (max-width: 1150px) {
     .login-layout {
@@ -257,8 +258,9 @@
 
     .login-logo-wrapper {
         width: 240px;
-        justify-self: start;
+        justify-self: center;
         margin-left: 0;
+        transform: none;
     }
 }
 
@@ -279,8 +281,10 @@
 
     .login-logo-wrapper {
         width: min(260px, 58vw);
-        justify-self: start;
-        margin-left: 0;
+        justify-self: center;
+        margin-left: auto;
+        margin-right: auto;
+        transform: none;
     }
 
     .login-form-panel {
@@ -317,8 +321,21 @@
         font-size: 14px;
     }
 
+    /* =====================================================
+       LOGO MOBILE CENTRADO
+    ===================================================== */
+
     .login-logo-wrapper {
         width: min(230px, 65vw);
+        justify-self: center;
+        margin-left: auto;
+        margin-right: auto;
+        transform: none;
+    }
+
+    .login-logo {
+        display: block;
+        margin: 0 auto;
     }
 
     .login-card {
@@ -329,9 +346,25 @@
         font-size: 32px;
     }
 
+    /* =====================================================
+       FOOTER LOGIN MOBILE
+    ===================================================== */
+
     .login-footer {
-        align-items: flex-start;
+        width: 100%;
+        box-sizing: border-box;
+        align-items: center;
+        justify-content: center;
         flex-direction: column;
         gap: 8px;
+        text-align: center;
     }
+
+        .login-footer span,
+        .login-footer p,
+        .login-footer small {
+            width: 100%;
+            margin: 0;
+            text-align: center;
+        }
 }

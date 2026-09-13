@@ -126,7 +126,7 @@ export default function MembresiasPage() {
             <header className="membresias-header">
                 <div>
                     <p className="page-eyebrow">
-                        Don Marcelino
+                        Área de gestión
                     </p>
 
                     <h1>
