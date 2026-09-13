@@ -114,18 +114,22 @@ export default function DashboardPage() {
         {
             etiqueta: "Total pacientes",
             valor: dashboard.totalPacientes,
+            clase: "metric-card-total",
         },
         {
             etiqueta: "Pacientes activos",
             valor: dashboard.pacientesActivos,
+            clase: "metric-card-pacientes-activos",
         },
         {
             etiqueta: "Membresías activas",
             valor: dashboard.membresiasActivas,
+            clase: "metric-card-membresias-activas",
         },
         {
             etiqueta: "Membresías vencidas",
             valor: dashboard.membresiasVencidas,
+            clase: "metric-card-membresias-vencidas",
         },
     ];
 
@@ -135,6 +139,7 @@ export default function DashboardPage() {
             {
                 etiqueta: "Usuarios activos",
                 valor: dashboard.usuariosActivos,
+                clase: "metric-card-usuarios",
             },
         ]
         : metricasBase;
@@ -183,7 +188,7 @@ export default function DashboardPage() {
                         {metricas.map(
                             (metrica) => (
                                 <article
-                                    className="metric-card"
+                                    className={`metric-card ${metrica.clase}`}
                                     key={
                                         metrica.etiqueta
                                     }
