@@ -6,15 +6,8 @@ import MembresiaModal from "../components/MembresiaModal";
 import EditarPacienteModal from "../components/EditarPacienteModal";
 import { useAuth } from "../auth/AuthContext";
 import type { Paciente } from "../types/paciente";
+import type { Membresia } from "../types/membresia";
 import "./PacienteDetallePage.css";
-
-interface Membresia {
-    id: string;
-    pacienteId: string;
-    fechaInicio: string;
-    fechaVencimiento: string;
-    estado: number;
-}
 
 export default function PacienteDetallePage() {
     const { id } = useParams();
@@ -475,9 +468,7 @@ export default function PacienteDetallePage() {
 
                                 <tbody>
                                     {membresias.map(
-                                        (
-                                            membresia
-                                        ) => (
+                                        (membresia) => (
                                             <tr
                                                 key={
                                                     membresia.id

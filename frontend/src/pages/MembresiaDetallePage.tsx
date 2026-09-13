@@ -4,15 +4,8 @@ import apiClient from "../api/apiClient";
 import CambiarEstadoMembresiaModal from "../components/CambiarEstadoMembresiaModal";
 import EditarMembresiaModal from "../components/EditarMembresiaModal";
 import { useAuth } from "../auth/AuthContext";
+import type { Membresia } from "../types/membresia";
 import "./MembresiaDetallePage.css";
-
-interface Membresia {
-    id: string;
-    pacienteId: string;
-    fechaInicio: string;
-    fechaVencimiento: string;
-    estado: number;
-}
 
 export default function MembresiaDetallePage() {
     const { id } = useParams();

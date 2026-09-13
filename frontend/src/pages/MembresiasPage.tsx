@@ -1,22 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../api/apiClient";
+import type { Membresia } from "../types/membresia";
 import "./MembresiasPage.css";
-
-interface MembresiaListado {
-    id: string;
-    pacienteId: string;
-    pacienteNombre: string;
-    fechaInicio: string;
-    fechaVencimiento: string;
-    estado: number;
-}
 
 export default function MembresiasPage() {
     const navigate = useNavigate();
 
     const [membresias, setMembresias] =
-        useState<MembresiaListado[]>([]);
+        useState<Membresia[]>([]);
 
     const [cargando, setCargando] =
         useState(true);
@@ -28,7 +20,7 @@ export default function MembresiasPage() {
         const cargarMembresias = async () => {
             try {
                 const response =
-                    await apiClient.get<MembresiaListado[]>(
+                    await apiClient.get<Membresia[]>(
                         "/membresias"
                     );
 
@@ -178,13 +170,9 @@ export default function MembresiasPage() {
 
                                 <tbody>
                                     {membresias.map(
-                                        (
-                                            membresia
-                                        ) => (
+                                        (membresia) => (
                                             <tr
-                                                key={
-                                                    membresia.id
-                                                }
+                                                key={membresia.id}
                                             >
                                                 <td>
                                                     <button
@@ -196,9 +184,8 @@ export default function MembresiasPage() {
                                                             )
                                                         }
                                                     >
-                                                        {
-                                                            membresia.pacienteNombre
-                                                        }
+                                                        {membresia.pacienteNombre ??
+                                                            "Paciente"}
                                                     </button>
                                                 </td>
 

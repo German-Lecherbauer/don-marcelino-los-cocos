@@ -1,15 +1,8 @@
 import { useEffect, useState, type FormEvent } from "react";
 import axios from "axios";
 import apiClient from "../api/apiClient";
+import type { Membresia } from "../types/membresia";
 import "./EditarMembresiaModal.css";
-
-interface Membresia {
-    id: string;
-    pacienteId: string;
-    fechaInicio: string;
-    fechaVencimiento: string;
-    estado: number;
-}
 
 interface EditarMembresiaModalProps {
     abierto: boolean;

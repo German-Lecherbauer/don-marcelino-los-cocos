@@ -1,15 +1,8 @@
 import { useEffect, useState, type FormEvent } from "react";
 import axios from "axios";
 import apiClient from "../api/apiClient";
+import type { Membresia } from "../types/membresia";
 import "./CambiarEstadoMembresiaModal.css";
-
-interface Membresia {
-    id: string;
-    pacienteId: string;
-    fechaInicio: string;
-    fechaVencimiento: string;
-    estado: number;
-}
 
 interface CambiarEstadoMembresiaModalProps {
     abierto: boolean;
@@ -83,7 +76,9 @@ export default function CambiarEstadoMembresiaModal({
                 <div className="estado-modal-header">
                     <div>
                         <h2>Cambiar estado</h2>
-                        <p>Seleccioná el nuevo estado de la membresía.</p>
+                        <p>
+                            Seleccioná el nuevo estado de la membresía.
+                        </p>
                     </div>
 
                     <button
