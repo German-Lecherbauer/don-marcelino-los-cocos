@@ -14,8 +14,7 @@
     background: #13251a;
 }
 
-.page-eyebrow,
-.page-section-label {
+.page-eyebrow {
     margin: 0 0 10px;
     color: #aabd7d;
     font-size: 11px;
@@ -72,37 +71,9 @@
     padding: 38px 0 64px;
 }
 
-.pacientes-panel {
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    background: #152219;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
-}
-
-.pacientes-panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    padding: 24px 26px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    background: #17251d;
-}
-
-    .pacientes-panel-header h2 {
-        margin: 0;
-        color: #f3eee6;
-        font-size: 24px;
-        font-weight: 620;
-        letter-spacing: -0.03em;
-    }
-
-    .pacientes-panel-header p {
-        margin: 7px 0 0;
-        color: rgba(238, 234, 225, 0.46);
-        font-size: 13px;
-    }
+/* =========================================
+   ESPECÍFICO DE LA TABLA DE PACIENTES
+========================================= */
 
 .pacientes-table-wrapper {
     overflow-x: auto;
@@ -123,44 +94,6 @@
         background: rgba(181, 202, 131, 0.35);
     }
 
-.pacientes-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-    .pacientes-table th,
-    .pacientes-table td {
-        padding: 17px 20px;
-        text-align: left;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .pacientes-table th {
-        background: #132019;
-        color: rgba(238, 234, 225, 0.46);
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-    }
-
-    .pacientes-table td {
-        color: rgba(243, 238, 230, 0.74);
-        font-size: 13px;
-    }
-
-    .pacientes-table tbody tr {
-        transition: background 0.2s ease, color 0.2s ease;
-    }
-
-        .pacientes-table tbody tr:hover {
-            background: #19281f;
-        }
-
-        .pacientes-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
 .patient-name {
     color: #f3eee6;
     font-size: 13px;
@@ -179,6 +112,10 @@
 .table-actions-cell {
     text-align: right !important;
 }
+
+/* =========================================
+   BADGES
+========================================= */
 
 .status-badge {
     display: inline-flex;
@@ -202,6 +139,10 @@
         color: #dca39d;
     }
 
+/* =========================================
+   ACCIONES
+========================================= */
+
 .table-action {
     padding: 7px 12px;
     border: 1px solid rgba(255, 255, 255, 0.09);
@@ -220,8 +161,11 @@
         color: #d9e8b5;
     }
 
+/* =========================================
+   ESTADOS DE PÁGINA
+========================================= */
+
 .pacientes-state,
-.pacientes-empty,
 .pacientes-error {
     padding: 40px;
     text-align: center;
@@ -250,10 +194,6 @@
         font-size: 16px;
     }
 
-.pacientes-empty {
-    color: rgba(238, 234, 225, 0.5);
-}
-
 .pacientes-error {
     margin-bottom: 20px;
     border: 1px solid rgba(216, 157, 151, 0.22);
@@ -262,9 +202,9 @@
     color: #e5aaa3;
 }
 
-/* =========================================================
+/* =========================================
    RESPONSIVE
-========================================================= */
+========================================= */
 
 @media (max-width: 900px) {
     .pacientes-header {
@@ -296,10 +236,6 @@
 @media (max-width: 600px) {
     .pacientes-header h1 {
         font-size: 34px;
-    }
-
-    .pacientes-panel-header {
-        padding: 20px;
     }
 
     .pacientes-table th,

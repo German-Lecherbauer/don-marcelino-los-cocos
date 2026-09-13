@@ -4,6 +4,7 @@ import apiClient from "../api/apiClient";
 import PacienteModal from "../components/PacienteModal";
 import { useAuth } from "../auth/AuthContext";
 import type { Paciente } from "../types/paciente";
+import "../styles/ManagementPanel.css";
 import "./PacientesPage.css";
 
 export default function PacientesPage() {
@@ -14,10 +15,17 @@ export default function PacientesPage() {
         usuario?.rol === 1 ||
         usuario?.rol === 2;
 
-    const [pacientes, setPacientes] = useState<Paciente[]>([]);
-    const [cargando, setCargando] = useState(true);
-    const [error, setError] = useState("");
-    const [modalAbierto, setModalAbierto] = useState(false);
+    const [pacientes, setPacientes] =
+        useState<Paciente[]>([]);
+
+    const [cargando, setCargando] =
+        useState(true);
+
+    const [error, setError] =
+        useState("");
+
+    const [modalAbierto, setModalAbierto] =
+        useState(false);
 
     useEffect(() => {
         const cargarPacientes = async () => {
@@ -49,7 +57,9 @@ export default function PacientesPage() {
         ]);
     };
 
-    const formatearFecha = (fecha: string) => {
+    const formatearFecha = (
+        fecha: string
+    ) => {
         return new Intl.DateTimeFormat(
             "es-AR",
             {
@@ -57,7 +67,9 @@ export default function PacientesPage() {
                 month: "2-digit",
                 year: "numeric",
             }
-        ).format(new Date(fecha));
+        ).format(
+            new Date(fecha)
+        );
     };
 
     if (cargando) {
@@ -111,114 +123,122 @@ export default function PacientesPage() {
                     </div>
                 )}
 
-                <section className="pacientes-panel">
-                    <div className="pacientes-panel-header">
-                        <div>
-                            <p className="page-section-label">
+                <section className="pacientes-panel management-card">
+                    <div className="management-card-header">
+                        <div className="management-card-heading">
+                            <p className="management-section-label">
                                 Registro
                             </p>
 
-                            <h2>
+                            <h2 className="management-card-title">
                                 Listado de pacientes
                             </h2>
 
-                            <p>
-                                {pacientes.length} pacientes registrados
+                            <p className="management-card-description">
+                                {pacientes.length} paciente
+                                {pacientes.length !== 1
+                                    ? "s"
+                                    : ""} registrado
+                                {pacientes.length !== 1
+                                    ? "s"
+                                    : ""}.
                             </p>
                         </div>
                     </div>
 
-                    {pacientes.length === 0 ? (
-                        <div className="pacientes-empty">
-                            No hay pacientes registrados.
-                        </div>
-                    ) : (
-                        <div className="pacientes-table-wrapper">
-                            <table className="pacientes-table">
-                                <thead>
-                                    <tr>
-                                        <th>Paciente</th>
-                                        <th>Documento</th>
-                                        <th>Email</th>
-                                        <th>Fecha de alta</th>
-                                        <th>Estado</th>
-                                        <th className="table-actions-heading">
-                                            Acción
-                                        </th>
-                                    </tr>
-                                </thead>
+                    <div className="management-card-body">
+                        {pacientes.length === 0 ? (
+                            <div className="management-empty">
+                                No hay pacientes registrados.
+                            </div>
+                        ) : (
+                            <div className="pacientes-table-wrapper">
+                                <table className="pacientes-table management-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Paciente</th>
+                                            <th>Documento</th>
+                                            <th>Email</th>
+                                            <th>Fecha de alta</th>
+                                            <th>Estado</th>
+                                            <th className="table-actions-heading">
+                                                Acción
+                                            </th>
+                                        </tr>
+                                    </thead>
 
-                                <tbody>
-                                    {pacientes.map(
-                                        (paciente) => (
-                                            <tr
-                                                key={
-                                                    paciente.id
-                                                }
-                                            >
-                                                <td>
-                                                    <strong className="patient-name">
-                                                        {
-                                                            paciente.nombre
-                                                        }{" "}
-                                                        {
-                                                            paciente.apellido
-                                                        }
-                                                    </strong>
-                                                </td>
-
-                                                <td>
-                                                    {
-                                                        paciente.documento
+                                    <tbody>
+                                        {pacientes.map(
+                                            (paciente) => (
+                                                <tr
+                                                    key={
+                                                        paciente.id
                                                     }
-                                                </td>
+                                                >
+                                                    <td>
+                                                        <strong className="patient-name">
+                                                            {
+                                                                paciente.nombre
+                                                            }{" "}
+                                                            {
+                                                                paciente.apellido
+                                                            }
+                                                        </strong>
+                                                    </td>
 
-                                                <td className="patient-email">
-                                                    {
-                                                        paciente.email
-                                                    }
-                                                </td>
-
-                                                <td>
-                                                    {formatearFecha(
-                                                        paciente.fechaAlta
-                                                    )}
-                                                </td>
-
-                                                <td>
-                                                    <span
-                                                        className={
-                                                            paciente.activo
-                                                                ? "status-badge active"
-                                                                : "status-badge inactive"
+                                                    <td>
+                                                        {
+                                                            paciente.documento
                                                         }
-                                                    >
-                                                        {paciente.activo
-                                                            ? "Activo"
-                                                            : "Inactivo"}
-                                                    </span>
-                                                </td>
+                                                    </td>
 
-                                                <td className="table-actions-cell">
-                                                    <button
-                                                        type="button"
-                                                        className="table-action"
-                                                        onClick={() =>
-                                                            navigate(
-                                                                `/pacientes/${paciente.id}`
-                                                            )
+                                                    <td className="patient-email">
+                                                        {
+                                                            paciente.email
                                                         }
-                                                    >
-                                                        Ver
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        )
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
+                                                    </td>
+
+                                                    <td>
+                                                        {formatearFecha(
+                                                            paciente.fechaAlta
+                                                        )}
+                                                    </td>
+
+                                                    <td>
+                                                        <span
+                                                            className={
+                                                                paciente.activo
+                                                                    ? "status-badge active"
+                                                                    : "status-badge inactive"
+                                                            }
+                                                        >
+                                                            {paciente.activo
+                                                                ? "Activo"
+                                                                : "Inactivo"}
+                                                        </span>
+                                                    </td>
+
+                                                    <td className="table-actions-cell">
+                                                        <button
+                                                            type="button"
+                                                            className="table-action"
+                                                            onClick={() =>
+                                                                navigate(
+                                                                    `/pacientes/${paciente.id}`
+                                                                )
+                                                            }
+                                                        >
+                                                            Ver
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
                 </section>
             </main>
 

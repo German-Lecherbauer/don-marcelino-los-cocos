@@ -1,0 +1,157 @@
+/* =========================================
+   MANAGEMENT PANEL
+   Estilo compartido para cards de gestión
+   ========================================= */
+
+.management-card {
+    width: 100%;
+    overflow: hidden;
+    background: #14251b;
+    border: 1px solid rgba(197, 161, 92, 0.18);
+    border-radius: 18px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);
+}
+
+.management-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.8rem 2rem;
+    border-bottom: 1px solid rgba(197, 161, 92, 0.12);
+}
+
+.management-card-heading {
+    min-width: 0;
+}
+
+.management-section-label {
+    margin: 0 0 0.65rem;
+    color: #c5a15c;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.management-card-title {
+    margin: 0;
+    color: #f3eee6;
+    font-size: 1.65rem;
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.management-card-description {
+    margin: 0.55rem 0 0;
+    color: #a99f8d;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.management-card-body {
+    width: 100%;
+}
+
+.management-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    padding: 2.5rem 2rem;
+    color: #b8aa8d;
+    font-size: 0.98rem;
+    text-align: center;
+}
+
+/* =========================================
+   TABLE HEADER SHARED
+   ========================================= */
+
+.management-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+    .management-table thead {
+        background: rgba(8, 24, 15, 0.22);
+    }
+
+    .management-table th {
+        padding: 1rem 1.25rem;
+        color: #b69a68;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.11em;
+        text-align: left;
+        text-transform: uppercase;
+        border-bottom: 1px solid rgba(197, 161, 92, 0.12);
+    }
+
+    .management-table td {
+        padding: 1.05rem 1.25rem;
+        color: #e9e1d3;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+    }
+
+    .management-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .management-table tbody tr {
+        transition: background-color 0.18s ease;
+    }
+
+        .management-table tbody tr:hover {
+            background: rgba(197, 161, 92, 0.035);
+        }
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 800px) {
+    .management-card {
+        border-radius: 14px;
+    }
+
+    .management-card-header {
+        padding: 1.5rem;
+    }
+
+    .management-card-title {
+        font-size: 1.45rem;
+    }
+
+    .management-table th,
+    .management-table td {
+        padding: 0.9rem 1rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .management-card-header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.35rem 1.2rem;
+    }
+
+    .management-section-label {
+        font-size: 0.67rem;
+    }
+
+    .management-card-title {
+        font-size: 1.3rem;
+    }
+
+    .management-card-description {
+        font-size: 0.88rem;
+    }
+
+    .management-empty {
+        padding: 2rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}

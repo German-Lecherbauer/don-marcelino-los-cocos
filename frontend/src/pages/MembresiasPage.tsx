@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../api/apiClient";
 import type { Membresia } from "../types/membresia";
+import "../styles/ManagementPanel.css";
 import "./MembresiasPage.css";
 
 export default function MembresiasPage() {
@@ -132,14 +133,18 @@ export default function MembresiasPage() {
             </header>
 
             <main className="membresias-content">
-                <section className="membresias-card">
-                    <div className="membresias-card-header">
-                        <div>
-                            <h2>
+                <section className="membresias-card management-card">
+                    <div className="management-card-header">
+                        <div className="management-card-heading">
+                            <p className="management-section-label">
+                                Administración
+                            </p>
+
+                            <h2 className="management-card-title">
                                 Listado de membresías
                             </h2>
 
-                            <p>
+                            <p className="management-card-description">
                                 {membresias.length} membresía
                                 {membresias.length !== 1
                                     ? "s"
@@ -151,88 +156,94 @@ export default function MembresiasPage() {
                         </div>
                     </div>
 
-                    {membresias.length === 0 ? (
-                        <div className="membresias-empty">
-                            No hay membresías registradas.
-                        </div>
-                    ) : (
-                        <div className="membresias-table-wrapper">
-                            <table className="membresias-table">
-                                <thead>
-                                    <tr>
-                                        <th>Paciente</th>
-                                        <th>Inicio</th>
-                                        <th>Vencimiento</th>
-                                        <th>Estado</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
+                    <div className="management-card-body">
+                        {membresias.length === 0 ? (
+                            <div className="management-empty">
+                                No hay membresías registradas.
+                            </div>
+                        ) : (
+                            <div className="membresias-table-wrapper">
+                                <table className="membresias-table management-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Paciente</th>
+                                            <th>Inicio</th>
+                                            <th>Vencimiento</th>
+                                            <th>Estado</th>
+                                            <th>
+                                                Acción
+                                            </th>
+                                        </tr>
+                                    </thead>
 
-                                <tbody>
-                                    {membresias.map(
-                                        (membresia) => (
-                                            <tr
-                                                key={membresia.id}
-                                            >
-                                                <td>
-                                                    <button
-                                                        type="button"
-                                                        className="membresia-paciente-link"
-                                                        onClick={() =>
-                                                            navigate(
-                                                                `/pacientes/${membresia.pacienteId}`
-                                                            )
-                                                        }
-                                                    >
-                                                        {membresia.pacienteNombre ??
-                                                            "Paciente"}
-                                                    </button>
-                                                </td>
+                                    <tbody>
+                                        {membresias.map(
+                                            (membresia) => (
+                                                <tr
+                                                    key={
+                                                        membresia.id
+                                                    }
+                                                >
+                                                    <td>
+                                                        <button
+                                                            type="button"
+                                                            className="membresia-paciente-link"
+                                                            onClick={() =>
+                                                                navigate(
+                                                                    `/pacientes/${membresia.pacienteId}`
+                                                                )
+                                                            }
+                                                        >
+                                                            {membresia.pacienteNombre ??
+                                                                "Paciente"}
+                                                        </button>
+                                                    </td>
 
-                                                <td>
-                                                    {formatearFecha(
-                                                        membresia.fechaInicio
-                                                    )}
-                                                </td>
-
-                                                <td>
-                                                    {formatearFecha(
-                                                        membresia.fechaVencimiento
-                                                    )}
-                                                </td>
-
-                                                <td>
-                                                    <span
-                                                        className={`membresias-estado ${obtenerClaseEstado(
-                                                            membresia.estado
-                                                        )}`}
-                                                    >
-                                                        {obtenerEstado(
-                                                            membresia.estado
+                                                    <td>
+                                                        {formatearFecha(
+                                                            membresia.fechaInicio
                                                         )}
-                                                    </span>
-                                                </td>
+                                                    </td>
 
-                                                <td>
-                                                    <button
-                                                        type="button"
-                                                        className="table-action"
-                                                        onClick={() =>
-                                                            navigate(
-                                                                `/membresias/${membresia.id}`
-                                                            )
-                                                        }
-                                                    >
-                                                        Ver
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        )
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
+                                                    <td>
+                                                        {formatearFecha(
+                                                            membresia.fechaVencimiento
+                                                        )}
+                                                    </td>
+
+                                                    <td>
+                                                        <span
+                                                            className={`membresias-estado ${obtenerClaseEstado(
+                                                                membresia.estado
+                                                            )}`}
+                                                        >
+                                                            {obtenerEstado(
+                                                                membresia.estado
+                                                            )}
+                                                        </span>
+                                                    </td>
+
+                                                    <td>
+                                                        <button
+                                                            type="button"
+                                                            className="table-action"
+                                                            onClick={() =>
+                                                                navigate(
+                                                                    `/membresias/${membresia.id}`
+                                                                )
+                                                            }
+                                                        >
+                                                            Ver
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
                 </section>
             </main>
         </div>

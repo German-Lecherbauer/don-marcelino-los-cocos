@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import apiClient from "../api/apiClient";
 import CrearUsuarioModal from "../components/CrearUsuarioModal";
 import CambiarRolUsuarioModal from "../components/CambiarRolUsuarioModal";
+import "../styles/ManagementPanel.css";
 import "./UsuariosPage.css";
 
 interface Usuario {
@@ -14,9 +15,14 @@ interface Usuario {
 }
 
 export default function UsuariosPage() {
-    const [usuarios, setUsuarios] = useState<Usuario[]>([]);
-    const [cargando, setCargando] = useState(true);
-    const [error, setError] = useState("");
+    const [usuarios, setUsuarios] =
+        useState<Usuario[]>([]);
+
+    const [cargando, setCargando] =
+        useState(true);
+
+    const [error, setError] =
+        useState("");
 
     const [modalCrearAbierto, setModalCrearAbierto] =
         useState(false);
@@ -51,7 +57,9 @@ export default function UsuariosPage() {
         cargarUsuarios();
     }, []);
 
-    const obtenerRol = (rol: number) => {
+    const obtenerRol = (
+        rol: number
+    ) => {
         switch (rol) {
             case 1:
                 return "Admin";
@@ -67,7 +75,9 @@ export default function UsuariosPage() {
         }
     };
 
-    const obtenerClaseRol = (rol: number) => {
+    const obtenerClaseRol = (
+        rol: number
+    ) => {
         switch (rol) {
             case 1:
                 return "admin";
@@ -83,7 +93,9 @@ export default function UsuariosPage() {
         }
     };
 
-    const formatearFecha = (fecha: string) => {
+    const formatearFecha = (
+        fecha: string
+    ) => {
         return new Intl.DateTimeFormat(
             "es-AR",
             {
@@ -91,14 +103,18 @@ export default function UsuariosPage() {
                 month: "2-digit",
                 year: "numeric",
             }
-        ).format(new Date(fecha));
+        ).format(
+            new Date(fecha)
+        );
     };
 
     const solicitarCambioEstado = (
         usuario: Usuario
     ) => {
         setError("");
-        setUsuarioEstadoSeleccionado(usuario);
+        setUsuarioEstadoSeleccionado(
+            usuario
+        );
     };
 
     const cancelarCambioEstado = () => {
@@ -106,7 +122,9 @@ export default function UsuariosPage() {
             return;
         }
 
-        setUsuarioEstadoSeleccionado(null);
+        setUsuarioEstadoSeleccionado(
+            null
+        );
     };
 
     const cambiarEstadoUsuario = async () => {
@@ -114,11 +132,16 @@ export default function UsuariosPage() {
             return;
         }
 
-        const usuario = usuarioEstadoSeleccionado;
-        const nuevoEstado = !usuario.activo;
+        const usuario =
+            usuarioEstadoSeleccionado;
+
+        const nuevoEstado =
+            !usuario.activo;
 
         setError("");
-        setCambiandoEstadoId(usuario.id);
+        setCambiandoEstadoId(
+            usuario.id
+        );
 
         try {
             const response =
@@ -140,22 +163,30 @@ export default function UsuariosPage() {
                 )
             );
 
-            setUsuarioEstadoSeleccionado(null);
+            setUsuarioEstadoSeleccionado(
+                null
+            );
         } catch {
             setError(
                 "No se pudo cambiar el estado del usuario."
             );
 
-            setUsuarioEstadoSeleccionado(null);
+            setUsuarioEstadoSeleccionado(
+                null
+            );
         } finally {
-            setCambiandoEstadoId(null);
+            setCambiandoEstadoId(
+                null
+            );
         }
     };
 
     if (cargando) {
         return (
             <div className="usuarios-state">
-                <span>Don Marcelino</span>
+                <span>
+                    Don Marcelino
+                </span>
 
                 <strong>
                     Cargando usuarios...
@@ -164,7 +195,10 @@ export default function UsuariosPage() {
         );
     }
 
-    if (error && usuarios.length === 0) {
+    if (
+        error &&
+        usuarios.length === 0
+    ) {
         return (
             <div className="usuarios-state">
                 {error}
@@ -193,7 +227,9 @@ export default function UsuariosPage() {
                     type="button"
                     className="primary-button"
                     onClick={() =>
-                        setModalCrearAbierto(true)
+                        setModalCrearAbierto(
+                            true
+                        )
                     }
                 >
                     Nuevo usuario
@@ -207,18 +243,18 @@ export default function UsuariosPage() {
                     </div>
                 )}
 
-                <section className="usuarios-card">
-                    <div className="usuarios-card-header">
-                        <div>
-                            <p className="usuarios-section-label">
+                <section className="usuarios-card management-card">
+                    <div className="management-card-header">
+                        <div className="management-card-heading">
+                            <p className="management-section-label">
                                 Administración
                             </p>
 
-                            <h2>
+                            <h2 className="management-card-title">
                                 Usuarios registrados
                             </h2>
 
-                            <p>
+                            <p className="management-card-description">
                                 {usuarios.length} usuario
                                 {usuarios.length !== 1
                                     ? "s"
@@ -230,132 +266,165 @@ export default function UsuariosPage() {
                         </div>
                     </div>
 
-                    {usuarios.length === 0 ? (
-                        <div className="usuarios-empty">
-                            No hay usuarios registrados.
-                        </div>
-                    ) : (
-                        <div className="usuarios-table-wrapper">
-                            <table className="usuarios-table">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Email</th>
-                                        <th>Rol</th>
-                                        <th>Estado</th>
-                                        <th>Fecha alta</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
+                    <div className="management-card-body">
+                        {usuarios.length === 0 ? (
+                            <div className="management-empty">
+                                No hay usuarios registrados.
+                            </div>
+                        ) : (
+                            <div className="usuarios-table-wrapper">
+                                <table className="usuarios-table management-table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Nombre
+                                            </th>
 
-                                <tbody>
-                                    {usuarios.map(
-                                        (usuario) => (
-                                            <tr
-                                                key={usuario.id}
-                                            >
-                                                <td>
-                                                    <strong className="usuario-nombre">
-                                                        {usuario.nombre}
-                                                    </strong>
-                                                </td>
+                                            <th>
+                                                Email
+                                            </th>
 
-                                                <td className="usuario-email">
-                                                    {usuario.email}
-                                                </td>
+                                            <th>
+                                                Rol
+                                            </th>
 
-                                                <td>
-                                                    <span
-                                                        className={`rol-badge ${obtenerClaseRol(
-                                                            usuario.rol
-                                                        )}`}
-                                                    >
-                                                        {obtenerRol(
-                                                            usuario.rol
-                                                        )}
-                                                    </span>
-                                                </td>
+                                            <th>
+                                                Estado
+                                            </th>
 
-                                                <td>
-                                                    <span
-                                                        className={
-                                                            usuario.activo
-                                                                ? "status-badge active"
-                                                                : "status-badge inactive"
-                                                        }
-                                                    >
-                                                        {usuario.activo
-                                                            ? "Activo"
-                                                            : "Inactivo"}
-                                                    </span>
-                                                </td>
+                                            <th>
+                                                Fecha alta
+                                            </th>
 
-                                                <td>
-                                                    {formatearFecha(
-                                                        usuario.fechaAlta
-                                                    )}
-                                                </td>
+                                            <th>
+                                                Acciones
+                                            </th>
+                                        </tr>
+                                    </thead>
 
-                                                <td>
-                                                    <div className="usuarios-actions">
-                                                        <button
-                                                            type="button"
-                                                            className="table-action"
-                                                            onClick={() =>
-                                                                setUsuarioSeleccionado(
-                                                                    usuario
-                                                                )
+                                    <tbody>
+                                        {usuarios.map(
+                                            (usuario) => (
+                                                <tr
+                                                    key={
+                                                        usuario.id
+                                                    }
+                                                >
+                                                    <td>
+                                                        <strong className="usuario-nombre">
+                                                            {
+                                                                usuario.nombre
                                                             }
-                                                        >
-                                                            Cambiar rol
-                                                        </button>
+                                                        </strong>
+                                                    </td>
 
-                                                        <button
-                                                            type="button"
+                                                    <td className="usuario-email">
+                                                        {
+                                                            usuario.email
+                                                        }
+                                                    </td>
+
+                                                    <td>
+                                                        <span
+                                                            className={`rol-badge ${obtenerClaseRol(
+                                                                usuario.rol
+                                                            )}`}
+                                                        >
+                                                            {obtenerRol(
+                                                                usuario.rol
+                                                            )}
+                                                        </span>
+                                                    </td>
+
+                                                    <td>
+                                                        <span
                                                             className={
                                                                 usuario.activo
-                                                                    ? "danger-button"
-                                                                    : "table-action"
-                                                            }
-                                                            onClick={() =>
-                                                                solicitarCambioEstado(
-                                                                    usuario
-                                                                )
-                                                            }
-                                                            disabled={
-                                                                cambiandoEstadoId ===
-                                                                usuario.id
+                                                                    ? "status-badge active"
+                                                                    : "status-badge inactive"
                                                             }
                                                         >
-                                                            {cambiandoEstadoId ===
-                                                                usuario.id
-                                                                ? "Guardando..."
-                                                                : usuario.activo
-                                                                    ? "Desactivar"
-                                                                    : "Activar"}
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
+                                                            {usuario.activo
+                                                                ? "Activo"
+                                                                : "Inactivo"}
+                                                        </span>
+                                                    </td>
+
+                                                    <td>
+                                                        {formatearFecha(
+                                                            usuario.fechaAlta
+                                                        )}
+                                                    </td>
+
+                                                    <td>
+                                                        <div className="usuarios-actions">
+                                                            <button
+                                                                type="button"
+                                                                className="table-action"
+                                                                onClick={() =>
+                                                                    setUsuarioSeleccionado(
+                                                                        usuario
+                                                                    )
+                                                                }
+                                                            >
+                                                                Cambiar rol
+                                                            </button>
+
+                                                            <button
+                                                                type="button"
+                                                                className={
+                                                                    usuario.activo
+                                                                        ? "danger-button"
+                                                                        : "table-action"
+                                                                }
+                                                                onClick={() =>
+                                                                    solicitarCambioEstado(
+                                                                        usuario
+                                                                    )
+                                                                }
+                                                                disabled={
+                                                                    cambiandoEstadoId ===
+                                                                    usuario.id
+                                                                }
+                                                            >
+                                                                {cambiandoEstadoId ===
+                                                                    usuario.id
+                                                                    ? "Guardando..."
+                                                                    : usuario.activo
+                                                                        ? "Desactivar"
+                                                                        : "Activar"}
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
                 </section>
             </main>
 
             <CrearUsuarioModal
-                abierto={modalCrearAbierto}
-                onCerrar={() =>
-                    setModalCrearAbierto(false)
+                abierto={
+                    modalCrearAbierto
                 }
-                onCreado={(nuevoUsuario) =>
-                    setUsuarios((actuales) => [
-                        ...actuales,
-                        nuevoUsuario,
-                    ])
+                onCerrar={() =>
+                    setModalCrearAbierto(
+                        false
+                    )
+                }
+                onCreado={(
+                    nuevoUsuario
+                ) =>
+                    setUsuarios(
+                        (actuales) => [
+                            ...actuales,
+                            nuevoUsuario,
+                        ]
+                    )
                 }
             />
 
@@ -366,20 +435,29 @@ export default function UsuariosPage() {
                         usuarioSeleccionado
                     }
                     onCerrar={() =>
-                        setUsuarioSeleccionado(null)
+                        setUsuarioSeleccionado(
+                            null
+                        )
                     }
-                    onActualizado={(actualizado) => {
-                        setUsuarios((actuales) =>
-                            actuales.map(
-                                (usuario) =>
-                                    usuario.id ===
-                                        actualizado.id
-                                        ? actualizado
-                                        : usuario
-                            )
+                    onActualizado={(
+                        actualizado
+                    ) => {
+                        setUsuarios(
+                            (actuales) =>
+                                actuales.map(
+                                    (
+                                        usuario
+                                    ) =>
+                                        usuario.id ===
+                                            actualizado.id
+                                            ? actualizado
+                                            : usuario
+                                )
                         );
 
-                        setUsuarioSeleccionado(null);
+                        setUsuarioSeleccionado(
+                            null
+                        );
                     }}
                 />
             )}
@@ -387,7 +465,9 @@ export default function UsuariosPage() {
             {usuarioEstadoSeleccionado && (
                 <div
                     className="usuario-confirm-backdrop"
-                    onMouseDown={(event) => {
+                    onMouseDown={(
+                        event
+                    ) => {
                         if (
                             event.target ===
                             event.currentTarget

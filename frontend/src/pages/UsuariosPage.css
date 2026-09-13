@@ -44,84 +44,13 @@
     padding: 38px 0 64px;
 }
 
-.usuarios-card {
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    background: #152219;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
-}
-
-.usuarios-card-header {
-    padding: 24px 26px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    background: #17251d;
-}
-
-.usuarios-section-label {
-    margin: 0 0 10px !important;
-    color: #aabd7d !important;
-    font-size: 10px !important;
-    font-weight: 800;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-}
-
-.usuarios-card-header h2 {
-    margin: 0;
-    color: #f3eee6;
-    font-size: 24px;
-    font-weight: 620;
-    letter-spacing: -0.03em;
-}
-
-.usuarios-card-header p {
-    margin: 7px 0 0;
-    color: rgba(238, 234, 225, 0.46);
-    font-size: 13px;
-}
+/* =========================================
+   ESPECÍFICO DE USUARIOS
+========================================= */
 
 .usuarios-table-wrapper {
     overflow-x: auto;
 }
-
-.usuarios-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-    .usuarios-table th,
-    .usuarios-table td {
-        padding: 17px 18px;
-        text-align: left;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .usuarios-table th {
-        background: #132019;
-        color: rgba(238, 234, 225, 0.46);
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-    }
-
-    .usuarios-table td {
-        color: rgba(243, 238, 230, 0.74);
-        font-size: 13px;
-    }
-
-    .usuarios-table tbody tr {
-        transition: background 0.2s ease;
-    }
-
-        .usuarios-table tbody tr:hover {
-            background: #19281f;
-        }
-
-        .usuarios-table tbody tr:last-child td {
-            border-bottom: none;
-        }
 
 .usuario-nombre {
     color: #f3eee6;
@@ -131,6 +60,10 @@
 .usuario-email {
     color: rgba(243, 238, 230, 0.6);
 }
+
+/* =========================================
+   ROLES
+========================================= */
 
 .rol-badge {
     display: inline-flex;
@@ -160,6 +93,10 @@
         color: #b8c0c9;
     }
 
+/* =========================================
+   ACCIONES
+========================================= */
+
 .usuarios-actions {
     display: flex;
     justify-content: flex-end;
@@ -185,6 +122,10 @@
             color: #d9e8b5;
         }
 
+/* =========================================
+   MENSAJES
+========================================= */
+
 .usuarios-error {
     margin-bottom: 20px;
     padding: 13px 15px;
@@ -195,13 +136,6 @@
     font-size: 13px;
 }
 
-.usuarios-empty,
-.usuarios-state {
-    padding: 40px;
-    color: rgba(238, 234, 225, 0.5);
-    text-align: center;
-}
-
 .usuarios-state {
     min-height: 280px;
     display: flex;
@@ -209,7 +143,10 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    padding: 40px;
     background: #0f1511;
+    color: rgba(238, 234, 225, 0.5);
+    text-align: center;
 }
 
     .usuarios-state span {
@@ -224,6 +161,10 @@
         color: #f3eee6;
         font-size: 16px;
     }
+
+/* =========================================
+   CONFIRMACIÓN DE ESTADO
+========================================= */
 
 .usuario-confirm-backdrop {
     position: fixed;
@@ -293,6 +234,10 @@
     margin-top: 24px;
 }
 
+/* =========================================
+   RESPONSIVE
+========================================= */
+
 @media (max-width: 900px) {
     .usuarios-header {
         align-items: flex-start;
@@ -325,10 +270,6 @@
 @media (max-width: 600px) {
     .usuarios-header h1 {
         font-size: 34px;
-    }
-
-    .usuarios-card-header {
-        padding: 20px;
     }
 
     .usuarios-table th,
