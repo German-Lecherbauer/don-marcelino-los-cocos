@@ -32,10 +32,29 @@ builder.Services.AddCors(options =>
     options.AddPolicy("Frontend", policy =>
     {
         policy
-            .WithOrigins(
-                "http://localhost:5173",
-                "https://don-marcelino-los-cocos-theta.vercel.app"
-            )
+            .SetIsOriginAllowed(origin =>
+            {
+                if (string.IsNullOrWhiteSpace(origin))
+                {
+                    return false;
+                }
+
+                if (origin == "http://localhost:5173")
+                {
+                    return true;
+                }
+
+                if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                {
+                    return false;
+                }
+
+                return uri.Scheme == "https" &&
+                       uri.Host.EndsWith(
+                           ".vercel.app",
+                           StringComparison.OrdinalIgnoreCase
+                       );
+            })
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
