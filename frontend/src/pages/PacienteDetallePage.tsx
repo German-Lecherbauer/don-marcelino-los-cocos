@@ -25,10 +25,17 @@ export default function PacienteDetallePage() {
         usuario?.rol === 1 ||
         usuario?.rol === 2;
 
-    const [paciente, setPaciente] = useState<Paciente | null>(null);
-    const [membresias, setMembresias] = useState<Membresia[]>([]);
-    const [cargando, setCargando] = useState(true);
-    const [error, setError] = useState("");
+    const [paciente, setPaciente] =
+        useState<Paciente | null>(null);
+
+    const [membresias, setMembresias] =
+        useState<Membresia[]>([]);
+
+    const [cargando, setCargando] =
+        useState(true);
+
+    const [error, setError] =
+        useState("");
 
     const [modalMembresiaAbierto, setModalMembresiaAbierto] =
         useState(false);
@@ -42,10 +49,16 @@ export default function PacienteDetallePage() {
     const [desactivando, setDesactivando] =
         useState(false);
 
+    const [activando, setActivando] =
+        useState(false);
+
     useEffect(() => {
         const cargarDatos = async () => {
             if (!id) {
-                setError("Paciente no válido.");
+                setError(
+                    "Paciente no válido."
+                );
+
                 setCargando(false);
                 return;
             }
@@ -56,7 +69,9 @@ export default function PacienteDetallePage() {
                         `/pacientes/${id}`
                     );
 
-                setPaciente(pacienteResponse.data);
+                setPaciente(
+                    pacienteResponse.data
+                );
 
                 try {
                     const membresiasResponse =
@@ -166,6 +181,39 @@ export default function PacienteDetallePage() {
             setConfirmarDesactivacion(false);
         } finally {
             setDesactivando(false);
+        }
+    };
+
+    const activarPaciente = async () => {
+        if (!paciente) {
+            return;
+        }
+
+        setError("");
+        setActivando(true);
+
+        try {
+            await apiClient.patch(
+                `/pacientes/${paciente.id}/activar`
+            );
+
+            setPaciente({
+                ...paciente,
+                activo: true,
+            });
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                setError(
+                    error.response?.data?.error ??
+                    "No se pudo reactivar el paciente."
+                );
+            } else {
+                setError(
+                    "Ocurrió un error inesperado."
+                );
+            }
+        } finally {
+            setActivando(false);
         }
     };
 
@@ -280,7 +328,9 @@ export default function PacienteDetallePage() {
 
                     <div className="detalle-grid">
                         <div className="detalle-item">
-                            <span>Nombre</span>
+                            <span>
+                                Nombre
+                            </span>
 
                             <strong>
                                 {paciente.nombre}
@@ -288,7 +338,9 @@ export default function PacienteDetallePage() {
                         </div>
 
                         <div className="detalle-item">
-                            <span>Apellido</span>
+                            <span>
+                                Apellido
+                            </span>
 
                             <strong>
                                 {paciente.apellido}
@@ -296,7 +348,9 @@ export default function PacienteDetallePage() {
                         </div>
 
                         <div className="detalle-item">
-                            <span>Documento</span>
+                            <span>
+                                Documento
+                            </span>
 
                             <strong>
                                 {paciente.documento}
@@ -304,7 +358,9 @@ export default function PacienteDetallePage() {
                         </div>
 
                         <div className="detalle-item">
-                            <span>Fecha de alta</span>
+                            <span>
+                                Fecha de alta
+                            </span>
 
                             <strong>
                                 {new Date(
@@ -314,7 +370,9 @@ export default function PacienteDetallePage() {
                         </div>
 
                         <div className="detalle-item detalle-item-email">
-                            <span>Email</span>
+                            <span>
+                                Email
+                            </span>
 
                             <strong>
                                 {paciente.email}
@@ -336,7 +394,7 @@ export default function PacienteDetallePage() {
                                 Editar paciente
                             </button>
 
-                            {paciente.activo && (
+                            {paciente.activo ? (
                                 <button
                                     type="button"
                                     className="danger-button"
@@ -347,7 +405,24 @@ export default function PacienteDetallePage() {
                                         desactivando
                                     }
                                 >
-                                    Desactivar paciente
+                                    {desactivando
+                                        ? "Desactivando..."
+                                        : "Desactivar paciente"}
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    className="success-button"
+                                    onClick={
+                                        activarPaciente
+                                    }
+                                    disabled={
+                                        activando
+                                    }
+                                >
+                                    {activando
+                                        ? "Reactivando..."
+                                        : "Reactivar paciente"}
                                 </button>
                             )}
                         </div>

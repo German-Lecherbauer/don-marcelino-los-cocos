@@ -10,8 +10,11 @@ export default function DashboardPage() {
     const [dashboard, setDashboard] =
         useState<DashboardResumen | null>(null);
 
-    const [cargando, setCargando] = useState(true);
-    const [error, setError] = useState("");
+    const [cargando, setCargando] =
+        useState(true);
+
+    const [error, setError] =
+        useState("");
 
     useEffect(() => {
         const cargarDashboard = async () => {
@@ -21,7 +24,9 @@ export default function DashboardPage() {
                         "/dashboard/resumen"
                     );
 
-                setDashboard(response.data);
+                setDashboard(
+                    response.data
+                );
             } catch {
                 setError(
                     "No se pudo cargar la información del dashboard."
@@ -34,7 +39,9 @@ export default function DashboardPage() {
         cargarDashboard();
     }, []);
 
-    const obtenerRol = (rol?: number) => {
+    const obtenerRol = (
+        rol?: number
+    ) => {
         switch (rol) {
             case 1:
                 return "Admin";
@@ -50,7 +57,9 @@ export default function DashboardPage() {
         }
     };
 
-    const formatearFechaHora = (fecha: string) => {
+    const formatearFechaHora = (
+        fecha: string
+    ) => {
         return new Intl.DateTimeFormat(
             "es-AR",
             {
@@ -59,8 +68,11 @@ export default function DashboardPage() {
                 year: "numeric",
                 hour: "2-digit",
                 minute: "2-digit",
+                hour12: false,
             }
-        ).format(new Date(fecha));
+        ).format(
+            new Date(fecha)
+        );
     };
 
     if (cargando) {
@@ -95,7 +107,10 @@ export default function DashboardPage() {
         return null;
     }
 
-    const metricas = [
+    const esAdmin =
+        usuario?.rol === 1;
+
+    const metricasBase = [
         {
             etiqueta: "Total pacientes",
             valor: dashboard.totalPacientes,
@@ -112,11 +127,17 @@ export default function DashboardPage() {
             etiqueta: "Membresías vencidas",
             valor: dashboard.membresiasVencidas,
         },
-        {
-            etiqueta: "Usuarios activos",
-            valor: dashboard.usuariosActivos,
-        },
     ];
+
+    const metricas = esAdmin
+        ? [
+            ...metricasBase,
+            {
+                etiqueta: "Usuarios activos",
+                valor: dashboard.usuariosActivos,
+            },
+        ]
+        : metricasBase;
 
     return (
         <div className="dashboard-page">
@@ -145,7 +166,9 @@ export default function DashboardPage() {
                     </strong>
 
                     <span className="dashboard-user-role">
-                        {obtenerRol(usuario?.rol)}
+                        {obtenerRol(
+                            usuario?.rol
+                        )}
                     </span>
                 </div>
             </header>
@@ -157,85 +180,106 @@ export default function DashboardPage() {
                     </p>
 
                     <div className="metrics-grid">
-                        {metricas.map((metrica) => (
-                            <article
-                                className="metric-card"
-                                key={metrica.etiqueta}
-                            >
-                                <span className="metric-label">
-                                    {metrica.etiqueta}
-                                </span>
+                        {metricas.map(
+                            (metrica) => (
+                                <article
+                                    className="metric-card"
+                                    key={
+                                        metrica.etiqueta
+                                    }
+                                >
+                                    <span className="metric-label">
+                                        {
+                                            metrica.etiqueta
+                                        }
+                                    </span>
 
-                                <strong className="metric-value">
-                                    {metrica.valor}
-                                </strong>
-                            </article>
-                        ))}
+                                    <strong className="metric-value">
+                                        {
+                                            metrica.valor
+                                        }
+                                    </strong>
+                                </article>
+                            )
+                        )}
                     </div>
                 </section>
 
-                <section className="activity-section">
-                    <div className="section-heading">
-                        <div>
-                            <p className="dashboard-section-label">
-                                Auditoría reciente
-                            </p>
+                {esAdmin && (
+                    <section className="activity-section">
+                        <div className="section-heading">
+                            <div>
+                                <p className="dashboard-section-label">
+                                    Auditoría reciente
+                                </p>
 
-                            <h2>
-                                Últimas acciones
-                            </h2>
+                                <h2>
+                                    Últimas acciones
+                                </h2>
 
-                            <p>
-                                Actividad reciente registrada por el sistema.
-                            </p>
+                                <p>
+                                    Actividad reciente registrada por el sistema.
+                                </p>
+                            </div>
                         </div>
-                    </div>
 
-                    {dashboard.ultimasAcciones.length === 0 ? (
-                        <div className="empty-state">
-                            No hay acciones recientes.
-                        </div>
-                    ) : (
-                        <div className="activity-list">
-                            {dashboard.ultimasAcciones.map(
-                                (accion, index) => (
-                                    <article
-                                        className="activity-card"
-                                        key={`${accion.fecha}-${index}`}
-                                    >
-                                        <div className="activity-top">
-                                            <div className="activity-user">
-                                                <span className="activity-dot" />
+                        {dashboard.ultimasAcciones.length === 0 ? (
+                            <div className="empty-state">
+                                No hay acciones recientes.
+                            </div>
+                        ) : (
+                            <div className="activity-list">
+                                {dashboard.ultimasAcciones.map(
+                                    (
+                                        accion,
+                                        index
+                                    ) => (
+                                        <article
+                                            className="activity-card"
+                                            key={`${accion.fecha}-${index}`}
+                                        >
+                                            <div className="activity-top">
+                                                <div className="activity-user">
+                                                    <span className="activity-dot" />
 
-                                                <div>
-                                                    <strong>
-                                                        {accion.usuarioNombre}
-                                                    </strong>
+                                                    <div>
+                                                        <strong>
+                                                            {
+                                                                accion.usuarioNombre
+                                                            }
+                                                        </strong>
 
-                                                    <span className="activity-meta">
-                                                        {accion.accion}
-                                                        {" · "}
-                                                        {accion.entidad}
-                                                    </span>
+                                                        <span className="activity-meta">
+                                                            {
+                                                                accion.accion
+                                                            }
+                                                            {" · "}
+                                                            {
+                                                                accion.entidad
+                                                            }
+                                                        </span>
+                                                    </div>
                                                 </div>
+
+                                                <time>
+                                                    {formatearFechaHora(
+                                                        accion.fecha
+                                                    )}
+                                                </time>
                                             </div>
 
-                                            <time>
-                                                {formatearFechaHora(
-                                                    accion.fecha
-                                                )}
-                                            </time>
-                                        </div>
-
-                                        <p>
-                                            {accion.detalle}
-                                        </p>
-                                    </article>
-                                )
-                            )}
-                        </div>
-                    )}
-                </section>
+                                            <p>
+                                                {
+                                                    accion.detalle
+                                                }
+                                            </p>
+                                        </article>
+                                    )
+                                )}
+                            </div>
+                        )}
+                    </section>
+                )}
             </main>
         </div>
     );

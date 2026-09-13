@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
@@ -25,10 +26,45 @@ export default function LoginPage() {
 
         try {
             await login(email, password);
+
             navigate("/dashboard");
-        } catch {
+        } catch (err) {
+            if (axios.isAxiosError(err)) {
+                if (!err.response) {
+                    setError(
+                        "No se pudo conectar con el servidor. Intentá nuevamente en unos minutos."
+                    );
+
+                    return;
+                }
+
+                if (err.response.status === 401) {
+                    setError(
+                        "Email o contraseña incorrectos."
+                    );
+
+                    return;
+                }
+
+                if (err.response.status === 400) {
+                    setError(
+                        "Los datos ingresados no son válidos."
+                    );
+
+                    return;
+                }
+
+                if (err.response.status >= 500) {
+                    setError(
+                        "Ocurrió un error en el servidor. Intentá nuevamente."
+                    );
+
+                    return;
+                }
+            }
+
             setError(
-                "Email o contraseña incorrectos."
+                "No se pudo iniciar sesión. Intentá nuevamente."
             );
         } finally {
             setCargando(false);

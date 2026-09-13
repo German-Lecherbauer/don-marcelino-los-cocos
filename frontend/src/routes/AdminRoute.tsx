@@ -9,9 +9,12 @@ interface AdminRouteProps {
 export default function AdminRoute({
     children,
 }: AdminRouteProps) {
-    const { usuario } = useAuth();
+    const {
+        autenticado,
+        usuario,
+    } = useAuth();
 
-    if (!usuario) {
+    if (!autenticado || !usuario) {
         return (
             <Navigate
                 to="/login"
@@ -29,5 +32,5 @@ export default function AdminRoute({
         );
     }
 
-    return children;
+    return <>{children}</>;
 }

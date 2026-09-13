@@ -2,17 +2,17 @@
 
 namespace DonMarcelino.Application.Pacientes;
 
-public class DesactivarPacienteService
+public class ActivarPacienteService
 {
     private readonly IPacienteRepository _pacienteRepository;
 
-    public DesactivarPacienteService(
+    public ActivarPacienteService(
         IPacienteRepository pacienteRepository)
     {
         _pacienteRepository = pacienteRepository;
     }
 
-    public async Task<Paciente?> DesactivarAsync(
+    public async Task<Paciente?> ActivarAsync(
         Guid id,
         CancellationToken cancellationToken = default)
     {
@@ -27,9 +27,9 @@ public class DesactivarPacienteService
             return null;
         }
 
-        if (paciente.Activo)
+        if (!paciente.Activo)
         {
-            await _pacienteRepository.DesactivarAsync(
+            await _pacienteRepository.ActivarAsync(
                 paciente,
                 cancellationToken
             );

@@ -29,11 +29,13 @@ public static class MembresiasEndpoints
                 cancellationToken);
 
             var (usuarioId, usuarioNombre) =
-                EndpointHelpers.ObtenerUsuarioAuditoria(httpContext);
+                EndpointHelpers.ObtenerUsuarioAuditoria(
+                    httpContext);
 
-            var detalleAuditoria = paciente is not null
-                ? $"Se creó una membresía para el paciente {paciente.Nombre} {paciente.Apellido}."
-                : $"Se creó una membresía para el paciente {pacienteId}.";
+            var detalleAuditoria =
+                paciente is not null
+                    ? $"Se creó una membresía para el paciente {paciente.Nombre} {paciente.Apellido}."
+                    : $"Se creó una membresía para el paciente {pacienteId}.";
 
             await auditoriaService.RegistrarAsync(
                 usuarioId,
@@ -46,7 +48,8 @@ public static class MembresiasEndpoints
 
             return Results.Created(
                 $"/api/membresias/{membresia.Id}",
-                MembresiaMapper.ToResponse(membresia));
+                MembresiaMapper.ToResponse(
+                    membresia));
         })
         .RequireAuthorization("AdminOrOperador");
 
@@ -72,7 +75,8 @@ public static class MembresiasEndpoints
                 })
                 .ToList();
 
-            return Results.Ok(response);
+            return Results.Ok(
+                response);
         })
         .RequireAuthorization();
 
@@ -90,7 +94,8 @@ public static class MembresiasEndpoints
                 .Select(MembresiaMapper.ToResponse)
                 .ToList();
 
-            return Results.Ok(response);
+            return Results.Ok(
+                response);
         })
         .RequireAuthorization();
 
@@ -113,7 +118,8 @@ public static class MembresiasEndpoints
             }
 
             return Results.Ok(
-                MembresiaMapper.ToResponse(membresia));
+                MembresiaMapper.ToResponse(
+                    membresia));
         })
         .RequireAuthorization();
 
@@ -122,6 +128,7 @@ public static class MembresiasEndpoints
             Guid id,
             ActualizarMembresiaRequest request,
             ActualizarMembresiaService service,
+            ObtenerPacientePorIdService pacienteService,
             AuditoriaService auditoriaService,
             HttpContext httpContext,
             CancellationToken cancellationToken) =>
@@ -139,8 +146,18 @@ public static class MembresiasEndpoints
                 });
             }
 
+            var paciente = await pacienteService.ObtenerAsync(
+                membresia.PacienteId,
+                cancellationToken);
+
             var (usuarioId, usuarioNombre) =
-                EndpointHelpers.ObtenerUsuarioAuditoria(httpContext);
+                EndpointHelpers.ObtenerUsuarioAuditoria(
+                    httpContext);
+
+            var detalleAuditoria =
+                paciente is not null
+                    ? $"Se actualizaron las fechas de la membresía del paciente {paciente.Nombre} {paciente.Apellido}."
+                    : $"Se actualizaron las fechas de la membresía del paciente {membresia.PacienteId}.";
 
             await auditoriaService.RegistrarAsync(
                 usuarioId,
@@ -148,11 +165,12 @@ public static class MembresiasEndpoints
                 "Actualizar",
                 "Membresia",
                 membresia.Id.ToString(),
-                "Se actualizaron las fechas de una membresía.",
+                detalleAuditoria,
                 cancellationToken);
 
             return Results.Ok(
-                MembresiaMapper.ToResponse(membresia));
+                MembresiaMapper.ToResponse(
+                    membresia));
         })
         .RequireAuthorization("AdminOrOperador");
 
@@ -161,6 +179,7 @@ public static class MembresiasEndpoints
             Guid id,
             ActualizarEstadoMembresiaRequest request,
             ActualizarEstadoMembresiaService service,
+            ObtenerPacientePorIdService pacienteService,
             AuditoriaService auditoriaService,
             HttpContext httpContext,
             CancellationToken cancellationToken) =>
@@ -178,8 +197,18 @@ public static class MembresiasEndpoints
                 });
             }
 
+            var paciente = await pacienteService.ObtenerAsync(
+                membresia.PacienteId,
+                cancellationToken);
+
             var (usuarioId, usuarioNombre) =
-                EndpointHelpers.ObtenerUsuarioAuditoria(httpContext);
+                EndpointHelpers.ObtenerUsuarioAuditoria(
+                    httpContext);
+
+            var detalleAuditoria =
+                paciente is not null
+                    ? $"Se cambió el estado de la membresía del paciente {paciente.Nombre} {paciente.Apellido} a {membresia.Estado}."
+                    : $"Se cambió el estado de la membresía del paciente {membresia.PacienteId} a {membresia.Estado}.";
 
             await auditoriaService.RegistrarAsync(
                 usuarioId,
@@ -187,11 +216,12 @@ public static class MembresiasEndpoints
                 "CambiarEstado",
                 "Membresia",
                 membresia.Id.ToString(),
-                $"Se cambió el estado de la membresía a {membresia.Estado}.",
+                detalleAuditoria,
                 cancellationToken);
 
             return Results.Ok(
-                MembresiaMapper.ToResponse(membresia));
+                MembresiaMapper.ToResponse(
+                    membresia));
         })
         .RequireAuthorization("AdminOrOperador");
 

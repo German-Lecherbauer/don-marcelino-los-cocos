@@ -13,13 +13,21 @@ interface MembresiaModalProps {
 }
 
 const obtenerFechaHoy = () => {
-    return new Date().toISOString().split("T")[0];
+    return new Date()
+        .toISOString()
+        .split("T")[0];
 };
 
 const obtenerFechaProximoMes = () => {
     const fecha = new Date();
-    fecha.setMonth(fecha.getMonth() + 1);
-    return fecha.toISOString().split("T")[0];
+
+    fecha.setMonth(
+        fecha.getMonth() + 1
+    );
+
+    return fecha
+        .toISOString()
+        .split("T")[0];
 };
 
 export default function MembresiaModal({
@@ -29,20 +37,35 @@ export default function MembresiaModal({
     onCerrar,
     onCreada,
 }: MembresiaModalProps) {
-    const [fechaInicio, setFechaInicio] = useState("");
-    const [fechaVencimiento, setFechaVencimiento] = useState("");
-    const [estado, setEstado] = useState("Activa");
-    const [error, setError] = useState("");
-    const [guardando, setGuardando] = useState(false);
+    const [fechaInicio, setFechaInicio] =
+        useState("");
+
+    const [
+        fechaVencimiento,
+        setFechaVencimiento,
+    ] = useState("");
+
+    const [error, setError] =
+        useState("");
+
+    const [guardando, setGuardando] =
+        useState(false);
 
     useEffect(() => {
-        if (abierto) {
-            setFechaInicio(obtenerFechaHoy());
-            setFechaVencimiento(obtenerFechaProximoMes());
-            setEstado("Activa");
-            setError("");
-            setGuardando(false);
+        if (!abierto) {
+            return;
         }
+
+        setFechaInicio(
+            obtenerFechaHoy()
+        );
+
+        setFechaVencimiento(
+            obtenerFechaProximoMes()
+        );
+
+        setError("");
+        setGuardando(false);
     }, [abierto]);
 
     if (!abierto) {
@@ -65,41 +88,60 @@ export default function MembresiaModal({
 
         setError("");
 
-        if (!fechaInicio || !fechaVencimiento) {
-            setError("Completá las fechas de inicio y vencimiento.");
+        if (
+            !fechaInicio ||
+            !fechaVencimiento
+        ) {
+            setError(
+                "Completá las fechas de inicio y vencimiento."
+            );
+
             return;
         }
 
-        if (fechaVencimiento < fechaInicio) {
+        if (
+            fechaVencimiento <
+            fechaInicio
+        ) {
             setError(
                 "La fecha de vencimiento no puede ser anterior a la fecha de inicio."
             );
+
             return;
         }
 
         setGuardando(true);
 
         try {
-            const response = await apiClient.post<Membresia>(
-                "/membresias",
-                {
-                    pacienteId,
-                    fechaInicio,
-                    fechaVencimiento,
-                    estado,
-                }
+            const response =
+                await apiClient.post<Membresia>(
+                    `/pacientes/${pacienteId}/membresias`,
+                    {
+                        fechaInicio,
+                        fechaVencimiento,
+                    }
+                );
+
+            onCreada(
+                response.data
             );
 
-            onCreada(response.data);
             onCerrar();
         } catch (error) {
-            if (axios.isAxiosError(error)) {
+            if (
+                axios.isAxiosError(
+                    error
+                )
+            ) {
                 setError(
-                    error.response?.data?.error ??
+                    error.response
+                        ?.data?.error ??
                     "No se pudo crear la membresía."
                 );
             } else {
-                setError("Ocurrió un error inesperado.");
+                setError(
+                    "Ocurrió un error inesperado."
+                );
             }
         } finally {
             setGuardando(false);
@@ -113,7 +155,9 @@ export default function MembresiaModal({
         >
             <div
                 className="membresia-modal-card"
-                onClick={(event) => event.stopPropagation()}
+                onClick={(event) =>
+                    event.stopPropagation()
+                }
             >
                 <div className="membresia-modal-header">
                     <div>
@@ -121,7 +165,9 @@ export default function MembresiaModal({
                             Nueva membresía
                         </p>
 
-                        <h2>Crear membresía</h2>
+                        <h2>
+                            Crear membresía
+                        </h2>
 
                         <p>
                             {pacienteNombre
@@ -133,8 +179,12 @@ export default function MembresiaModal({
                     <button
                         type="button"
                         className="membresia-modal-close"
-                        onClick={cerrarModal}
-                        disabled={guardando}
+                        onClick={
+                            cerrarModal
+                        }
+                        disabled={
+                            guardando
+                        }
                         aria-label="Cerrar modal"
                     >
                         ×
@@ -142,7 +192,9 @@ export default function MembresiaModal({
                 </div>
 
                 <form
-                    onSubmit={handleSubmit}
+                    onSubmit={
+                        handleSubmit
+                    }
                     className="membresia-modal-form"
                 >
                     <div className="membresia-modal-grid">
@@ -154,9 +206,17 @@ export default function MembresiaModal({
                             <input
                                 id="fechaInicio"
                                 type="date"
-                                value={fechaInicio}
-                                onChange={(e) =>
-                                    setFechaInicio(e.target.value)
+                                value={
+                                    fechaInicio
+                                }
+                                onChange={(
+                                    event
+                                ) =>
+                                    setFechaInicio(
+                                        event
+                                            .target
+                                            .value
+                                    )
                                 }
                                 required
                             />
@@ -170,34 +230,20 @@ export default function MembresiaModal({
                             <input
                                 id="fechaVencimiento"
                                 type="date"
-                                value={fechaVencimiento}
-                                onChange={(e) =>
-                                    setFechaVencimiento(e.target.value)
+                                value={
+                                    fechaVencimiento
+                                }
+                                onChange={(
+                                    event
+                                ) =>
+                                    setFechaVencimiento(
+                                        event
+                                            .target
+                                            .value
+                                    )
                                 }
                                 required
                             />
-                        </div>
-
-                        <div className="membresia-modal-field membresia-modal-field-full">
-                            <label htmlFor="estado">
-                                Estado inicial
-                            </label>
-
-                            <select
-                                id="estado"
-                                value={estado}
-                                onChange={(e) =>
-                                    setEstado(e.target.value)
-                                }
-                            >
-                                <option value="Activa">Activa</option>
-                                <option value="Suspendida">
-                                    Suspendida
-                                </option>
-                                <option value="Vencida">
-                                    Vencida
-                                </option>
-                            </select>
                         </div>
                     </div>
 
@@ -211,8 +257,12 @@ export default function MembresiaModal({
                         <button
                             type="button"
                             className="membresia-secondary-button"
-                            onClick={cerrarModal}
-                            disabled={guardando}
+                            onClick={
+                                cerrarModal
+                            }
+                            disabled={
+                                guardando
+                            }
                         >
                             Cancelar
                         </button>
@@ -220,7 +270,9 @@ export default function MembresiaModal({
                         <button
                             type="submit"
                             className="membresia-primary-button"
-                            disabled={guardando}
+                            disabled={
+                                guardando
+                            }
                         >
                             {guardando
                                 ? "Guardando..."

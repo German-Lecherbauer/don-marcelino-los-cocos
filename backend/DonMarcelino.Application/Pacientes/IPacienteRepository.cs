@@ -30,4 +30,8 @@ public interface IPacienteRepository
     Task DesactivarAsync(
         Paciente paciente,
         CancellationToken cancellationToken = default);
+
+    Task ActivarAsync(
+        Paciente paciente,
+        CancellationToken cancellationToken = default);
 }

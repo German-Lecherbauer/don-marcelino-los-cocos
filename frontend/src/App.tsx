@@ -3,6 +3,7 @@ import {
     Route,
     Routes,
 } from "react-router-dom";
+
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -12,13 +13,16 @@ import MembresiasPage from "./pages/MembresiasPage";
 import MembresiaDetallePage from "./pages/MembresiaDetallePage";
 import UsuariosPage from "./pages/UsuariosPage";
 import AuditoriaPage from "./pages/AuditoriaPage";
+
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AdminRoute from "./routes/AdminRoute";
+
 import MainLayout from "./layouts/MainLayout";
 
 export default function App() {
     return (
         <Routes>
+            {/* Público */}
             <Route
                 path="/"
                 element={<HomePage />}
@@ -29,6 +33,7 @@ export default function App() {
                 element={<LoginPage />}
             />
 
+            {/* Área privada */}
             <Route
                 element={
                     <ProtectedRoute>
@@ -80,6 +85,7 @@ export default function App() {
                 />
             </Route>
 
+            {/* Ruta inexistente */}
             <Route
                 path="*"
                 element={

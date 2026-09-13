@@ -45,6 +45,7 @@ builder.Services.AddScoped<ObtenerPacientesService>();
 builder.Services.AddScoped<ObtenerPacientePorIdService>();
 builder.Services.AddScoped<ActualizarPacienteService>();
 builder.Services.AddScoped<DesactivarPacienteService>();
+builder.Services.AddScoped<ActivarPacienteService>();
 
 // Membresías
 builder.Services.AddScoped<IMembresiaRepository, MembresiaRepository>();

@@ -9,7 +9,8 @@ public class PacienteRepository : IPacienteRepository
 {
     private readonly DonMarcelinoDbContext _context;
 
-    public PacienteRepository(DonMarcelinoDbContext context)
+    public PacienteRepository(
+        DonMarcelinoDbContext context)
     {
         _context = context;
     }
@@ -38,10 +39,13 @@ public class PacienteRepository : IPacienteRepository
         Paciente paciente,
         CancellationToken cancellationToken = default)
     {
-        _context.Pacientes.Add(paciente);
+        _context.Pacientes.Add(
+            paciente
+        );
 
         await _context.SaveChangesAsync(
-            cancellationToken);
+            cancellationToken
+        );
     }
 
     public Task<List<Paciente>> ObtenerTodosAsync(
@@ -51,7 +55,9 @@ public class PacienteRepository : IPacienteRepository
             .AsNoTracking()
             .OrderBy(x => x.Apellido)
             .ThenBy(x => x.Nombre)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(
+                cancellationToken
+            );
     }
 
     public Task<Paciente?> ObtenerPorIdAsync(
@@ -62,17 +68,21 @@ public class PacienteRepository : IPacienteRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(
                 x => x.Id == id,
-                cancellationToken);
+                cancellationToken
+            );
     }
 
     public async Task ActualizarAsync(
         Paciente paciente,
         CancellationToken cancellationToken = default)
     {
-        _context.Pacientes.Update(paciente);
+        _context.Pacientes.Update(
+            paciente
+        );
 
         await _context.SaveChangesAsync(
-            cancellationToken);
+            cancellationToken
+        );
     }
 
     public async Task DesactivarAsync(
@@ -81,9 +91,27 @@ public class PacienteRepository : IPacienteRepository
     {
         paciente.Activo = false;
 
-        _context.Pacientes.Update(paciente);
+        _context.Pacientes.Update(
+            paciente
+        );
 
         await _context.SaveChangesAsync(
-            cancellationToken);
+            cancellationToken
+        );
+    }
+
+    public async Task ActivarAsync(
+        Paciente paciente,
+        CancellationToken cancellationToken = default)
+    {
+        paciente.Activo = true;
+
+        _context.Pacientes.Update(
+            paciente
+        );
+
+        await _context.SaveChangesAsync(
+            cancellationToken
+        );
     }
 }
